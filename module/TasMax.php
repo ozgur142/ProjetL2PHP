@@ -17,10 +17,10 @@
 			echo "[";
 			
 			for($i=0;$i<sizeof($this->m_tas);++$i)
-				echo "$this->m_tas[$i], ";
+				echo "$this->m_tas[$i], ".((($i < (sizeof($this->m_tas) - 1)) && (sizeof($this->m_tas) < $this->m_nbCases)) ? ", " : "" );
 			
 			for($i=sizeof($this->m_tas);$i<$this->m_nbCases;++$i)
-				echo "null, ";
+				echo "null".(($i < ($this->m_nbCases - 1)) ? ", " : "");
 			
 			echo "]";
 			

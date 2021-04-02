@@ -27,6 +27,8 @@
 	$tableau = array($e1, $e2, $e3, $e4);
 	
 	$tasTest = new TasMax(4);
+	
+	$tasTest->insererAuxFeuilles($tableau);
 ?>
 
 <!DOCTYPE html>

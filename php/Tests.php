@@ -20,15 +20,21 @@
 	$tabE4 = array($j10, $j11, $j12);
 	
 	$e1 = new Equipe(0, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04", $tabE1);
-	$e2 = new Equipe(0, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04", $tabE2);
-	$e3 = new Equipe(0, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04", $tabE3);
-	$e4 = new Equipe(0, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04", $tabE4);
-	
+	$e2 = new Equipe(1, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04", $tabE2);
+	$e3 = new Equipe(2, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04", $tabE3);
+	$e4 = new Equipe(3, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04", $tabE4);
+	$e5 = new Equipe(4, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04", $tabE1);
+	$e6 = new Equipe(5, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04", $tabE2);
+	$e7 = new Equipe(6, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04", $tabE3);
+	$e8 = new Equipe(7, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04", $tabE4);
 	$tableau = array($e1, $e2, $e3, $e4);
-	
 	$tasTest = new TasMax(4);
-	
 	$tasTest->insererAuxFeuilles($tableau);
+
+	$tableau2 = array($e1, $e2, $e3, $e4,$e5, $e6, $e7, $e8);
+	$tasTest2 = new TasMax(8);
+	$tasTest2->insererAuxFeuilles($tableau2);
+	//NE MARCHE PAS AVEC NBR EQUIPES != Puissance 2
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +49,39 @@
 		<h1>Page de tests</h1>
 		<p>Ceci est un paragraphe important contenant des informations importantes.</p>
 		<?php
-			$tasTest->afficher();
+
+			echo"<br ./>";
+			echo "--------- EXEMPLE AVEC 4 EQUIPES ---------" ; 
+			echo"<br ./>";
+			$tasTest->afficher(); echo"<br ./>";
+	
+			$tasTest->genereMatchs();
+			$tasTest->prochainTour();
+
+			$tasTest->afficher(); echo"<br ./>";
+			$tasTest->genereMatchs();
+			$tasTest->prochainTour();
+
+			$tasTest->afficher(); echo"<br ./>";
+
+			echo"<br ./>";
+			echo "--------- EXEMPLE AVEC 8 EQUIPES ---------" ; 
+			echo"<br ./>";
+
+			$tasTest2->afficher(); echo"<br ./>";
+			$tasTest2->genereMatchs();
+			$tasTest2->prochainTour();
+			$tasTest2->afficher(); echo"<br ./>";
+
+			$tasTest2->genereMatchs();
+			$tasTest2->prochainTour();
+			$tasTest2->afficher(); echo"<br ./>";
+
+			$tasTest2->genereMatchs();
+			$tasTest2->prochainTour();
+			$tasTest2->afficher(); echo"<br ./>";
+
+
 		?>
 	</body>
 </html>

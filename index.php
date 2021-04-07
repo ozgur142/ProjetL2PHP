@@ -9,6 +9,7 @@
             <a href="#">Information</a>
             <a href="#">Tournois en cours</a>
             <a href="Tournois.php">Liste des Tournois</a>
+            <a href="php/Preinscription.php">Preinscription</a>
             <div class="topnav-right">
               <a href="php/Login.php">Login</a>
             </div>

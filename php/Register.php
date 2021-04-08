@@ -53,18 +53,8 @@
 			</br>
 			
 			<div class ="container_role">
-				<label for="Gestionnaire">Gestionnaire</label>
-				<input type="radio" name="role" id="Gestionnaire" value="Gestionnaire">
-				
-				<br>
-				
 				<label for="Joueur">Joueur</label>
-				<input type="radio" name="role" id="Joueur" value="Joueur">
-				
-				<br>
-				
-				<label for="Administrateur">Administrateur</label>
-				<input type="radio" name="role" id="Administrateur" value="Administrateur">
+				<input type="radio" name="role" id="Utilisateur" value="Utilisateur">
 				
 				<br>
 			</div>

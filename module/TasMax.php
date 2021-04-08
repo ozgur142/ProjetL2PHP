@@ -79,7 +79,7 @@
 				$this->m_tabMatchs[$i-1]->setScore();
 				$this->m_tabMatchs[$i-1]->afficher();
 				echo "<br ./>";
-				++$idMatchs;
+				//++$idMatchs;
 			}
 		}
 

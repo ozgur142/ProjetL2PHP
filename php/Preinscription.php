@@ -1,4 +1,38 @@
 <?php
+	include '../BDD/reqUtilisateur.php';
+	
+	session_start();
+	
+	if(!isset($_SESSION['login']))
+	{
+		trigger_error("Vous n'êtes pas authentifié.");
+	}
+	
+	if(!verifLoginMdp(strval($_SESSION['login']), strval($_SESSION['motDePasse'])))
+	{
+		trigger_error("Mauvais login/mot de passe.");
+		header('Location: Login.php');
+		exit();
+	}
+	
+	$ut = getUtilisateurWithEmail($_SESSION['login'];
+	
+	if(!estJoueur($ut->getIdUtilisateur()))
+	{
+		trigger_error("Vous n'êtes pas un joueur d'équipe.");
+		header('Location: index.php');
+		exit();
+	}
+	
+	$joueur = getJoueur($ut->getIdUtilisateur());
+	
+	if(!$joueur->getCapitaine())
+	{
+		trigger_error("Vous n'êtes pas un capitaine d'équipe.");
+		header('Location: index.php');
+		exit();
+	}
+	
     $nom_equipe = $_POST("NomEquipe");
     $nom_tournoi = $_POST("NomDeTournoi");
     if($nom_equipe == NULL && $nom_equipe == ""){

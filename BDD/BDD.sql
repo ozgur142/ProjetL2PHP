@@ -93,10 +93,10 @@ INSERT INTO Utilisateur VALUES(0, "ADMIN", "Admin", "admin@test.com", "8c6976e5b
 
 INSERT INTO Gestionnaire VALUES(1);
 
-INSERT INTO Tournoi VALUES(0, "Tournoi Tampon", "2021-04-08", "30", 0, "Montpellier");
-INSERT INTO Tournoi VALUES(1, "Championnat du vin", "2021-04-08", "30", 0, "Montpellier");
-INSERT INTO Tournoi VALUES(2, "Tournoi des saucissons", "2021-04-08", "30", 0, "Montpellier");
-INSERT INTO Tournoi VALUES(3, "Compétition de la vodka", "02021-04-08", "30", 0, "Montpellier");
+INSERT INTO Tournoi VALUES(0, "Tournoi Tampon", "2021-04-08", "30", 1, "Montpellier");
+INSERT INTO Tournoi VALUES(1, "Championnat du vin", "2021-04-08", "30", 1, "Montpellier");
+INSERT INTO Tournoi VALUES(2, "Tournoi des saucissons", "2021-04-08", "30", 1, "Montpellier");
+INSERT INTO Tournoi VALUES(3, "Compétition de la vodka", "02021-04-08", "30", 1, "Montpellier");
 
 INSERT INTO Utilisateur VALUES(2, "Machin", "Truc", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
 (3, "Jean", "Dupont", "J@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),

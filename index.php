@@ -12,6 +12,7 @@
             <a href="php/Preinscription.php">Preinscription</a>
             <div class="topnav-right">
               <a href="php/Login.php">Login</a>
+			  <a href="php/Logout.php">Se déconnecter</a>
             </div>
         </div>
     </body>

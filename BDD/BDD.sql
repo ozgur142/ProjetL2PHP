@@ -36,12 +36,19 @@ CREATE TABLE IF NOT EXISTS Type
 CREATE TABLE IF NOT EXISTS Equipe
 (
 	idEquipe INTEGER NOT NULL PRIMARY KEY,
-	idTournoi INTEGER DEFAULT NULL,
 	nomEquipe VARCHAR(25) NOT NULL,
 	niveau INTEGER DEFAULT 0,
 	adresse VARCHAR(50) NOT NULL,
-	numTel VARCHAR(15) NOT NULL,
-	CONSTRAINT FK_Equipe_Tournoi FOREIGN KEY (idTournoi) REFERENCES Tournoi(idTournoi) ON UPDATE CASCADE ON DELETE CASCADE
+	numTel VARCHAR(15) NOT NULL
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS EquipeTournoi
+(
+	idEquipe INTEGER NOT NULL,
+	idTournoi INTEGER NOT NULL,
+	CONSTRAINT PK_EquipeTournoi PRIMARY KEY (idEquipe, idTournoi),
+	CONSTRAINT FK_EquipeTournoi_Equipe FOREIGN KEY (idEquipe) REFERENCES Equipe(idEquipe) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT FK_EquipeTournoi_Tournoi FOREIGN KEY (idTournoi) REFERENCES Tournoi(idTournoi) ON UPDATE CASCADE ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS Joueur
@@ -104,10 +111,11 @@ INSERT INTO Utilisateur VALUES(1, "Machin", "Truc", "M@T.com", "74913f96f46a1399
 (12, "Line", "Renaud", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur");
 -- Mot de passes des comptes 1 à 12 : unMotDePasse
 
-INSERT INTO Equipe VALUES(0, 0, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04"),
-(1, 0, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04"),
-(2, 0, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04"),
-(3, 0, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04");
+INSERT INTO Equipe VALUES(0, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04"),
+(1, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04"),
+(2, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04"),
+(3, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04"),
+(4, "Équipe 5", 0, "Une adresse 5", "04-06-04-06-04");
 
 INSERT INTO Joueur VALUES(1, 0, true),
 (2, 0, false),

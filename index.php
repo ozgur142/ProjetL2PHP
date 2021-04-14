@@ -13,6 +13,6 @@
             <div class="topnav-right">
               <a href="php/Login.php">Login</a>
             </div>
-        </div>          
+        </div>
     </body>
 </html>

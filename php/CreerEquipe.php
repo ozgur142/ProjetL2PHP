@@ -1,5 +1,5 @@
 <?php
-	include '../BDD/reqUtilisateur.php';
+	include('../BDD/reqEquipe.php');
 	
 	session_start();
 	
@@ -17,12 +17,7 @@
 	
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
-		$_POST['psw'] = strval(hash("sha256", strval($_POST['psw'])));
-		$_POST['psw_repeat'] = strval(hash("sha256", strval($_POST['psw_repeat'])));
-		
-		include('../BDD/reqUtilisateur.php');
-		
-		insertUser(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval($_POST['role']));
+		insertEquipe(strval($_POST['NomEquipe']), strval($_POST['Adresse']), strval($_POST['NumTel']));
 	}
 	
 	$_POST = array();
@@ -38,7 +33,14 @@
 	</head>
 	
 	<body>
-		<form action="Register.php" method="POST" onreset="return vider();" class="container">
+		<div>
+			<a href="Login.php">Se connecter</a>
+			<a href="Logout.php">Se déconnecter</a>
+			<a href="Register.php">Créer un compte</a>
+			<a href="CreerEquipe.php">Créer une équipe</a>
+		</div>
+		
+		<form action="CreerEquipe.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Création d'une équipe</p>
 			</h1>

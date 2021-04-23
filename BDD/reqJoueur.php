@@ -1,5 +1,5 @@
 <?php
-	include('reqGeneralBDD.php');
+	include('reqUtilisateur.php');
 	
 	function estJoueur(string $id)
 	{
@@ -37,7 +37,6 @@
 	function getJoueur(string $id)
 	{
 		include('DataBaseLogin.inc.php');
-		include('reqUtilisateur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	

@@ -1,5 +1,5 @@
 <?php
-	include('reqGeneralBDD.php');
+	include('reqJoueur.php');
 	
 	function insertEquipe(string $nomEquipe, string $adresse, string $numTel)
 	{
@@ -64,7 +64,6 @@
 	function getEquipe(string $id)
 	{
 		include('DataBaseLogin.inc.php');
-		include('reqJoueur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	

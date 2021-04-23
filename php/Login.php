@@ -32,6 +32,13 @@
 	</head>
 	
 	<body>
+		<div>
+			<a href="Login.php">Se connecter</a>
+			<a href="Logout.php">Se déconnecter</a>
+			<a href="Register.php">Créer un compte</a>
+			<a href="CreerEquipe.php">Créer une équipe</a>
+		</div>
+		
 		<form action="Login.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Authentification</p>

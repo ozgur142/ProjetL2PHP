@@ -13,6 +13,29 @@ function gestionCode()
 	}
 }
 
+function gestionOptionsJoueur()
+{
+	var radioJoueur = document.getElementById("Joueur");
+	var optionsJoueur = document.getElementById("OptJoueur");
+	//var choixEstCapitaine = document.getElementById("EstCapitaine");
+	var choixEquipe = document.getElementById("Equipe");
+	
+	if(radioJoueur.checked == true)
+	{
+		optionsJoueur.style.display = "block";
+		
+		//choixEstCapitaine.required = true;
+		choixEquipe.required = true;
+	} 
+	else
+	{
+		optionsJoueur.style.display = "none";
+		
+		//choixEstCapitaine.required = false;
+		choixEquipe.required = false;
+	}
+}
+
 function vider()
 {
 	document.getElementByName("Prenom").value = "";

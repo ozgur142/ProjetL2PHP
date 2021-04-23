@@ -1,7 +1,8 @@
 <?php
-	include('reqGeneralBDD.php');
+	include_once ('reqGeneralBDD.php');
+	include_once ('../module/Utilisateur.php');
 	
-	function insertUser(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
+	function insertUtilisateur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -32,6 +33,13 @@
 		$connexion->close();
 		
 		unset($_POST);
+		
+		return true;
+	}
+	
+	function insertUser(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
+	{
+		insertUtilisateur($nom, $prenom, $email, $mdp, $confirmation, $role);
 		
 		header('Location: ../php/Login.php');
 		exit();
@@ -109,7 +117,6 @@
 	function getUtilisateur(string $id)
 	{
 		include('DataBaseLogin.inc.php');
-		include('../module/Utilisateur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -129,13 +136,14 @@
 			return NULL;
 		}
 		
-		$res->data_seek(0);
-		$idUtilisateur = $res->fetch_assoc()["idUtilisateur"];
-		$nom = $res->fetch_assoc()["nom"];
-		$prenom = $res->fetch_assoc()["prenom"];
-		$email = $res->fetch_assoc()["email"];
-		$motDePasse = $res->fetch_assoc()["motDePasse"];
-		$role = $res->fetch_assoc()["role"];
+		//$res->data_seek(0);
+		$objTemp = $res->fetch_object();
+		$idUtilisateur = strval($objTemp->idUtilisateur);
+		$nom = strval($objTemp->nom);
+		$prenom = strval($objTemp->prenom);
+		$email = strval($objTemp->email);
+		$motDePasse = strval($objTemp->motDePasse);
+		$role = strval($objTemp->role);
 		
 		$connexion->close();
 		
@@ -148,7 +156,6 @@
 	function getUtilisateurWithEmail(string $login)
 	{
 		include('DataBaseLogin.inc.php');
-		include('../module/Utilisateur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -168,13 +175,14 @@
 			return NULL;
 		}
 		
-		$res->data_seek(0);
-		$idUtilisateur = $res->fetch_assoc()["idUtilisateur"];
-		$nom = $res->fetch_assoc()["nom"];
-		$prenom = $res->fetch_assoc()["prenom"];
-		$email = $res->fetch_assoc()["email"];
-		$motDePasse = $res->fetch_assoc()["motDePasse"];
-		$role = $res->fetch_assoc()["role"];
+		//$res->data_seek(0);
+		$objTemp = $res->fetch_object();
+		$idUtilisateur = strval($objTemp->idUtilisateur);
+		$nom = strval($objTemp->nom);
+		$prenom = strval($objTemp->prenom);
+		$email = strval($objTemp->email);
+		$motDePasse = strval($objTemp->motDePasse);
+		$role = strval($objTemp->role);
 		
 		$connexion->close();
 		

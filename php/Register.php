@@ -1,13 +1,67 @@
 <?php
+	include('../BDD/reqEquipe.php');
+	
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
 		$_POST['psw'] = strval(hash("sha256", strval($_POST['psw'])));
 		$_POST['psw_repeat'] = strval(hash("sha256", strval($_POST['psw_repeat'])));
 		
-		include('../BDD/reqUtilisateur.php');
-		
-		insertUser(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval($_POST['role']));
+		if($_POST["role"] == "Utilisateur")
+		{
+			insertUser(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval($_POST['role']));
+		}
+		else if($_POST["role"] == "Joueur")
+		{
+			if($_POST["Equipe"] === "")
+				trigger_error("ERREUR : Veuillez choisir une équipe valide !");
+			
+			$equipeChoisie = getEquipe($_POST["Equipe"]);
+			$estCapitaine = ((isset($_POST["EstCapitaine"])) && (!(empty($_POST["EstCapitaine"])))
+						  && ($equipeChoisie->getCapitaine() === null));
+			
+			insertJoueur(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval("Utilisateur"), strval($equipeChoisie->getIdEquipe()), $estCapitaine);
+		}
 	}
+	
+	$tabEquipes = getAllEquipe();
+	
+	$msgErr = "<div class=\"erreur\">
+							<h1>ERREUR !</h1>
+							
+							<p>
+								Aucune équipe n'a été créée ! Vous ne pouvez pas vous inscrire !
+							</p>
+						</div>";
+	
+	$champCapitaine = "<div>
+						<label for=\"ChoixEstCapitaine\">Êtes-vous le capitaine de l'équipe ?</label>
+						<div id=\"ChoixEstCapitaine\">
+							<label for=\"EstCapitaine\">Oui</label>
+							<input type=\"radio\" name=\"EstCapitaine\" id=\"EstCapitaine\" value=\"EstCapitaine\">
+							
+							<label for=\"NEstPasCapitaine\">Non</label>
+							<input type=\"radio\" name=\"NEstPasCapitaine[]\" id=\"NEstPasCapitaine\" value=\"NEstPasCapitaine\">
+						</div>
+					</div>";
+	
+	$champChoixEquipe = "<div>
+	<select id=\"Equipe`\" name=\"Equipe\">
+		<option value=\"\">---Choisissez votre équipe---</option>";
+	
+	for($i=0;$i<count($tabEquipes);++$i)
+	{
+		$idEquipeTemp = strval($tabEquipes[$i]->getIdEquipe());
+		$nomEquipeTemp = strval($tabEquipes[$i]->getNomEquipe());
+		
+		$champChoixEquipe = $champChoixEquipe."<option value=\"$idEquipeTemp\">$nomEquipeTemp</option>";
+	}
+	
+	$champChoixEquipe = $champChoixEquipe."</select>
+</div>";
+	
+	$champsJoueur = "<div id=\"OptJoueur\">".$champCapitaine.$champChoixEquipe."</div>";
+	
+	echo strval($tabEquipes[4]->getCapitaine() ? "true" : "false");
 	
 	$_POST = array();
 ?>
@@ -61,22 +115,23 @@
 			
 			<div class ="container_role">
 				<label for="Joueur">Joueur</label>
-				<input type="radio" name="role" id="Utilisateur" value="Utilisateur">
+				<input type="radio" name="role" id="Joueur" value="Joueur" onclick="gestionOptionsJoueur()">
 				
 				<br>
 				
-				<div>
-					<h1>ERREUR !</h1>
-					
-					<p>
-						Aucune équipe n'a été créée ! Vous ne pouvez pas vous inscrire !
-					</p>
-				</div>
+				<?php
+					if(count($tabEquipes) == 0)
+					{
+						echo $msgErr;
+					}
+					else
+					{
+						echo $champsJoueur;
+					}
+				?>
 				
-				<div>
-					<label for="EstCapitaine">Êtes-vous le capitaine de l'équipe ?</label>
-					<input type="radio" name="EstCapitaine" id="EstCapitaine" value="EstCapitaine">
-				</div>
+				<label for="Utilisateur">Utilisateur</label>
+				<input type="radio" name="role" id="Utilisateur" value="Utilisateur" onclick="gestionOptionsJoueur()">
 			</div>
 			
 			<hr>

@@ -1,5 +1,6 @@
 <?php
-	include('reqJoueur.php');
+	include_once('reqJoueur.php');
+	include_once('../module/Equipe.php');
 	
 	function insertEquipe(string $nomEquipe, string $adresse, string $numTel)
 	{
@@ -83,12 +84,13 @@
 			return NULL;
 		}
 		
-		$res->data_seek(0);
-		$idEquipe = $res->fetch_assoc()["idEquipe"];
-		$nomEquipe = $res->fetch_assoc()["nomEquipe"];
-		$niveau = $res->fetch_assoc()["niveau"];
-		$adresse = $res->fetch_assoc()["adresse"];
-		$numTel = $res->fetch_assoc()["numTel"];
+		//$res->data_seek(0);
+		$objTemp = $res->fetch_object();
+		$idEquipe = strval($objTemp->idEquipe);
+		$nomEquipe = strval($objTemp->nomEquipe);
+		$niveau = ((int)$objTemp->niveau);
+		$adresse = strval($objTemp->adresse);
+		$numTel = strval($objTemp->numTel);
 		
 		$connexion->close();
 		
@@ -122,11 +124,20 @@
 		{
 			while($obj = $res->fetch_object())
 			{
+				echo $obj->idJoueur;
 				array_push($tabJoueursEquipe, getJoueur($obj->idJoueur));
 			}
 		}
 		
 		$connexion->close();
+		
+		$br = "<br />";
+		echo $br;
+		
+		echo count($tabJoueursEquipe);
+		
+		echo $br;
+		echo $br;
 		
 		return new Equipe($idEquipe, $nomEquipe, $niveau, $adresse, $numTel, $tabJoueursEquipe);
 	}

@@ -64,3 +64,18 @@ hr {
   background-color: #f1f1f1;
   text-align: center;
 }
+
+
+.erreur {
+	background-color: #ff9900;
+	color: #ff0000;
+}
+
+.erreur h1 {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#OptJoueur {
+	display: none;
+}

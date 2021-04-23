@@ -1,5 +1,5 @@
 <?php
-	include('Utilisateur.php');
+	include_once ('Utilisateur.php');
 	
 	class Joueur extends Utilisateur
 	{
@@ -11,7 +11,7 @@
 			parent::__construct($idU, $nom, $prenom, $email, $motDePasse, $role);
 			
 			$this->m_idJoueur = $idJ;
-			$this->m_estCapitaine = $estCapitaine;
+			$this->m_estCapitaine = ((bool)$estCapitaine);
 		}
 		
 		public function getIdJoueur()

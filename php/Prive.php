@@ -1,5 +1,5 @@
 <?php
-	include '../BDD/reqUtilisateur.php';
+	include_once  '../BDD/reqUtilisateur.php';
 	
 	session_start();
 	

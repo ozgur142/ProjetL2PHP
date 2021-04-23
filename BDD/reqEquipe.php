@@ -131,14 +131,6 @@
 		
 		$connexion->close();
 		
-		$br = "<br />";
-		echo $br;
-		
-		echo count($tabJoueursEquipe);
-		
-		echo $br;
-		echo $br;
-		
 		return new Equipe($idEquipe, $nomEquipe, $niveau, $adresse, $numTel, $tabJoueursEquipe);
 	}
 	

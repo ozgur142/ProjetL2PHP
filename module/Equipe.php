@@ -26,9 +26,6 @@
 			
 			for($i=0;$i<count($tabJoueurs);++$i)
 				array_push($this->m_tabJoueurs, $tabJoueurs[$i]);
-			
-			echo "cc : ";
-			echo count($this->m_tabJoueurs);
 		}
 		
 		public function getIdEquipe()
@@ -72,10 +69,6 @@
 			{
 				if($this->m_tabJoueurs[$i]->getCapitaine() === true)
 				{
-					$br = "<br />";
-					echo $br;
-					echo "cap : ";
-					echo $this->m_tabJoueurs[$i]->getCapitaine();
 					return $this->m_tabJoueurs[$i];
 				}
 			}

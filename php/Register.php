@@ -61,8 +61,6 @@
 	
 	$champsJoueur = "<div id=\"OptJoueur\">".$champCapitaine.$champChoixEquipe."</div>";
 	
-	echo strval($tabEquipes[4]->getCapitaine() ? "true" : "false");
-	
 	$_POST = array();
 ?>
 

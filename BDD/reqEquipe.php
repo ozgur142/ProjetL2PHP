@@ -51,12 +51,12 @@
 			return false;
 		}
 		
-		$res->data_seek(0);
-		$verif = $res->fetch_assoc()["idEquipe"];
+		$objTemp = $res->fetch_object();
+		$idEquipe = strval($objTemp->idEquipe);
 		
 		$connexion->close();
 		
-		if(empty($verif))
+		if(empty($idEquipe))
 			return false;
 		
 		return true;

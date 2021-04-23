@@ -1,5 +1,5 @@
 <?php
-	include '../BDD/reqUtilisateur.php';
+	include_once('../BDD/reqEquipe.php');
 	
 	session_start();
 	
@@ -33,6 +33,8 @@
 		exit();
 	}
 	
+	$equipe = getEquipe($joueur->getIdEquipe());
+	
     $nom_equipe = $_POST("NomEquipe");
     $nom_tournoi = $_POST("NomDeTournoi");
     if($nom_equipe == NULL && $nom_equipe == ""){
@@ -49,18 +51,18 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/styleRegLog.css" />
+		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
-		<title>Inscription</title>
+		<title>Pré-inscription</title>
 	</head>
 	
 	<body>
     <form action="Preinscription.php" method="POST" onreset="return vider();" class="container">
 			<h1>
-				<p style="text-align: center;">Preinscripition</p>
+				<p style="text-align: center;">Pré-inscripition</p>
 			</h1>
 			
-			<p style="text-align: center;">Entrez vos information pour créer votre compte</p>
+			<p style="text-align: center;">Sélectionnez le tournoi auquel vous voulez vous pré-inscrire.</p>
 			
 			<hr>
 			

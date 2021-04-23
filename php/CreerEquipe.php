@@ -1,5 +1,5 @@
 <?php
-	include_once ('../BDD/reqEquipe.php');
+	include_once('../BDD/reqEquipe.php');
 	
 	session_start();
 	

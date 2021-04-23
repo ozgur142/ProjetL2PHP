@@ -1,16 +1,13 @@
 <?php
-	include_once('reqUtilisateur.php');
-	include_once('../module/Utilisateur.php');
-	include_once('../module/Joueur.php');
+	include_once('reqGestionnaire.php');
+	include_once('../module/Tournoi.php');
 	
-	function insertJoueur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role, string $idEquipe, bool $estCapitaine)
+	function insertTournoi(string $nom, string $dateDeb, string $duree, int $idGestionnaire, string $lieu, string $nombreTotalEquipes)
 	{
 		include('DataBaseLogin.inc.php');
 		
-		$resInsertionUtilisateur = insertUtilisateur($nom, $prenom, $email, $mdp, $confirmation, $role);
-		
-		if(!$resInsertionUtilisateur)
-			trigger_error("Erreur insertion utilisateur (joueur).");
+		if(!estGestionnaire($idGestionnaire))
+			trigger_error("ERREUR : Identifiant de gestionnaire invalide.");
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -19,12 +16,9 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$ut = getUtilisateurWithEmail($email);
-		$idJ = $ut->getIdUtilisateur();
+		$idT = chooseIntegerIdSequential("Tournoi", "idTournoi");
 		
-		$estCap = $estCapitaine ? "TRUE" : "FALSE";
-		
-		$requete = "INSERT INTO Joueur VALUES($idJ, '$idEquipe', $estCap);";
+		$requete = "INSERT INTO Tournoi VALUES($idT, $nom, $dateDeb, $duree, $idGestionnaire, $lieu, $nombreTotalEquipes);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -38,7 +32,7 @@
 		exit();
 	}
 	
-	function estJoueur(string $id)
+	function estTournoi(string $id)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -49,7 +43,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idJoueur FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT idTournoi FROM Tournoi WHERE idTournoi = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -61,17 +55,17 @@
 		}
 		
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
+		$idTournoi = strval($objTemp->idTournoi);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idTournoi))
 			return false;
 		
 		return true;
 	}
 	
-	function getJoueur(string $id)
+	function getTournoi(string $id)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -82,7 +76,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT * FROM Tournoi WHERE idTournoi = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -93,19 +87,22 @@
 			return NULL;
 		}
 		
-	
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
-		$estCapitaine = strval($objTemp->estCapitaine);
+		$idTournoi = strval($objTemp->idTournoi);
+		$nom = strval($objTemp->nom);
+		$dateDeb = strval($objTemp->dateDeb);
+		$duree = strval($objTemp->duree);
+		$idGestionnaire = strval($objTemp->idGestionnaire);
+		$lieu = strval($objTemp->lieu);
+		$nombreTotalEquipes = strval($objTemp->nombreTotalEquipes);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idTournoi))
 			return NULL;
 		
-		$ut = getUtilisateur($id);
+		$gest = getGestionnaire($idGestionnaire);
 		
-		return new Joueur($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idJoueur, $estCapitaine);
+		return new Tournoi($idTournoi, $nom, $dateDeb, $duree, $gest, $lieu, $nombreTotalEquipes);
 	}
 ?>

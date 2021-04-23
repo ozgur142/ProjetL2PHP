@@ -1,16 +1,17 @@
 <?php
-	include_once('reqUtilisateur.php');
-	include_once('../module/Utilisateur.php');
-	include_once('../module/Joueur.php');
+	include_once('reqEquipe.php');
+	include_once('reqTournoi.php');
+	include_once('../module/EquipeTournoi.php');
 	
-	function insertJoueur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role, string $idEquipe, bool $estCapitaine)
+	function insertEquipeTournoi(int $idE, int $idT, bool $estInscrite)
 	{
 		include('DataBaseLogin.inc.php');
 		
-		$resInsertionUtilisateur = insertUtilisateur($nom, $prenom, $email, $mdp, $confirmation, $role);
+		if(!estEquipe($idE))
+			trigger_error("ERREUR : Identifiant d'équipe invalide.");
 		
-		if(!$resInsertionUtilisateur)
-			trigger_error("Erreur insertion utilisateur (joueur).");
+		if(!estTournoi($idT))
+			trigger_error("ERREUR : Identifiant de tournoi invalide.");
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -19,12 +20,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$ut = getUtilisateurWithEmail($email);
-		$idJ = $ut->getIdUtilisateur();
-		
-		$estCap = $estCapitaine ? "TRUE" : "FALSE";
-		
-		$requete = "INSERT INTO Joueur VALUES($idJ, '$idEquipe', $estCap);";
+		$requete = "INSERT INTO EquipeTournoi VALUES($idE, $idT, $estInscrite);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -38,7 +34,7 @@
 		exit();
 	}
 	
-	function estJoueur(string $id)
+	function estEquipeTournoi(string $idE, string $idT)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -49,7 +45,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idJoueur FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT idEquipe, idTournoi FROM EquipeTournoi WHERE idEquipe = $idE AND idTournoi = \"$idT\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -61,17 +57,21 @@
 		}
 		
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
+		$idEquipe = strval($objTemp->idEquipe);
+		$idTournoi = strval($objTemp->idTournoi);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idEquipe))
+			return false;
+		
+		if(empty($idTournoi))
 			return false;
 		
 		return true;
 	}
 	
-	function getJoueur(string $id)
+	function getEquipeTournoi(string $idE, string $idT)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -82,7 +82,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT * FROM EquipeTournoi WHERE idEquipe = $idE AND idTournoi = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -93,19 +93,19 @@
 			return NULL;
 		}
 		
-	
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
-		$estCapitaine = strval($objTemp->estCapitaine);
+		$idEquipe = strval($objTemp->idEquipe);
+		$idTournoi = strval($objTemp->idTournoi);
+		$estInscrite = strval($objTemp->estInscrite);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idEquipe))
 			return NULL;
 		
-		$ut = getUtilisateur($id);
+		if(empty($idTournoi))
+			return NULL;
 		
-		return new Joueur($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idJoueur, $estCapitaine);
+		return new EquipeTournoi($idEquipe, $idTournoi, $estInscrite);
 	}
 ?>

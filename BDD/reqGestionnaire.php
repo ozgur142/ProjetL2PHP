@@ -1,16 +1,16 @@
 <?php
 	include_once('reqUtilisateur.php');
 	include_once('../module/Utilisateur.php');
-	include_once('../module/Joueur.php');
+	include_once('../module/Gestionnaire.php');
 	
-	function insertJoueur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role, string $idEquipe, bool $estCapitaine)
+	function insertGestionnaire(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
 	{
 		include('DataBaseLogin.inc.php');
 		
 		$resInsertionUtilisateur = insertUtilisateur($nom, $prenom, $email, $mdp, $confirmation, $role);
 		
 		if(!$resInsertionUtilisateur)
-			trigger_error("Erreur insertion utilisateur (joueur).");
+			trigger_error("Erreur insertion utilisateur (gestionnaire).");
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -20,11 +20,9 @@
 		}
 		
 		$ut = getUtilisateurWithEmail($email);
-		$idJ = $ut->getIdUtilisateur();
+		$idG = $ut->getIdUtilisateur();
 		
-		$estCap = $estCapitaine ? "TRUE" : "FALSE";
-		
-		$requete = "INSERT INTO Joueur VALUES($idJ, '$idEquipe', $estCap);";
+		$requete = "INSERT INTO Gestionnaire VALUES($idG);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -38,7 +36,7 @@
 		exit();
 	}
 	
-	function estJoueur(string $id)
+	function estGestionnaire(string $id)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -49,7 +47,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idJoueur FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT idGestionnaire FROM Gestionnaire WHERE idGestionnaire = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -61,17 +59,17 @@
 		}
 		
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
+		$idGestionnaire = strval($objTemp->idGestionnaire);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idGestionnaire))
 			return false;
 		
 		return true;
 	}
 	
-	function getJoueur(string $id)
+	function getGestionnaire(string $id)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -82,7 +80,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Joueur WHERE idJoueur = \"$id\";";
+		$requete = "SELECT * FROM Gestionnaire WHERE idGestionnaire = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -93,19 +91,16 @@
 			return NULL;
 		}
 		
-	
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
-		$estCapitaine = strval($objTemp->estCapitaine);
+		$idGestionnaire = strval($objTemp->idGestionnaire);
 		
 		$connexion->close();
 		
-		if(empty($idJoueur))
+		if(empty($idGestionnaire))
 			return NULL;
 		
 		$ut = getUtilisateur($id);
 		
-		return new Joueur($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idJoueur, $estCapitaine);
+		return new Gestionnaire($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idGestionnaire);
 	}
 ?>

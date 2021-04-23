@@ -16,7 +16,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/styleRegLog.css" />
+		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
 		<title>Inscription</title>
 	</head>
@@ -57,6 +57,19 @@
 				<input type="radio" name="role" id="Utilisateur" value="Utilisateur">
 				
 				<br>
+				
+				<div>
+					<h1>ERREUR !</h1>
+					
+					<p>
+						Aucune équipe n'a été créée ! Vous ne pouvez pas vous inscrire !
+					</p>
+				</div>
+				
+				<div>
+					<label for="EstCapitaine">Êtes-vous le capitaine de l'équipe ?</label>
+					<input type="radio" name="EstCapitaine" id="EstCapitaine" value="EstCapitaine">
+				</div>
 			</div>
 			
 			<hr>

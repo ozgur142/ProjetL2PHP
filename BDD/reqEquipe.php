@@ -1,7 +1,7 @@
 <?php
 	include('reqGeneralBDD.php');
 	
-	function insertUser(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
+	function insertEquipe(string $nomEquipe, string $adresse, string $numTel)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -12,18 +12,9 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$idU = lineCount("Utilisateur") + 1;
+		$idE = lineCount("Equipe") + 1;
 		
-		if(strcmp($mdp, $confirmation) != 0)
-			trigger_error("Le mot de passe et la confirmation ne correspondent pas.");
-		
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-			trigger_error("$email n'est pas une adresse mail.");
-		
-		if((strcmp($role, "Utilisateur") != 0) && (strcmp($role, "Administrateur") != 0))
-			trigger_error("Le rôle de l'utilisateur est invalide.");
-		
-		$requete = "INSERT INTO Utilisateur VALUES($idU, '$nom', '$prenom', '$email', '$mdp', '$role');";
+		$requete = "INSERT INTO Equipe VALUES($idE, '$nomEquipe', 0, '$adresse', '$numTel');";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -37,7 +28,7 @@
 		exit();
 	}
 	
-	function verifLogin(string $login)
+	function estEquipe(string $id)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -48,7 +39,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idUtilisateur FROM Utilisateur WHERE email = \"$login\";";
+		$requete = "SELECT idEquipe FROM Equipe WHERE idEquipe = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -60,7 +51,7 @@
 		}
 		
 		$res->data_seek(0);
-		$verif = $res->fetch_assoc()["idUtilisateur"];
+		$verif = $res->fetch_assoc()["idEquipe"];
 		
 		$connexion->close();
 		
@@ -70,12 +61,10 @@
 		return true;
 	}
 	
-	function verifLoginMdp(string $login, string $mdp)
+	function getEquipe(string $id)
 	{
-		if(!verifLogin($login))
-			return false;
-		
 		include('DataBaseLogin.inc.php');
+		include('reqJoueur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -84,7 +73,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idUtilisateur FROM Utilisateur WHERE email = \"$login\" AND motDePasse = \"$mdp\";";
+		$requete = "SELECT * FROM Equipe WHERE idEquipe = \"$id\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -92,24 +81,60 @@
 			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
 			$connexion->close();
 			
-			return false;
+			return NULL;
 		}
 		
 		$res->data_seek(0);
-		$verif = $res->fetch_assoc()["idUtilisateur"];
+		$idEquipe = $res->fetch_assoc()["idEquipe"];
+		$nomEquipe = $res->fetch_assoc()["nomEquipe"];
+		$niveau = $res->fetch_assoc()["niveau"];
+		$adresse = $res->fetch_assoc()["adresse"];
+		$numTel = $res->fetch_assoc()["numTel"];
 		
 		$connexion->close();
 		
-		if(empty($verif))
-			return false;
+		if(empty($idEquipe))
+			return NULL;
 		
-		return true;
+		$tabJoueursEquipe = array();
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM Joueur WHERE idEquipe = \"$id\";";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$res->fetch_assoc();
+		$nbJoueursEquipe = $res->num_rows;
+		
+		if($nbJoueursEquipe > 0)
+		{
+			while($obj = $res->fetch_object())
+			{
+				array_push($tabJoueursEquipe, getJoueur($obj->idJoueur));
+			}
+		}
+		
+		$connexion->close();
+		
+		return new Equipe($idEquipe, $nomEquipe, $niveau, $adresse, $numTel, $tabJoueursEquipe);
 	}
 	
-	function getUtilisateur(string $id)
+	function getAllEquipe()
 	{
 		include('DataBaseLogin.inc.php');
-		include('../module/Utilisateur.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -118,7 +143,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Utilisateur WHERE idUtilisateur = \"$id\";";
+		$requete = "SELECT * FROM Equipe;";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -129,58 +154,21 @@
 			return NULL;
 		}
 		
-		$res->data_seek(0);
-		$idUtilisateur = $res->fetch_assoc()["idUtilisateur"];
-		$nom = $res->fetch_assoc()["nom"];
-		$prenom = $res->fetch_assoc()["prenom"];
-		$email = $res->fetch_assoc()["email"];
-		$motDePasse = $res->fetch_assoc()["motDePasse"];
-		$role = $res->fetch_assoc()["role"];
+		$res->fetch_assoc();
+		$nbEquipes = $res->num_rows;
 		
 		$connexion->close();
 		
-		if(empty($idUtilisateur))
-			return NULL;
+		$tabEquipes = array();
 		
-		return new Utilisateur($idUtilisateur, $nom, $prenom, $email, $motDePasse, $role);
-	}
-	
-	function getUtilisateurWithEmail(string $login)
-	{
-		include('DataBaseLogin.inc.php');
-		include('../module/Utilisateur.php');
+		if($nbEquipes == 0)
+			return $tabEquipes;
 		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-	
-		if($connexion->connect_error)
+		while($obj = $res->fetch_object())
 		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+			array_push($tabEquipes, getEquipe($obj->idEquipe));
 		}
 		
-		$requete = "SELECT * FROM Utilisateur WHERE email = \"$login\";";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-		{
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-			$connexion->close();
-			
-			return NULL;
-		}
-		
-		$res->data_seek(0);
-		$idUtilisateur = $res->fetch_assoc()["idUtilisateur"];
-		$nom = $res->fetch_assoc()["nom"];
-		$prenom = $res->fetch_assoc()["prenom"];
-		$email = $res->fetch_assoc()["email"];
-		$motDePasse = $res->fetch_assoc()["motDePasse"];
-		$role = $res->fetch_assoc()["role"];
-		
-		$connexion->close();
-		
-		if(empty($idUtilisateur))
-			return NULL;
-		
-		return new Utilisateur($idUtilisateur, $nom, $prenom, $email, $motDePasse, $role);
+		return $tabEquipes;
 	}
 ?>

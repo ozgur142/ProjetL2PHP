@@ -10,19 +10,19 @@
 		private $m_nom;
 		private $m_dateDeb;
 		private $m_duree;
-		private $m_gestionnaire;
+		private $m_idGestionnaire;
 		private $m_lieu;
 		private $m_nombreTotalEquipes;
 		
 		private $m_tableauEquipes;
 		
-		public function __construct(int $idT, string $nom, string $dateDeb, string $duree, $gestionnaire, string $lieu, string $nombreTotalEquipes)
+		public function __construct(int $idT, string $nom, string $dateDeb, string $duree, int $idG, string $lieu, string $nombreTotalEquipes)
 		{
 			$this->m_idTournoi = $idT;
 			$this->m_nom = $nom;
 			$this->m_dateDeb = $dateDeb;
 			$this->m_duree = $duree;
-			$this->m_gestionnaire = $gestionnaire;
+			$this->m_idGestionnaire = $idG;
 			$this->m_lieu = $lieu;
 			$this->m_nombreTotalEquipes = $nombreTotalEquipes;
 		}
@@ -47,9 +47,9 @@
 			return $this->m_duree;
 		}
 		
-		public function getGestionnaire()
+		public function getIdGestionnaire()
 		{
-			return $this->m_gestionnaire;
+			return $this->m_idGestionnaire;
 		}
 		
 		public function getLieu()
@@ -67,8 +67,8 @@
 			$res = strval($this->m_idTournoi)." "
 				  .strval($this->m_nom)." "
 				  .strval($this->m_dateDeb)." "
-				  .strval($this->m_duree)."\n"
-				  //.strval($this->m_gestionnaire->toString())."\n"
+				  .strval($this->m_duree)." "
+				  .strval($this->m_idGestionnaire)." "
 				  .strval($this->m_lieu)." "
 				  .strval($this->m_nombreTotalEquipes);
 			
@@ -82,7 +82,7 @@
 				  .strval($this->m_nom)." <br />"
 				  .strval($this->m_dateDeb)." <br />"
 				  .strval($this->m_duree)." <br />"
-				  //.strval($this->m_gestionnaire->toHTML())." <br />"
+				  .strval($this->m_idGestionnaire)." <br />"
 				  .strval($this->m_lieu)." <br />"
 				  .strval($this->m_nombreTotalEquipes)
 				  ."</p>";

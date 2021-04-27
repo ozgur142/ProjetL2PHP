@@ -1,6 +1,6 @@
 <?php
-	include('../module/Equipe.php');
-	include('../module/EquipeMatchT.php');
+	include_once('../module/Equipe.php');
+	include_once('../module/EquipeMatchT.php');
 	
 	class TasMax
 	{

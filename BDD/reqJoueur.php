@@ -97,6 +97,7 @@
 		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
 		$idJoueur = strval($objTemp->idJoueur);
+		$idEquipe = strval($objTemp->idEquipe);
 		$estCapitaine = strval($objTemp->estCapitaine);
 		
 		$connexion->close();
@@ -106,6 +107,6 @@
 		
 		$ut = getUtilisateur($id);
 		
-		return new Joueur($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idJoueur, $estCapitaine);
+		return new Joueur($ut->getIdUtilisateur(), $ut->getNom(), $ut->getPrenom(), $ut->getEmail(), $ut->getMdp(), $ut->getRole(), $idJoueur, $idEquipe, $estCapitaine);
 	}
 ?>

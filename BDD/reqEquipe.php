@@ -124,7 +124,7 @@
 		{
 			while($obj = $res->fetch_object())
 			{
-				echo $obj->idJoueur;
+				//echo $obj->idJoueur;
 				array_push($tabJoueursEquipe, getJoueur($obj->idJoueur));
 			}
 		}

@@ -1,5 +1,5 @@
 <?php
-	include_once('../BDD/reqEquipe.php');
+	include_once('../BDD/reqEquipeTournoi.php');
 	
 	session_start();
 	
@@ -15,7 +15,7 @@
 		exit();
 	}
 	
-	$ut = getUtilisateurWithEmail($_SESSION['login'];
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
 	
 	if(!estJoueur($ut->getIdUtilisateur()))
 	{
@@ -35,7 +35,51 @@
 	
 	$equipe = getEquipe($joueur->getIdEquipe());
 	
-    $nom_equipe = $_POST("NomEquipe");
+	$equipe->addCapitaine($joueur);
+	
+	$tabEquipes = getAllTournoi();
+	
+	$br = "<br />";
+	
+	for($i=0;$i<$equipe->getNbJoueurs();++$i)
+	{
+		$j = $equipe->getTabJoueurs()[$i];
+		
+		echo $j->toString();
+		echo $br;
+	}
+	
+	if(!is_array($tabEquipes))
+		trigger_error("ERREUR : requête tournoi");
+	
+	if(count($tabEquipes) == 0)
+		trigger_error("ERREUR : résultat requête tournoi vide.");
+	
+	$champChoixTournoi = "<div>
+	<select id=\"Tournoi\" name=\"Tournoi\">
+		<option value=\"\">---Choisissez votre tournoi---</option>";
+	
+	for($i=0;$i<count($tabEquipes);++$i)
+	{
+		$idTournoiTemp = strval($tabEquipes[$i]->getIdTournoi());
+		$nomTournoiTemp = strval($tabEquipes[$i]->getNom());
+		
+		$champChoixTournoi = $champChoixTournoi."<option value=\"$idTournoiTemp\">$nomTournoiTemp</option>";
+	}
+	
+	$champChoixTournoi = $champChoixTournoi."</select>
+</div>";
+	
+	if(isset($_POST) && isset($_POST['envoiValeurs']))
+	{
+		$_SESSION['Tournoi'] = $_POST['Tournoi'];
+		
+		insertEquipeTournoi(strval($equipe->getIdEquipe()), strval($_POST['Tournoi']), false);
+	}
+	
+	$_POST = array();
+	
+    /*$nom_equipe = $_POST("NomEquipe");
     $nom_tournoi = $_POST("NomDeTournoi");
     if($nom_equipe == NULL && $nom_equipe == ""){
         $req = "SELECT idUtilisateur FROM Utilisateur, Joueur WHERE idUtilisateur = ".$_SESSION['idUtilisateur']." and idUtilisateur = idJoueur and estCapitane = 1";
@@ -43,7 +87,7 @@
             return false;
         }
         // Est ce qu'on doit creer une autre table dans notre base de donne pour stocker les requeste d'inscription?
-    }
+    }*/
     
 ?>
 
@@ -57,21 +101,26 @@
 	</head>
 	
 	<body>
-    <form action="Preinscription.php" method="POST" onreset="return vider();" class="container">
+		<form action="Preinscription.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Pré-inscripition</p>
 			</h1>
+			
+			<p style="text-align: center;">
+				Le nom de votre équipe est : 
+				<?php
+					echo $equipe->getNomEquipe();
+				?>
+			</p>
 			
 			<p style="text-align: center;">Sélectionnez le tournoi auquel vous voulez vous pré-inscrire.</p>
 			
 			<hr>
 			
-			<label for="NomEquipe"><b>Votre nom d'equipe</b></label>
-			<input type="text" placeholder="Entrez votre nom d'equipe" name="NomEquipe" id="NomEquipe" required>       
-
-            <label for="NomDeTournoi"><b>Entrez le nom de la tournois que vous voulez entrez</b></label>
-			<input type="text" placeholder="Entrez nom de Tournoi" name="NomDeTournoi" id="NomDeTournoi" required> 
-
+			<label for="Tournoi"><b>Sélectionnez le tournoi auquel vous voulez vous pré-inscrire parmis les choix suivants.</b></label>
+			<?php
+				echo $champChoixTournoi
+			?>
 			<hr>
 			
 			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>

@@ -45,7 +45,7 @@
 					</div>";
 	
 	$champChoixEquipe = "<div>
-	<select id=\"Equipe`\" name=\"Equipe\">
+	<select id=\"Equipe\" name=\"Equipe\">
 		<option value=\"\">---Choisissez votre équipe---</option>";
 	
 	for($i=0;$i<count($tabEquipes);++$i)

@@ -1,5 +1,7 @@
 <?php
-	class Utilisateur
+	include_once('Entite.php');
+	
+	class Utilisateur extends Entite
 	{
 		private $m_idUtilisateur;
 		private $m_nom;
@@ -46,6 +48,32 @@
 		public function getRole()
 		{
 			return $this->m_role;
+		}
+		
+		public function toString()
+		{
+			$res = strval($this->m_idUtilisateur)." "
+				  .strval($this->m_nom)." "
+				  .strval($this->m_prenom)." "
+				  .strval($this->m_email)." "
+				  .strval($this->m_motDePasse)." "
+				  .strval($this->m_role);
+			
+			return $res;
+		}
+		
+		public function toHTML()
+		{
+			$res = "<p>"
+				  .strval($this->m_idUtilisateur)." <br />"
+				  .strval($this->m_nom)." <br />"
+				  .strval($this->m_prenom)." <br />"
+				  .strval($this->m_email)." <br />"
+				  .strval($this->m_motDePasse)." <br />"
+				  .strval($this->m_role)
+				  ."</p>";
+			
+			return $res;
 		}
 	}
 ?>

@@ -1,28 +1,42 @@
 <?php
-
-class MatchT {
-	protected $m_idMatchT ;
+	include_once('Entite.php');
 	
-	//Constructeur
-	public function __construct(int $id)
+	class MatchT extends Entite
+	{
+		protected $m_idMatchT;
+		
+		//Constructeur
+		public function __construct(int $id)
 		{
-			$this->m_idMatchT = $id ;
+			$this->m_idMatchT = $id;
 		}
-
-	//ACESSEURS EN LECTURE
-	public function afficher(){
-		echo "Match n°".$this->m_idMatchT;
-		echo "<br ./>";
+		
+		//ACESSEURS EN LECTURE
+		public function afficher()
+		{
+			echo "Match n°".$this->m_idMatchT;
+			echo "<br ./>";
+		}
+		
+		public function getIdMatchT()
+		{
+			return $this->m_idMatchT;
+		}
+		
+		//ACCESSEURS EN ECRITURE
+		public function setId(int $id)
+		{
+			$this->m_idMatchT = $id;
+		}
+		
+		public function toString()
+		{
+			return strval($this->m_idMatchT);
+		}
+		
+		public function toHTML()
+		{
+			return "<p>".strval($this->m_idMatchT)."</p>";
+		}
 	}
-
-	public function getIdMatchT(){
-		return $this->m_idMatchT;
-	}
-
-	//ACCESSEURS EN ECRITURE
-	public function setId(int $id){
-		$this->m_idMatchT = $id ;
-	}
-
-}
 ?>

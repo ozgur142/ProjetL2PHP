@@ -1,5 +1,5 @@
 <?php
-	include_once ('Utilisateur.php');
+	include_once('Utilisateur.php');
 	
 	class Gestionnaire extends Utilisateur
 	{
@@ -15,6 +15,28 @@
 		public function getIdGestionnaire()
 		{
 			return $this->m_idGestionnaire;
+		}
+		
+		public function toString()
+		{
+			$res = parent::toString();
+			
+			$res = $res
+				  .strval($this->m_idGestionnaire);
+			
+			return $res;
+		}
+		
+		public function toHTML()
+		{
+			$res = parent::toHTML();
+			
+			$res = $res
+				  ."<p>"
+				  .strval($this->m_idGestionnaire)
+				  ."</p>";
+			
+			return $res;
 		}
 	}
 ?>

@@ -1,8 +1,9 @@
 <?php
 	include_once('Equipe.php');
 	include_once('Tournoi.php');
+	include_once('Entite.php');
 	
-	class EquipeTournoi
+	class EquipeTournoi extends Entite
 	{
 		private $m_idEquipe;
 		private $m_idTournoi;
@@ -28,6 +29,26 @@
 		public function getEstInscrite()
 		{
 			return $this->m_estInscrite;
+		}
+		
+		public function toString()
+		{
+			$res = strval($this->m_idEquipe)." "
+				  .strval($this->m_idTournoi)." "
+				  .strval($this->m_estInscrite);
+			
+			return $res;
+		}
+		
+		public function toHTML()
+		{
+			$res = "<p>"
+				  .strval($this->m_idEquipe)." <br />"
+				  .strval($this->m_idTournoi)." <br />"
+				  .strval($this->m_estInscrite)
+				  ."</p>";
+			
+			return $res;
 		}
 	}
 ?>

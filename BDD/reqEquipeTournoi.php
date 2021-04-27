@@ -2,6 +2,7 @@
 	include_once('reqEquipe.php');
 	include_once('reqTournoi.php');
 	include_once('../module/EquipeTournoi.php');
+	include_once('../module/FctGenerales.php');
 	
 	function insertEquipeTournoi(int $idE, int $idT, bool $estInscrite)
 	{
@@ -20,7 +21,11 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "INSERT INTO EquipeTournoi VALUES($idE, $idT, $estInscrite);";
+		$estIns = bool2SQLStr($estInscrite);
+		
+		$requete = "INSERT INTO EquipeTournoi(`idEquipe`, `idTournoi`, `estInscrite`) VALUES($idE, $idT, $estIns);";
+		
+		echo "Requête : ".$requete;
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -30,7 +35,7 @@
 		
 		unset($_POST);
 		
-		header('Location: ../php/Login.php');
+		header('Location: ../php/resPreInscription.php');
 		exit();
 	}
 	

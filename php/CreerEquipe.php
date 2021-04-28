@@ -1,20 +1,6 @@
 <?php
 	include_once('../BDD/reqEquipe.php');
 	
-	session_start();
-	
-	if(!isset($_SESSION['login']))
-	{
-		trigger_error("Vous n'êtes pas connecté.");
-	}
-	
-	if(!verifLoginMdp(strval($_SESSION['login']), strval($_SESSION['motDePasse'])))
-	{
-		trigger_error("Erreur de login et/ou de mot de passe.");
-		header('Location: Login.php');
-		exit();
-	}
-	
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
 		insertEquipe(strval($_POST['NomEquipe']), strval($_POST['Adresse']), strval($_POST['NumTel']));

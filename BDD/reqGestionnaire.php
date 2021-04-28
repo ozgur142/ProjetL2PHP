@@ -3,39 +3,6 @@
 	include_once('../module/Utilisateur.php');
 	include_once('../module/Gestionnaire.php');
 	
-	function insertGestionnaire(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
-	{
-		include('DataBaseLogin.inc.php');
-		
-		$resInsertionUtilisateur = insertUtilisateur($nom, $prenom, $email, $mdp, $confirmation, $role);
-		
-		if(!$resInsertionUtilisateur)
-			trigger_error("Erreur insertion utilisateur (gestionnaire).");
-		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-	
-		if($connexion->connect_error)
-		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
-		}
-		
-		$ut = getUtilisateurWithEmail($email);
-		$idG = $ut->getIdUtilisateur();
-		
-		$requete = "INSERT INTO Gestionnaire VALUES($idG);";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-		
-		$connexion->close();
-		
-		unset($_POST);
-		
-		header('Location: ../php/Login.php');
-		exit();
-	}
-	
 	function insertGestionnaireForExistingUtilisateur(int $idG)
 	{
 		include('DataBaseLogin.inc.php');

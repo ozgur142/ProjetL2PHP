@@ -12,7 +12,7 @@
 		if(verifLoginMdp(strval($_SESSION['login']), strval($_SESSION['motDePasse'])))
 		{
 			$ut = getUtilisateurWithEmail($_SESSION['login']);
-			$estConnecte = true;
+			//$estConnecte = true;
 			$estAdministrateur = ($ut->getRole() === "Administrateur");
 		}
 	}

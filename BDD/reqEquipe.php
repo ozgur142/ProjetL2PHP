@@ -168,7 +168,7 @@
 		
 		while($obj = $res->fetch_object())
 		{
-			array_push($tabEquipes, getEquipe($obj->idEquipe));
+			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
 		}
 		
 		return $tabEquipes;

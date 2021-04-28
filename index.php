@@ -31,9 +31,8 @@
 				<img src="img/logo.jpeg">
 			</div>
 			<a href="#">Informations</a>
-			<a href="php/AffectGest.php">Gestionnaire</a>
-			<a href="php/creer_tournois.php">Créer Tournoi</a>
-			<a href="php/tournois.php">Liste des Tournois</a>
+			<a href="php/CreerTournoi.php">Créer Tournoi</a>
+			<a href="php/Tournois.php">Liste des Tournois</a>
 			<a href="php/Preinscription.php">Preinscription</a>
 			<a href="php/CreerEquipe.php">Créer équipe</a>
 			<a href="php/CreerGestionnaire.php">Créer gestionnaire</a>

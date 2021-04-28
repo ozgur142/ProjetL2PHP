@@ -37,6 +37,7 @@
 			echo $_SESSION['motDePasse'];
 			
 			echo $br;
+			header('Location: ../index.php');
 		?>
 	</body>
 </html>

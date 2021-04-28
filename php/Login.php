@@ -27,43 +27,51 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
+		
+		<style>
+			body div img {
+				width:50px;
+				border:5px groove white;
+				padding:5px;
+			}
+		</style>
+		
 		<script type="text/javascript" src="../js/LoginJS.js"></script>
 		<title>Authentification</title>
 	</head>
 	
 	<body>
 		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+			<a href="../index.php">
+			<img src="../img/home.png">
+			</a>
 		</div>
 		
-		<form action="Login.php" method="POST" onreset="return vider();" class="container">
-			<h1>
-				<p style="text-align: center;">Authentification</p>
-			</h1>
-			
-			<p style="text-align: center;">Entrez vos information pour acceder à votre compte</p>
-			
-			<hr>
+		<div class="cadre">
+			<form action="Login.php" method="POST" onreset="return vider();" class="container">
+				<h1>
+					<p style="text-align: center;">Authentification</p>
+				</h1>
+				
+				<p style="text-align: center;">Entrez vos information pour acceder à votre compte</p>
+				
+				<hr>
 
-			<label for="mail"><b>Mail</b></label>
-			<input type="email" placeholder="Entrez votre mail" name="mail" id="mail" required>
+				<label for="mail"><b>Mail</b></label>
+				<input type="email" placeholder="Entrez votre mail" name="mail" id="mail" required>
 
-			<label for="psw"><b>Mot de passe</b></label>
-			<input type="password" placeholder="Entrez votre mot de passe" name="psw" id="psw" required>
+				<label for="psw"><b>Mot de passe</b></label>
+				<input type="password" placeholder="Entrez votre mot de passe" name="psw" id="psw" required>
 
-			<hr>
+				<hr>
+				
+				<button type="submit" class="loginbtn" name="envoiValeurs" value="Envoyer">S'authentifier</button>
+				<button type="reset" name="effacerValeurs" value="Effacer">gg</button>
+			</form>
 			
-			<button type="submit" class="loginbtn" name="envoiValeurs" value="Envoyer">S'authentifier</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">gg</button>
-		</form>
-		
-		<div class="container">
-			<p>Pas encore de compte ? <a href="Register.php">Créer un compte</a>.</p>
+			<div class="container">
+				<p>Pas encore de compte ? <a href="Register.php">Créer un compte</a>.</p>
+			</div>
 		</div>
 	</body>
 </html>

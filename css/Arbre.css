@@ -1,0 +1,37 @@
+/*
+-Problèmes d'affichage quand on zoom et dézoom
+-Affichage foireux avec écran taille téléphone
+*/
+body {
+    background-image:url('../img/back.jpg');
+    background-attachment:fixed;
+    background-size:cover;
+}
+#container {
+    /*width: 100%;*/ /*mettre en pixels?*/
+    /*height: 1800px;*/
+    float:left;
+}
+section {
+    width:180px; /*10%*/
+    height: 95%; /*1000px*/ 
+    float:left;
+}
+section > div {
+    padding:10px 0 0 20px;
+    width:100%; 
+    height:30px;
+    background: rgba(0,0,26,1);
+    color: white; 
+    text-align:left;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+section div p {
+    margin-top:-19px;
+    margin-left:85%;
+    font-weight: bold;
+}

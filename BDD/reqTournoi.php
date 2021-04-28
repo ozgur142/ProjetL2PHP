@@ -32,6 +32,33 @@
 		exit();
 	}
 	
+	function creerTournoi(string $nom, string $dateDeb, int $duree, int $idGestionnaire, string $lieu, int $nombreTotalEquipes)
+    {
+        include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+
+        $idT = chooseIntegerIdSequential("Tournoi", "idTournoi");
+
+        $requete = "INSERT INTO Tournoi VALUES($idT, '$nom','$dateDeb', $duree, $idGestionnaire, '$lieu',$nombreTotalEquipes);";
+
+        $res = $connexion->query($requete);
+		if(!$res)
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+		
+		$connexion->close();
+		
+		unset($_POST);
+		
+		header('Location: ../php/CreerTournoi.php');
+		exit();
+    }
+	
 	function estTournoi(string $id)
 	{
 		include('DataBaseLogin.inc.php');

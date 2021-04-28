@@ -62,6 +62,30 @@
 			return $this->m_nombreTotalEquipes;
 		}
 		
+		public function termine()
+		{
+			$ajoutDuree = strtotime($this->m_dateDeb. '+'.$this->m_duree.' days');
+			$today = strtotime(date("d-m-Y"));
+
+			return ($ajoutDuree<$today) ;
+		}
+		
+		public function enCours()
+		{
+			$dateTournoi = strtotime($this->m_dateDeb);
+			$today = strtotime(date("d-m-Y"));
+			$ajoutDuree = strtotime($this->m_dateDeb. '+'.$this->m_duree.' days');
+			
+			return ($dateTournoi<=$today)&&($ajoutDuree>=$today) ;
+		}
+		
+		public function aVenir()
+		{
+			$dateTournoi = strtotime($this->m_dateDeb);
+			$today = strtotime(date("d-m-Y"));
+			return ($dateTournoi>$today);
+		}
+		
 		public function toString()
 		{
 			$res = strval($this->m_idTournoi)." "

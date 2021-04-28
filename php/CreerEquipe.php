@@ -14,18 +14,25 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
+		
+		<style>
+			body div img {
+				width:50px;
+				border:5px groove white;
+				padding:5px;
+				float:left;
+			}
+		</style>
+		
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
 		<title>Création d'une équipe</title>
 	</head>
 	
 	<body>
 		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+			<a href="../index.php">
+				<img src="../img/home.png">
+			</a>
 		</div>
 		
 		<form action="CreerEquipe.php" method="POST" onreset="return vider();" class="container">

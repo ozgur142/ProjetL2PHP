@@ -16,6 +16,8 @@
 	}
 	
 	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$estConnecte = true;
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
 	
 	if(!estGestionnaire($ut->getIdUtilisateur()))
 	{
@@ -95,6 +97,12 @@
 			<a href="CreerEquipe.php">Créer une équipe</a>
 			<a href="Preinscription.php">Pré-inscrire une équipe</a>
 			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+			<?php
+				$propCreerGestionnaire = "<a href=\"CreerGestionnaire.php\">Créer un gestionnaire de tournoi</a>";
+				
+				if($estAdministrateur)
+					echo $propCreerGestionnaire;
+			?>
 		</div>
 		
 		<form action="ChoixInscription.php" method="POST" onreset="return vider();" class="container">
@@ -116,5 +124,14 @@
 			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
 			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
 		</form>
+		
+		<?php
+			$propCreerCompte = "<div class=\"container signin\">
+				<p>Vous avez un compte? <a href=\"Login.php\">Sign in</a>.</p>
+			</div>";
+			
+			if(!$estConnecte)
+				echo $propCreerCompte;
+		?>
 	</body>
 </html>

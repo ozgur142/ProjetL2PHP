@@ -1,6 +1,6 @@
 <?php
 	include_once('reqGeneralBDD.php');
-	include_once('../module/Utilisateur.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Utilisateur.php');
 	
 	function insertUtilisateur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role)
 	{

@@ -36,6 +36,33 @@
 		exit();
 	}
 	
+	function insertGestionnaireForExistingUtilisateur(int $idG)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "INSERT INTO Gestionnaire VALUES($idG);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+		
+		$connexion->close();
+		
+		unset($_POST);
+		
+		echo "1";
+		
+		header('Location: ../php/resCreerGestionnaire.php');
+		exit();
+	}
+	
 	function estGestionnaire(string $id)
 	{
 		include('DataBaseLogin.inc.php');

@@ -79,6 +79,8 @@
 			<a href="Logout.php">Se déconnecter</a>
 			<a href="Register.php">Créer un compte</a>
 			<a href="CreerEquipe.php">Créer une équipe</a>
+			<a href="Preinscription.php">Pré-inscrire une équipe</a>
+			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
 		</div>
 		
 		<form action="Register.php" method="POST" onreset="return vider();" class="container">

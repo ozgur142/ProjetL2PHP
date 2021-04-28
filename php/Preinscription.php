@@ -20,7 +20,7 @@
 	if(!estJoueur($ut->getIdUtilisateur()))
 	{
 		trigger_error("Vous n'êtes pas un joueur d'équipe.");
-		header('Location: index.php');
+		header('Location: ../index.php');
 		exit();
 	}
 	
@@ -29,7 +29,7 @@
 	if(!$joueur->getCapitaine())
 	{
 		trigger_error("Vous n'êtes pas un capitaine d'équipe.");
-		header('Location: index.php');
+		header('Location: ../index.php');
 		exit();
 	}
 	
@@ -44,9 +44,6 @@
 	for($i=0;$i<$equipe->getNbJoueurs();++$i)
 	{
 		$j = $equipe->getTabJoueurs()[$i];
-		
-		echo $j->toString();
-		echo $br;
 	}
 	
 	if(!is_array($tabEquipes))
@@ -78,17 +75,6 @@
 	}
 	
 	$_POST = array();
-	
-    /*$nom_equipe = $_POST("NomEquipe");
-    $nom_tournoi = $_POST("NomDeTournoi");
-    if($nom_equipe == NULL && $nom_equipe == ""){
-        $req = "SELECT idUtilisateur FROM Utilisateur, Joueur WHERE idUtilisateur = ".$_SESSION['idUtilisateur']." and idUtilisateur = idJoueur and estCapitane = 1";
-        if(!isset($req)){
-            return false;
-        }
-        // Est ce qu'on doit creer une autre table dans notre base de donne pour stocker les requeste d'inscription?
-    }*/
-    
 ?>
 
 <!DOCTYPE html>
@@ -101,6 +87,15 @@
 	</head>
 	
 	<body>
+		<div>
+			<a href="Login.php">Se connecter</a>
+			<a href="Logout.php">Se déconnecter</a>
+			<a href="Register.php">Créer un compte</a>
+			<a href="CreerEquipe.php">Créer une équipe</a>
+			<a href="Preinscription.php">Pré-inscrire une équipe</a>
+			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+		</div>
+		
 		<form action="Preinscription.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Pré-inscripition</p>

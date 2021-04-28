@@ -20,17 +20,41 @@
 	if(!estGestionnaire($ut->getIdUtilisateur()))
 	{
 		trigger_error("Vous n'êtes pas un gestionnaire de tournoi.");
-		header('Location: index.php');
-		exit();
+		/*header('Location: index.php');
+		exit();*/
 	}
 	
 	$gestionnaire = getGestionnaire($ut->getIdUtilisateur());
 	$br = "<br />";
-	echo $gestionnaire->toString();
-	echo $br;
+	/*echo $gestionnaire->toString();
+	echo $br;*/
 	
-	$tournoi = getTournoiWithIdGestionnaire($gestionnaire->getIdUtilisateur());
-	echo $tournoi->toString();
+	if(!isset($_SESSION["idTournoi"]))
+	{
+		trigger_error("ERREUR : Vous n'avez choisi aucun tournoi !");
+		/*header('Location: index.php');
+		exit();*/
+	}
+	
+	$idTournoi = ((int)strval($_SESSION["idTournoi"]));
+	
+	if(!estTournoi($idTournoi))
+	{
+		trigger_error("ERREUR : Le tournoi sélectionné est invalide !");
+		header('Location: index.php');
+		exit();
+	}
+	
+	$tournoi = getTournoi($idTournoi);
+	//echo $tournoi->toString();
+	
+	if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
+	{
+		trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
+		header('Location: index.php');
+		exit();
+	}
+	
 	$tabEquipeTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	
 	if(sizeof($tabEquipeTournoi) == 0)
@@ -43,14 +67,14 @@
 	
 	$nomTournoi = $tournoi->getNom();
 	
-	
-	$enTeteTableau = "<table>
+	$enTeteTableau = "<table class=\"tableauClassique\">
 	<thead>
 		<tr>
 			<th>Nom du tournoi</th>
 			<th>Nom de l'équipe</th>
 			<th>Inscrire</th>
 			<th>Retirer</th>
+			<th>Inscription validée ?</th>
 		</tr>
 	</thead>
 	
@@ -62,10 +86,12 @@
 	{
 		$nomEquipe = $tabEquipes[$i]->getNomEquipe();
 		$idEquipe = $tabEquipes[$i]->getIdEquipe();
+		$equipeEstInscrite = $tabEquipeTournoi[$i]->getEstInscrite();
+		$insValTxt = (($equipeEstInscrite) ? "Oui" : "Non");
 		
-		echo $nomEquipe;
+		/*echo $nomEquipe;
 		echo $br;
-		echo $idEquipe;
+		echo $idEquipe;*/
 		
 		$corpsTableau = $corpsTableau
 						."<tr>
@@ -77,6 +103,7 @@
 							<td>
 								<input type=\"radio\" name=\"Ins$idEquipe\" id=\"Ret$idEquipe\" class=\"choixRetirer\" value=\"Ret$idEquipe\" onclick=\"document.getElementById('Ins$idEquipe').checked = false\">
 							</td>
+							<td>$insValTxt</td>
 						</tr>";
 	}
 	
@@ -90,19 +117,31 @@
 		$inscriptionsEffectuees = true;
 		$retraitsEffectues = true;
 		
+		$tabTemp = array();
+		
 		for($i=0;$i<sizeof($tabEquipes);++$i)
 		{
 			$idEquipe = $tabEquipes[$i]->getIdEquipe();
 			
-			if($_POST["Ins$idEquipe"] === "")
+			$tabTemp["Ins$idEquipe"] = $_POST["Ins$idEquipe"];
+		}
+		
+		for($i=0;$i<sizeof($tabEquipes);++$i)
+		{
+			$idEquipe = $tabEquipes[$i]->getIdEquipe();
+			
+			if($tabTemp["Ins$idEquipe"] === "")
 					trigger_error("ERREUR : Veuillez choisir une option valide !");
-			
-			$inscriptionValidee = ($_POST["Ins$idEquipe"] === "Ins$idEquipe");
-			
-			if($inscriptionValidee)
-				$inscriptionsEffectuees = (($inscriptionsEffectuees) && (modifierEquipeTournoi($idEquipe, $tournoi->getIdTournoi(), true)));
 			else
-				$retraitsEffectues = (($retraitsEffectues) && (supprimerEquipeTournoi($idEquipe, $tournoi->getIdTournoi())));
+			{
+				$inscriptionValidee = ($tabTemp["Ins$idEquipe"] === "Ins$idEquipe");
+				$inscriptionInvalidee = ($tabTemp["Ins$idEquipe"] === "Ret$idEquipe");
+				
+				if($inscriptionValidee)
+					$inscriptionsEffectuees = (($inscriptionsEffectuees) && (modifierEquipeTournoi($idEquipe, $tournoi->getIdTournoi(), true)));
+				else if($inscriptionInvalidee)
+					$retraitsEffectues = (($retraitsEffectues) && (supprimerEquipeTournoi($idEquipe, $tournoi->getIdTournoi())));
+			}
 		}
 		
 		$verif = (($inscriptionsEffectuees) && ($retraitsEffectues));
@@ -111,6 +150,8 @@
 			trigger_error("ERREUR : La modification des inscriptions a subi des erreurs.");
 		else
 		{
+			unset($_SESSION["idTournoi"]);
+			
 			header('Location: ../php/resInscription.php');
 			exit();
 		}
@@ -129,9 +170,18 @@
 	</head>
 	
 	<body>
+		<div>
+			<a href="Login.php">Se connecter</a>
+			<a href="Logout.php">Se déconnecter</a>
+			<a href="Register.php">Créer un compte</a>
+			<a href="CreerEquipe.php">Créer une équipe</a>
+			<a href="Preinscription.php">Pré-inscrire une équipe</a>
+			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+		</div>
+		
 		<form action="Inscription.php" method="POST" onreset="return vider();" class="container">
 			<h1>
-				<p style="text-align: center;">Inscripition</p>
+				<p style="text-align: center;">Inscription</p>
 			</h1>
 			
 			<p style="text-align: center;">Sélectionnez les équipes à inscrire ou à retirer du tournoi.</p>

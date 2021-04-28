@@ -79,3 +79,12 @@ hr {
 #OptJoueur {
 	display: none;
 }
+
+.tableauClassique, th, td {
+	border: 1px solid black;
+}
+
+.tableauClassique {
+	width: 100%;
+	border-collapse: collapse;
+}

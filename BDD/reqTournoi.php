@@ -106,7 +106,7 @@
 		return new Tournoi($idTournoi, $nom, $dateDeb, $duree, $gest->getIdGestionnaire(), $lieu, $nombreTotalEquipes);
 	}
 	
-	function getTournoiWithIdGestionnaire(string $id)
+	function getTournoiWithIdGestionnaire(string $id, int $indexTournoi)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -143,7 +143,50 @@
 			array_push($tabTournois, getTournoi($obj->idTournoi));
 		}
 		
-		return $tabTournois[0];
+		if(($indexTournoi < 0) || ($indexTournoi >= sizeof($tabTournois)))
+			return NULL;
+		
+		return $tabTournois[$indexTournoi];
+	}
+	
+	function getAllTournoiWithIdGestionnaire(string $id)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM Tournoi WHERE idGestionnaire = \"$id\";";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$res->fetch_assoc();
+		$nbTournois = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabTournois = array();
+		
+		if($nbTournois == 0)
+			return NULL;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabTournois, getTournoi($obj->idTournoi));
+		}
+		
+		return $tabTournois;
 	}
 	
 	function getAllTournoi()

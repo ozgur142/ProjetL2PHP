@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS Utilisateur
 	idUtilisateur INTEGER NOT NULL PRIMARY KEY,
 	nom VARCHAR(25) NOT NULL,
 	prenom VARCHAR(25) NOT NULL,
-	email VARCHAR(200) NOT NULL,
+	email VARCHAR(200) NOT NULL UNIQUE,
 	motDePasse VARCHAR(64) NOT NULL, -- Un VARCHAR de longueur 64 pour contenir un mot de passe hashé avec l'algorithme SHA-256.
 	role ENUM('Utilisateur', 'Administrateur') NOT NULL
 ) DEFAULT CHARSET=utf8;
@@ -90,42 +90,51 @@ CREATE TABLE IF NOT EXISTS Preinscription
 	CONSTRAINT FK_Preinscription_Tournoi FOREIGN KEY (idTournoi) REFERENCES Tournoi(idTournoi) ON UPDATE CASCADE ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8;
 
-INSERT INTO Utilisateur VALUES(0, "ADMIN", "Admin", "admin@test.com", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "Administrateur"), -- Mot de passe : admin
-(1, "DUJARDIN", "Jean", "JeanDujardin@test.com", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "Utilisateur"); -- Mot de passe : jean
+INSERT INTO Utilisateur VALUES(1, "ADMIN", "Admin", "admin@test.com", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "Administrateur"), -- Mot de passe : admin
+(2, "DUJARDIN", "Jean", "JeanDujardin@test.com", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "Utilisateur"); -- Mot de passe : jean
 
-INSERT INTO Gestionnaire VALUES(1);
+INSERT INTO Gestionnaire VALUES(2);
 
-INSERT INTO Tournoi VALUES(0, "Tournoi Tampon", "2021-04-08", "30", 1, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(1, "Championnat du vin", "2021-04-08", "30", 1, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(2, "Tournoi des saucissons", "2021-04-08", "30", 1, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(3, "Compétition de la vodka", "2021-04-08", "30", 1, "Montpellier", 4);
+INSERT INTO Tournoi VALUES(1, "Tournoi Tampon", "2021-04-08", "30", 2, "Montpellier", 4);
+INSERT INTO Tournoi VALUES(2, "Championnat du vin", "2021-04-08", "30", 2, "Montpellier", 4);
+INSERT INTO Tournoi VALUES(3, "Tournoi des saucissons", "2021-04-08", "30", 2, "Montpellier", 4);
+INSERT INTO Tournoi VALUES(4, "Compétition de la vodka", "2021-04-08", "30", 2, "Montpellier", 4);
 
-INSERT INTO Utilisateur VALUES(2, "Machin", "Truc", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(3, "Jean", "Dupont", "J@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(4, "Henri", "Guibet", "H@G.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(5, "Louis", "De Funès", "L@F.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(6, "Jean", "Gabin", "J@G.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(7, "Robert", "Redford", "R@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(8, "Lino", "Ventura", "L@V.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(9, "Francis", "Blanche", "F@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(10, "Venantino", "Venantini", "V@V.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(11, "Jean", "Lefevre", "J@L.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(12, "Bernard", "Blier", "B@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
-(13, "Line", "Renaud", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur");
+INSERT INTO Utilisateur VALUES(3, "Machin", "Truc", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(4, "Jean", "Dupont", "J@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(5, "Henri", "Guibet", "H@G.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(6, "Louis", "De Funès", "L@F.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(7, "Jean", "Gabin", "J@G.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(8, "Robert", "Redford", "R@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(9, "Lino", "Ventura", "L@V.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(10, "Francis", "Blanche", "F@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(11, "Venantino", "Venantini", "V@V.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(12, "Jean", "Lefevre", "J@L.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(13, "Bernard", "Blier", "B@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(14, "Line", "Renaud", "L@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(15, "Jean-Pierre", "Marielle", "JP@M.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(16, "Jean", "Rochefort", "J@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(17, "Jean-Pierre", "Belmondo", "JP@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(18, "Philippe", "Noiret", "P@N.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(19, "Claude", "Rich", "C@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(20, "Guy", "Bedos", "G@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(21, "Claude", "Brasseur", "C@B.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(22, "Pierre", "Richard", "P@R.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
+(23, "Mireille", "Darc", "M@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur");
 -- Mot de passes des comptes 1 à 12 : unMotDePasse
 
-INSERT INTO Equipe VALUES(0, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04"),
-(1, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04"),
-(2, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04"),
-(3, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04"),
-(4, "Équipe 5", 0, "Une adresse 5", "04-06-04-06-04");
+INSERT INTO Equipe VALUES(1, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04"),
+(2, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04"),
+(3, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04"),
+(4, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04"),
+(5, "Équipe 5", 0, "Une adresse 5", "04-06-04-06-04");
 
-INSERT INTO Joueur VALUES(2, 0, true),
-(3, 0, false),
-(4, 0, false),
-(5, 1, true),
-(6, 1, false),
-(7, 1, false),
+INSERT INTO Joueur VALUES(2, 1, true),
+(3, 1, false),
+(4, 1, false),
+(5, 2, true),
+(6, 2, false),
+(7, 2, false),
 (8, 3, true),
 (9, 3, false),
 (10, 3, false),

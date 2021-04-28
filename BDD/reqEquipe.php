@@ -13,7 +13,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$idE = lineCount("Equipe") + 1;
+		$idE = chooseIntegerIdSequential("Equipe", "idEquipe");
 		
 		$requete = "INSERT INTO Equipe VALUES($idE, '$nomEquipe', 0, '$adresse', '$numTel');";
 		
@@ -139,7 +139,7 @@
 		include('DataBaseLogin.inc.php');
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
-	
+		
 		if($connexion->connect_error)
 		{
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);

@@ -13,7 +13,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$idU = lineCount("Utilisateur") + 1;
+		$idU = chooseIntegerIdSequential("Utilisateur", "idUtilisateur");
 		
 		if(strcmp($mdp, $confirmation) != 0)
 			trigger_error("Le mot de passe et la confirmation ne correspondent pas.");
@@ -190,5 +190,52 @@
 			return NULL;
 		
 		return new Utilisateur($idUtilisateur, $nom, $prenom, $email, $motDePasse, $role);
+	}
+	
+	function getAllSimpleUtilisateur()
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT *
+		FROM Utilisateur
+		WHERE idUtilisateur NOT IN (
+			SELECT idGestionnaire
+			FROM Gestionnaire)
+		AND idUtilisateur NOT IN (
+			SELECT idJoueur
+			FROM Joueur);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$res->fetch_assoc();
+		$nbUtilisateurs = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabUtilisateurs = array();
+		
+		if($nbUtilisateurs == 0)
+			return $tabUtilisateurs;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabUtilisateurs, getUtilisateur($obj->idUtilisateur));
+		}
+		
+		return $tabUtilisateurs;
 	}
 ?>

@@ -8,6 +8,9 @@
 		if(!isset($_SESSION['login']))
 		{
 			trigger_error("Vous n'êtes pas connecté !");
+			
+			header('Location: Login.php');
+			exit();
 		}
 		
 		if(!verifLoginMdp(strval($_SESSION['login']), strval($_SESSION['motDePasse'])))

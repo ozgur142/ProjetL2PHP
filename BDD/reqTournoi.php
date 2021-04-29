@@ -81,6 +81,7 @@
 			return false;
 		}
 		
+		$objTemp = $res->fetch_object();
 		$idTournoi = strval($objTemp->idTournoi);
 		
 		$connexion->close();

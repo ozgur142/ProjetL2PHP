@@ -37,10 +37,10 @@
 						<label for=\"ChoixEstCapitaine\">Êtes-vous le capitaine de l'équipe ?</label>
 						<div id=\"ChoixEstCapitaine\">
 							<label for=\"EstCapitaine\">Oui</label>
-							<input type=\"radio\" name=\"EstCapitaine\" id=\"EstCapitaine\" value=\"EstCapitaine\">
+							<input type=\"radio\" name=\"EstCapitaine\" id=\"EstCapitaine\" value=\"EstCapitaine\" onclick=\"document.getElementById('NEstPasCapitaine').checked = false\">
 							
 							<label for=\"NEstPasCapitaine\">Non</label>
-							<input type=\"radio\" name=\"NEstPasCapitaine[]\" id=\"NEstPasCapitaine\" value=\"NEstPasCapitaine\">
+							<input type=\"radio\" name=\"NEstPasCapitaine[]\" id=\"NEstPasCapitaine\" value=\"NEstPasCapitaine\" onclick=\"document.getElementById('EstCapitaine').checked = false\">
 						</div>
 					</div>";
 	
@@ -52,12 +52,6 @@
 	{
 		$idEquipeTemp = strval($tabEquipes[$i]->getIdEquipe());
 		$nomEquipeTemp = strval($tabEquipes[$i]->getNomEquipe());
-		
-		$p = "<p style=\"color: white;\">";
-		$br = "<br />";
-		$sp = "</p>";
-		
-		echo $p.$idEquipeTemp." ".$nomEquipeTemp.$br.$sp;
 		
 		$champChoixEquipe = $champChoixEquipe."<option value=\"$idEquipeTemp\">$nomEquipeTemp</option>";
 	}

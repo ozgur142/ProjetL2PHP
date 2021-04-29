@@ -38,7 +38,7 @@
 		$nomUtilisateurTemp = strval($tabUtilisateurs[$i]->getNom());
 		$prenomUtilisateurTemp = strval($tabUtilisateurs[$i]->getPrenom());
 		
-		$champChoixGestionnaire = $champChoixGestionnaire."<option value=\"$idUtilisateurTemp\">$nomUtilisateurTemp $prenomUtilisateurTemp</option>";
+		$champChoixGestionnaire = $champChoixGestionnaire."<option value=\"$idUtilisateurTemp\">$idUtilisateurTemp - $nomUtilisateurTemp $prenomUtilisateurTemp</option>";
 	}
 	
 	$champChoixGestionnaire = $champChoixGestionnaire."</select>

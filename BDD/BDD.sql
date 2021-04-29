@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS Type
 CREATE TABLE IF NOT EXISTS Equipe
 (
 	idEquipe INTEGER NOT NULL PRIMARY KEY,
-	nomEquipe VARCHAR(25) NOT NULL,
+	nomEquipe VARCHAR(25) NOT NULL UNIQUE,
 	niveau INTEGER DEFAULT 0,
-	adresse VARCHAR(50) NOT NULL,
-	numTel VARCHAR(15) NOT NULL
+	adresse VARCHAR(50) NOT NULL UNIQUE,
+	numTel VARCHAR(15) NOT NULL UNIQUE
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS EquipeTournoi
@@ -123,11 +123,11 @@ INSERT INTO Utilisateur VALUES(3, "Machin", "Truc", "M@T.com", "74913f96f46a1399
 (23, "Mireille", "Darc", "M@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur");
 -- Mot de passes des comptes 1 à 12 : unMotDePasse
 
-INSERT INTO Equipe VALUES(1, "Équipe 1", 0, "Une adresse 1", "04-06-04-06-04"),
-(2, "Équipe 2", 0, "Une adresse 2", "04-06-04-06-04"),
-(3, "Équipe 3", 0, "Une adresse 3", "04-06-04-06-04"),
-(4, "Équipe 4", 0, "Une adresse 4", "04-06-04-06-04"),
-(5, "Équipe 5", 0, "Une adresse 5", "04-06-04-06-04");
+INSERT INTO Equipe VALUES(1, "Équipe 1", 0, "Une adresse 1", "01-02-01-02-01"),
+(2, "Équipe 2", 0, "Une adresse 2", "02-03-02-03-02"),
+(3, "Équipe 3", 0, "Une adresse 3", "03-04-03-04-03"),
+(4, "Équipe 4", 0, "Une adresse 4", "04-05-04-05-04"),
+(5, "Équipe 5", 0, "Une adresse 5", "05-06-05-06-05");
 
 INSERT INTO Joueur VALUES(2, 1, true),
 (3, 1, false),

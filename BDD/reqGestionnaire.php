@@ -52,6 +52,7 @@
 			return false;
 		}
 		
+		$objTemp = $res->fetch_object();
 		$idGestionnaire = strval($objTemp->idGestionnaire);
 		
 		$connexion->close();
@@ -84,6 +85,7 @@
 			return NULL;
 		}
 		
+		$objTemp = $res->fetch_object();
 		$idGestionnaire = strval($objTemp->idGestionnaire);
 		
 		$connexion->close();

@@ -93,8 +93,6 @@
 			return NULL;
 		}
 		
-	
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
 		$idJoueur = strval($objTemp->idJoueur);
 		$idEquipe = strval($objTemp->idEquipe);

@@ -67,8 +67,8 @@
 			return false;
 		}
 		
-		$res->data_seek(0);
-		$verif = $res->fetch_assoc()["idUtilisateur"];
+		$objTemp = $res->fetch_object();
+		$verif = strval($objTemp->idUtilisateur);
 		
 		$connexion->close();
 		
@@ -103,8 +103,8 @@
 			return false;
 		}
 		
-		$res->data_seek(0);
-		$verif = $res->fetch_assoc()["idUtilisateur"];
+		$objTemp = $res->fetch_object();
+		$verif = strval($objTemp->idUtilisateur);
 		
 		$connexion->close();
 		
@@ -136,7 +136,6 @@
 			return NULL;
 		}
 		
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
 		$idUtilisateur = strval($objTemp->idUtilisateur);
 		$nom = strval($objTemp->nom);
@@ -175,7 +174,6 @@
 			return NULL;
 		}
 		
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
 		$idUtilisateur = strval($objTemp->idUtilisateur);
 		$nom = strval($objTemp->nom);
@@ -221,7 +219,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbUtilisateurs = $res->num_rows;
 		
 		$connexion->close();

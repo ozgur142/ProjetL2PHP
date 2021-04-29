@@ -12,7 +12,7 @@
 		if(verifLoginMdp(strval($_SESSION['login']), strval($_SESSION['motDePasse'])))
 		{
 			$ut = getUtilisateurWithEmail($_SESSION['login']);
-			//$estConnecte = true;
+			$estConnecte = true;
 			$estAdministrateur = ($ut->getRole() === "Administrateur");
 		}
 	}
@@ -47,20 +47,34 @@
 			?>
 			
 			<div class="topnav-right">
-				<a href="php/Login.php">Connexion</a>
-				<a href="php/Logout.php">Déconnexion</a>
+				<?php
+					$co = "<a href=\"php/Login.php\">Connexion</a>";
+					$deco = "<a href=\"php/Logout.php\">Déconnexion</a>";
+					
+					echo (($estConnecte) ? $deco : $co);
+				?>
 			</div>
 		</div>
 		<div class="cadre">
 			<h1>
 				Bienvenue sur ce site de Tournois sportifs
 			</h1>
-			<p>
-				- Pas de compte ? Inscrivez-vous dès maintenant -
-			</p>
-		</div>  
-		<div class="inscription">
-			<a href="php/Register.php">INSCRIPTION</a>   
+			<?php
+				$propIns = "<p>
+					- Pas de compte ? Inscrivez-vous dès maintenant -
+				</p>";
+				
+				if(!$estConnecte)
+					echo $propIns;
+			?>
 		</div>
+		<?php
+			$lienIns = "<div class=\"inscription\">
+				<a href=\"php/Register.php\">INSCRIPTION</a>   
+			</div>";
+			
+			if(!$estConnecte)
+				echo $lienIns;
+		?>
 	</body>
 </html>

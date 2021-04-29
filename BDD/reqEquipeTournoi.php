@@ -199,7 +199,6 @@
 			return NULL;
 		}
 		
-		//$res->fetch_assoc();
 		$nbEquipeTournoi = $res->num_rows;
 		
 		$connexion->close();
@@ -239,8 +238,7 @@
 			
 			return NULL;
 		}
-
-		$res->fetch_assoc();
+		
 		$nb = $res->num_rows; 
 
 		$connexion->close();	

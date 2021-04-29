@@ -53,6 +53,12 @@
 		$idEquipeTemp = strval($tabEquipes[$i]->getIdEquipe());
 		$nomEquipeTemp = strval($tabEquipes[$i]->getNomEquipe());
 		
+		$p = "<p style=\"color: white;\">";
+		$br = "<br />";
+		$sp = "</p>";
+		
+		echo $p.$idEquipeTemp." ".$nomEquipeTemp.$br.$sp;
+		
 		$champChoixEquipe = $champChoixEquipe."<option value=\"$idEquipeTemp\">$nomEquipeTemp</option>";
 	}
 	

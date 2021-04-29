@@ -84,7 +84,6 @@
 			return NULL;
 		}
 		
-		//$res->data_seek(0);
 		$objTemp = $res->fetch_object();
 		$idEquipe = strval($objTemp->idEquipe);
 		$nomEquipe = strval($objTemp->nomEquipe);
@@ -117,7 +116,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbJoueursEquipe = $res->num_rows;
 		
 		if($nbJoueursEquipe > 0)
@@ -156,7 +154,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbEquipes = $res->num_rows;
 		
 		$connexion->close();

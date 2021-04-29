@@ -81,7 +81,6 @@
 			return false;
 		}
 		
-		$objTemp = $res->fetch_object();
 		$idTournoi = strval($objTemp->idTournoi);
 		
 		$connexion->close();
@@ -155,7 +154,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbTournois = $res->num_rows;
 		
 		$connexion->close();
@@ -198,7 +196,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbTournois = $res->num_rows;
 		
 		$connexion->close();
@@ -238,7 +235,6 @@
 			return NULL;
 		}
 		
-		$res->fetch_assoc();
 		$nbTournois = $res->num_rows;
 		
 		$connexion->close();

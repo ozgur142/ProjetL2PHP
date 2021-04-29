@@ -15,8 +15,6 @@
 		if(!$res)
 			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
 		
-		$row = $res->fetch_assoc();
-		
 		$connexion->close();
 		
 		return $res->num_rows;
@@ -38,7 +36,6 @@
 		if(!$res)
 			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
 		
-		$objTemp = $res->fetch_object();
 		$id = -1;
 		
 		while($obj = $res->fetch_object())
@@ -60,6 +57,8 @@
 		
 		while($lc <= $lid)
 			++$lc;
+		
+		$lc = (($lc === 0) ? 1 : $lc);
 		
 		return $lc;
 	}

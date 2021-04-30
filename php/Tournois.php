@@ -77,6 +77,8 @@
 				<th>Nom</th>
 				<th>Lieu</th>
 				<th>Début</th>
+				<th>Fin</th>
+				<th>Durée</th>
 				<th>Equipes</th>
 				</tr>';
 				for($i=0;$i<sizeof($tabTournois);++$i)
@@ -87,6 +89,8 @@
 						echo '<td>'.$tabTournois[$i]->getNom().'</td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
+						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';
+						echo '<td>'.$tabTournois[$i]->getDuree().' jours</td>';
 						echo '<td>'.$tabTournois[$i]->getNombreTotalEquipes().'</td>';
 					}
 					echo'</tr>';
@@ -105,6 +109,8 @@
 				<th>Nom</th>
 				<th>Lieu</th>
 				<th>Début</th>
+				<th>Fin</th>
+				<th>Durée</th>
 				<th>Equipes restantes</th>
 				</tr>';
 				for($i=0;$i<sizeof($tabTournois);++$i)
@@ -112,12 +118,23 @@
 					echo'<tr>';
 					if($tabTournois[$i]->aVenir())
 					{
+						$k=0;
+						$nbe = $tabTournois[$i]->getNombreTotalEquipes();
+						$id = $tabTournois[$i]->getIdTournoi();
+						$tabEquipes = getEquipeTournoiWithIdTournoi($id);
+						if(sizeof($tabEquipes)>0)
+						{
+							for($j=0;$j<sizeof($tabEquipes);++$j)
+								if($tabEquipes[$j]->getEstInscrite())
+									++$k;	
+						}
 						$nbPlaces = $tabTournois[$i]->getNombreTotalEquipes();
-						$nbInscrits = getNbEquipesTournoiWithId($tabTournois[$i]->getIdTournoi()) ;
 						echo '<td>'.$tabTournois[$i]->getNom().'</td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
-						echo '<td>'.($nbPlaces-$nbInscrits).'/'.$nbPlaces.'</td>';
+						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';
+						echo '<td>'.$tabTournois[$i]->getDuree().' jours</td>';
+						echo '<td>'.($nbPlaces-$k).'/'.$nbPlaces.'</td>';
 					}
 					echo'</tr>';
 				}

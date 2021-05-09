@@ -41,7 +41,7 @@
 	if(!estTournoi($idTournoi))
 	{
 		trigger_error("ERREUR : Le tournoi sélectionné est invalide !");
-		header('Location: index.php');
+		header('Location: ../index.php');
 		exit();
 	}
 	
@@ -51,7 +51,7 @@
 	if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
 	{
 		trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
-		header('Location: index.php');
+		header('Location: ../index.php');
 		exit();
 	}
 	

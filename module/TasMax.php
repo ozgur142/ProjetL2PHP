@@ -56,12 +56,36 @@
 			}
 		}
 
+		public function getEquipesTour(){
+			$i = $this->m_nbCases - 1;
+			
+			while(($i > 0) && ($this->m_tas[(($i / 2) - 1)] != null))
+			{
+				$i = $i - 2;
+			}
+			$deb = $i ;
+			$fin = $deb/2 - 1;
+			$nbe = $deb-$fin ;
+			$tabEquipes = array();
+			for($k=0;$k<($nbe);++$k)
+			{
+				array_push($tabEquipes,$this->m_tas[$nbe-$k+2]);
+				
+
+			}
+
+			return $tabEquipes ;
+
+		}
+
 		//Créer fonction rentrer 2e tour
 
 		//Faire en 3 phases.
 		//1) Génère match
 		//2) jouer match
 		//3) Avancer équipe
+
+		//tester si le score est différent de 0
 
 		public function genereMatchs()
 		{

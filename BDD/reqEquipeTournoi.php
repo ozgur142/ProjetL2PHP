@@ -1,6 +1,7 @@
 <?php
 	include_once('reqEquipe.php');
 	include_once('reqTournoi.php');
+	include_once('reqEquipeTournoi.php');
 	include_once('../module/EquipeTournoi.php');
 	include_once('../module/FctGenerales.php');
 	
@@ -238,11 +239,53 @@
 			
 			return NULL;
 		}
-		
+
 		$nb = $res->num_rows; 
 
 		$connexion->close();	
 		
 		return $nb;
 	}
+
+	function melanger(int $idTournoi)
+	{
+
+		$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($idTournoi);
+		if(sizeof($tabEquipesTournoi)>0)
+		{
+			$nbEquipes = getNbEquipesTournoiWithId($idTournoi);
+			$tab = array($nbEquipes) ;
+			$random = rand(0,$nbEquipes-1);
+			$debut = $random + 1;
+			$fin = $random ;
+
+			if($random == $nbEquipes-1)
+			{
+				--$debut;
+				--$fin;
+			}
+
+			for($i=0;$i<$nbEquipes;$i=$i+2)
+			{
+				$tab[$i] = $tabEquipesTournoi[$debut]->getIdEquipe();
+				$tab[$i+1] = $tabEquipesTournoi[$fin]->getIdEquipe();
+						
+				if($debut == ($nbEquipes - 1))
+					$debut=0;
+				else
+					$debut=$debut+1;
+
+				if($fin == 0)
+					$fin = $nbEquipes - 1;
+				else
+					$fin = $fin - 1;
+			}
+
+			return $tab ;
+		}
+		else
+			return null;
+	}
+	
+
 ?>

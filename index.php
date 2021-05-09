@@ -37,6 +37,7 @@
 			<a href="php/CreerEquipe.php">Créer équipe</a>
 			<a href="php/ChoixInscription.php">Inscription</a>
 			<a href="php/Tests.php">testArbre</a>
+
 			
 			<?php
 				$propCreerGestionnaire = "<a href=\"php/CreerGestionnaire.php\">Créer un gestionnaire de tournoi</a>";

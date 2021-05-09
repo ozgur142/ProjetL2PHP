@@ -1,0 +1,155 @@
+* {box-sizing: border-box}
+
+body {
+  background-image:url(../img/blur2.jpg);
+  background-size:cover;
+  background-attachment:fixed;
+  margin:0%;
+}
+
+h1 {
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size:75px;
+  margin-top:0;
+  text-align:center;
+}
+
+
+
+.bandeau-haut{
+  width:100%;
+  height:70px;
+  background-color:#e6e6e6;
+  margin-top:0;
+}
+hr {
+  border:6px solid #800000;
+}
+
+.container-main1 {
+  margin-top:50px;
+}
+
+#tab {
+  border:2px solid black ; 
+  margin:auto;
+  margin-bottom:50px;
+  position:relative;
+  width:60%;
+  background-color:#333333;
+}
+
+#tab table{
+  width:100%;
+}
+
+#tab tr, #tab th, #tab td, #tab table {
+    border-collapse: collapse;
+    border:2px solid white ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:white;
+    text-align:center;
+    
+}
+
+#tab th, #tab td {
+  width:50%;
+}
+
+
+.container-main2 {
+  margin:auto;
+  margin-top:70px;
+  width:90%;
+  height:;
+  background-color:#e6e6e6;
+  border:5px solid #800000;
+}
+
+
+#tab1 {
+  border:; 
+  margin:auto;
+  margin-top:;
+  position:relative;
+  width:100%;
+  border:;
+}
+
+#tab1 table{
+  width:100%;
+}
+
+#tab1 tr, #tab1 th, #tab1 td, #tab1 table {
+    border-collapse: collapse;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:black;
+    text-align:center;
+    border:1px solid black;
+}
+
+#tab1 th, #tab1 td {
+  width:20%;
+}
+
+button {
+  background-color: #0d0d0d;
+  color: white;
+  padding: 16px 20px;
+  opacity: 0.9;
+  border-radius:5px;
+  width:50%;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity:1;
+  color:red;
+}
+
+
+#btn1, #btn2 {
+  border:1px solid white;
+  width:100%;
+  margin:auto;
+}
+
+.bouton {
+  position:relative;
+  margin:auto;
+  width:60%;
+}
+
+#tabDates {
+  border:2px solid black ; 
+  margin:auto;
+  margin-top:;
+  position:relative;
+  width:90%;
+  background-color:#333333;
+}
+
+#tabDates table{
+  width:100%;
+}
+
+#tabDates tr, #tabDates th, #tabDates td, #tabDates table {
+    border-collapse: collapse;
+    border:2px solid white ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:white;
+    text-align:center;
+    
+}
+
+#tabDates th, #tabDates td {
+  width:;
+}
+
+input {
+  width:70%;
+  background-color:#e6e6e6;
+}

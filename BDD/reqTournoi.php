@@ -31,7 +31,7 @@
 		header('Location: ../php/Login.php');
 		exit();
 	}
-	
+	//exactement la même fonction que intertTournoi();
 	function creerTournoi(string $nom, string $dateDeb, int $duree, int $idGestionnaire, string $lieu, int $nombreTotalEquipes)
     {
         include('DataBaseLogin.inc.php');

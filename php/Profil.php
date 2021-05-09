@@ -30,7 +30,6 @@
 	if(isset($_POST['envoiValeurs']) && strval($_POST['idT'])!=null)
 	{   
 		$_SESSION['idT'] = strval($_POST['idT']) ;
-		header('Location: ListeEquipesTournoi.php');
 		
 		
 	}
@@ -229,7 +228,7 @@
 						echo'</div>';
 					}
 				}
-				if($estJoueur)
+				/*if($estJoueur)
 				{
 					$joueur = getJoueur($id);
 					$equipe = getEquipe($joueur->getIdEquipe()) ;
@@ -276,7 +275,7 @@
 					
 
 
-				}
+				}*/
 				
 				?>
 						

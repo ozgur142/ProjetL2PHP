@@ -1,6 +1,27 @@
 <?php
 	include_once('../BDD/reqEquipeTournoi.php');
 	$tabTournois= getAllTournoi();
+	session_start();
+
+	if(isset($_SESSION['login']))
+	{
+		$ut = getUtilisateurWithEmail($_SESSION['login']);
+		$estAdministrateur = ($ut->getRole() === "Administrateur");
+		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+	}
+
+	if($estGestionnaire || $estAdministrateur )
+	{
+		if($_POST && strval($_POST['tournoi'])!=null)
+		{
+			$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
+			header('Location: StatutTournoisAVenir.php');
+		}			
+	}
+
+	$_POST = array();
+		
+	
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +62,8 @@
 				Attention si le gestionnaire est supprimé les tournois associés le sont aussi.
 				Une fois un tournoi terminé créer une gestionnaire reservoir ?
 				*/
-				echo '<table>
+				echo '<form action="StatutTournoiPassés.php" method="get">
+				<table>
 				<tr>
 				<th>Nom</th>
 				<th>Lieu</th>
@@ -55,7 +77,7 @@
 					echo'<tr>';
 					if($tabTournois[$i]->termine())
 					{
-						echo '<td>'.$tabTournois[$i]->getNom().'</td>';
+						echo '<td><button type=submit name="tournoi" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';
@@ -64,7 +86,8 @@
 					}
 					echo'</tr>';
 				}
-				echo'</table>';
+				echo'</table>
+				</form>';
 			?>
 		</div>
 		<div class="cadre">   
@@ -72,7 +95,8 @@
 				<p style="text-align: center;">Tournois en cours</p>
 			</h1>
 			<?php
-				echo '<table>
+				echo '<form action="StatutTournoiEnCours.php" method="POST">
+				<table>
 				<tr>
 				<th>Nom</th>
 				<th>Lieu</th>
@@ -86,7 +110,7 @@
 					echo'<tr>';
 					if($tabTournois[$i]->enCours())
 					{
-						echo '<td>'.$tabTournois[$i]->getNom().'</td>';
+						echo '<td><button type=submit name="tournoi" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';
@@ -95,7 +119,8 @@
 					}
 					echo'</tr>';
 				}
-				echo'</table>';
+				echo'</table>
+				</form>';
 			?>
 		</div>
 
@@ -104,7 +129,8 @@
 				<p style="text-align: center;">Tournois à venir</p>
 			</h1>
 			<?php
-				echo '<table>
+				echo '<form action="Tournois.php" method="post">
+				<table>
 				<tr>
 				<th>Nom</th>
 				<th>Lieu</th>
@@ -129,7 +155,7 @@
 									++$k;	
 						}
 						$nbPlaces = $tabTournois[$i]->getNombreTotalEquipes();
-						echo '<td>'.$tabTournois[$i]->getNom().'</td>';
+						echo '<td><button type=submit name="tournoi" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';
@@ -138,7 +164,8 @@
 					}
 					echo'</tr>';
 				}
-				echo'</table>';
+				echo'</table>
+				</form>';
 			?>
 		</div>
 	</body>

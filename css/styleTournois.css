@@ -9,7 +9,6 @@ body {
 .cadre {
   margin:auto;
   width:80%;
-  margin:auto;
 }
 
 h1 p {
@@ -49,3 +48,17 @@ table,td {
   text-align:center;
   
 }
+
+.btn{
+  border:none;
+  background-color:transparent;
+  color:white;
+  outline:none;
+  display:block;
+  cursor:pointer;
+  margin:auto;
+  text-decoration:underline;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size:20px;
+}
+.btn:hover{color:yellow;}

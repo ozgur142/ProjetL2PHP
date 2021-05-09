@@ -4,11 +4,17 @@
 	class MatchT extends Entite
 	{
 		protected $m_idMatchT;
+		private $m_idTournoi ;
+		private $m_date ;
+		private $m_horaire ;
 		
 		//Constructeur
-		public function __construct(int $id)
+		public function __construct(int $idMatch, int $idTournoi, string $date, string $horaire)
 		{
-			$this->m_idMatchT = $id;
+			$this->m_idMatchT = $idMatch;
+			$this->m_idTournoi = $idTournoi ;
+			$this->m_date = $date ;
+			$this->m_horaire = $horaire ;
 		}
 		
 		//ACESSEURS EN LECTURE
@@ -23,10 +29,47 @@
 			return $this->m_idMatchT;
 		}
 		
-		//ACCESSEURS EN ECRITURE
-		public function setId(int $id)
+		public function getIdTournoi()
+		{
+			return $this->m_idTournoi;
+		}
+
+		public function getDate()
+		{
+			return $this->m_date;
+		}
+
+		public function getHoraire()
+		{
+			return $this->m_horaire;
+		}
+
+
+
+
+
+
+		public function setIdMatchT(int $id)
 		{
 			$this->m_idMatchT = $id;
+		}
+		
+		public function setIdTournoi(int $id)
+		{
+			$this->m_idTournoi = $id;
+		}
+
+		public function setDate(string $date)
+		{
+			$this->m_date = $date;
+		}
+
+		public function setHoraire(string $horaire)
+		{
+			$this->m_horaire = $horaire;
+
+
+
 		}
 		
 		public function toString()

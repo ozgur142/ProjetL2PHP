@@ -95,10 +95,10 @@ INSERT INTO Utilisateur VALUES(1, "ADMIN", "Admin", "admin@test.com", "8c6976e5b
 
 INSERT INTO Gestionnaire VALUES(2);
 
-INSERT INTO Tournoi VALUES(1, "Tournoi Tampon", "2021-04-08", "30", 2, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(2, "Championnat du vin", "2021-04-08", "30", 2, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(3, "Tournoi des saucissons", "2021-04-08", "30", 2, "Montpellier", 4);
-INSERT INTO Tournoi VALUES(4, "Compétition de la vodka", "2021-04-08", "30", 2, "Montpellier", 4);
+INSERT INTO Tournoi VALUES(1, "OPEN TOUR", "2021-05-01", "30", 2, "Montpellier", 8);
+INSERT INTO Tournoi VALUES(2, "Coupe du Monde", "2022-01-01", "30", 2, "Neuilly", 10);
+INSERT INTO Tournoi VALUES(3, "Tournoi International", "2021-04-25", "45", 2, "Paris", 64);
+INSERT INTO Tournoi VALUES(4, "Compétition de la vodka", "2021-04-08", "30", 2, "Nice", 4);
 
 INSERT INTO Utilisateur VALUES(3, "Machin", "Truc", "M@T.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
 (4, "Jean", "Dupont", "J@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur"),
@@ -123,11 +123,11 @@ INSERT INTO Utilisateur VALUES(3, "Machin", "Truc", "M@T.com", "74913f96f46a1399
 (23, "Mireille", "Darc", "M@D.com", "74913f96f46a13995ef292f85deffae7b86a35d5d3180a5581b04b12b7b30245", "Utilisateur");
 -- Mot de passes des comptes 1 à 12 : unMotDePasse
 
-INSERT INTO Equipe VALUES(1, "Équipe 1", 0, "Une adresse 1", "01-02-01-02-01"),
-(2, "Équipe 2", 0, "Une adresse 2", "02-03-02-03-02"),
-(3, "Équipe 3", 0, "Une adresse 3", "03-04-03-04-03"),
-(4, "Équipe 4", 0, "Une adresse 4", "04-05-04-05-04"),
-(5, "Équipe 5", 0, "Une adresse 5", "05-06-05-06-05");
+INSERT INTO Equipe VALUES(1, "PSG", 0, "Une adresse 1", "01-02-01-02-01"),
+(2, "BORDEAUX", 0, "Une adresse 2", "02-03-02-03-02"),
+(3, "MARSEILLE", 0, "Une adresse 3", "03-04-03-04-03"),
+(4, "LYON", 0, "Une adresse 4", "04-05-04-05-04"),
+(5, "ST-ETIENNE", 0, "Une adresse 5", "05-06-05-06-05");
 
 INSERT INTO Joueur VALUES(2, 1, true),
 (3, 1, false),

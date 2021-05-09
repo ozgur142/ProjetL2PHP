@@ -19,9 +19,16 @@
 		}			
 	}
 
+	if($estGestionnaire || $estAdministrateur )
+	{
+		if($_POST && strval($_POST['tournoiEnCours'])!=null)
+		{
+			$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
+			header('Location: StatutTournoiEnCours.php');
+		}			
+	}
 	$_POST = array();
-		
-	
+
 ?>
 
 <!DOCTYPE html>
@@ -51,8 +58,6 @@
 			<?php
 				/*
 				Sur la page Html
-				Rajouter un lien cliquable vers le tournoi relantant des informations.
-				Rajouter le vainqueur pour les tournois passés ?
 				Rajouter Lien vers description de équipes du tournoi, puis composition de chaque équipe ?
 				Rajouter lien vers l'arbre associé des tournois en cours et terminés
 				Creer une page avec un menu déroulant ?
@@ -95,7 +100,7 @@
 				<p style="text-align: center;">Tournois en cours</p>
 			</h1>
 			<?php
-				echo '<form action="StatutTournoiEnCours.php" method="POST">
+				echo '<form action="Tournois.php" method="post">
 				<table>
 				<tr>
 				<th>Nom</th>
@@ -110,7 +115,7 @@
 					echo'<tr>';
 					if($tabTournois[$i]->enCours())
 					{
-						echo '<td><button type=submit name="tournoi" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
+						echo '<td><button type=submit name="tournoiEnCours" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';

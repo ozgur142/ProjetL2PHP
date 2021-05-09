@@ -245,8 +245,6 @@
 		return $tabMatchT;
 	}
 
-	//fonction qui récupère tous les Matchs d'un tournoi en fonction de l'idT
-	//fonction qui récupère tous les matchs d'un tour en fonction de l'idT et du tour
 
 	function getAllEquipesNoMatchT(int $idTournoi)
 	{

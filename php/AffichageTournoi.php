@@ -10,7 +10,13 @@
 	error_reporting(E_ALL);
 
 	session_start();
-	$tournoi = getTournoi(7);
+	
+	if(!isset($_SESSION['tournoiEnCours']))
+	{
+		trigger_error("ERREUR : Aucun tournoi n'a été sélectionné.");
+	}
+	
+	$tournoi = getTournoi($_SESSION['tournoiEnCours']);
 	$id = $tournoi->getIdTournoi();
 
 
@@ -24,7 +30,7 @@
 
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
-	$tabMatchs = getAllEquipeMatchT(7);
+	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiEnCours']);
 	$tasMax->UpdateTabMatchs($tabMatchs);
 
 	$tabMatchBis = $tasMax->getTabMatchs();

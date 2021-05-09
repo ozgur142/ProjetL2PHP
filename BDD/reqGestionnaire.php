@@ -53,6 +53,10 @@
 		}
 		
 		$objTemp = $res->fetch_object();
+		
+		if(!$objTemp)
+			return false;
+		
 		$idGestionnaire = strval($objTemp->idGestionnaire);
 		
 		$connexion->close();

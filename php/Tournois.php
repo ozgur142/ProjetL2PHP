@@ -25,8 +25,18 @@
 		{
 			$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
 			header('Location: StatutTournoiEnCours.php');
-		}			
+		}
 	}
+	else
+	{
+		if($_POST && strval($_POST['tournoiEnCours'])!=null)
+		{
+			$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']);
+			
+			header('Location: AffichageTournoi.php');
+		}
+	}
+	
 	$_POST = array();
 
 ?>

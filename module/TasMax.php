@@ -254,6 +254,24 @@
 			return $tour;
 		}
 		
+		public function tourPassable()
+		{
+			$tc = $this->tourCourant();
+			$nb = ($this->m_nbCases - 1);
+			
+			while(($nb > 0) && ($this->m_tas[(($nb / 2) - 1)] !== null))
+				$nb -= 2;
+			
+			$deb = $nb;
+			$fin = ($deb / 2);
+			$res = true;
+			
+			for($i=$deb;$i>=$fin;--$i)
+				$res = (($res) && ($this->m_tabMatchs[$i] !== null) && ($this->m_tabMatchs[$i]->getScore() > -1));
+			
+			return $res;
+		}
+		
 		//ne pas mélanger les équipes vides
 		
 		public function melangerEquipes()

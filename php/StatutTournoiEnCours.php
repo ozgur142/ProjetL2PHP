@@ -10,6 +10,14 @@
 	error_reporting(E_ALL);
 
 	session_start();
+	
+	if(!isset($_SESSION))
+		trigger_error("Vous n'êtes pas connecté.e !");
+	
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
+	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+	
 	$id = $_SESSION['tournoiEnCours'] ;
 	$tournoi = getTournoi($id);
 
@@ -48,6 +56,17 @@
 			}
 		}
 		unset($_POST);
+	}
+	
+	if($estAdministrateur || $estGestionnaire)
+	{
+		if(isset($_POST) && isset($_POST['TourSuivant']))
+		{
+			if(!$tasMax->tourPassable())
+				trigger_error("Il y a un problème avec le tas max.");
+			
+			$tasMax->prochainTour();
+		}
 	}
 ?>
 
@@ -113,10 +132,18 @@
 			echo'<form action="Tournois.php" method="post">
 			<button type"submit" id="btn1" name="" value="">Liste Tournois</button>
 			</form>';
-
-
-
-
+			
+			echo "<br />";
+			echo "<br />";
+			echo "<br />";
+			
+			if($tasMax->tourPassable())
+			{
+				echo'<form action="StatutTournoiEnCours.php" method="post">
+				<button type"submit" id="btn1" name="TourSuivant" value="">Tour Suivant</button>
+				</form>
+				';
+			}
 		?>
 	</div>
 </body>

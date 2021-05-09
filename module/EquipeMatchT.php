@@ -1,5 +1,6 @@
 <?php
 	include_once('../module/MatchT.php');
+	include_once('../BDD/reqEquipeMatchT.php');
 	
 	class EquipeMatchT extends Entite
 	{
@@ -20,6 +21,11 @@
 			echo"ID équipe : ".$this->m_idEquipe."<br ./>";
 			echo"ID Match : ".$this->m_idMatchT."<br ./>";
 			echo"Score : ".$this->m_score."<br ./>";
+		}
+
+		public function getIdMatchT()
+		{
+			return $this->m_idMatchT;
 		}
 		
 		public function getIdEquipe()
@@ -42,6 +48,7 @@
 		public function setScoreVal($score)
 		{ 
 			$this->m_score = $score ;
+			UpdateScore($this->m_idEquipe, $this->m_idMatchT, $this->m_score);
 		}
 		
 		public function toString()

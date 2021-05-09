@@ -56,6 +56,33 @@
 			}
 		}
 
+		public function afficher()
+		{
+			echo "[";
+			
+			for($i=0;$i<count($this->m_tas);++$i)
+			{
+				if($this->m_tas[$i] === null)
+				{
+					echo "null, ";
+				}
+				else
+				{
+					$nom = $this->m_tas[$i]->getNomEquipe();
+					echo "$nom, ";//.((($i < (count($this->m_tas) - 1)) && (sizeof($this->m_tas) < $this->m_nbCases)) ? ", " : "" );
+				}
+			}
+			
+			for($i=count($this->m_tas);$i<$this->m_nbCases;++$i)
+				echo "null".(($i < ($this->m_nbCases - 1)) ? ", " : "");
+			
+			echo "]";
+			
+			echo "<br />";
+		}
+
+
+
 		public function getEquipesTour(){
 			$i = $this->m_nbCases - 1;
 			
@@ -159,6 +186,31 @@
 				}
 			}
 		}
+
+		//Récupérer EquipeMatchT
+		public function UpdateTabMatchs($tabMatchs)
+		{
+			$i = $this->m_nbCases - 1;
+			while(($i != 0) && ($this->m_tas[(($i / 2) - 1)] != null))
+			{
+				$i = $i - 2;
+			}
+			$deb = $i;
+			$fin = $i / 2;
+
+			for($i=$deb;$i>=$fin;--$i)
+			{
+				$this->m_tabMatchs[$i] = $tabMatchs[($this->m_nbCases-1)-$i] ;
+			}
+		}
+
+
+		public function setScoreTabMatchs(int $score,int $indice)
+		{
+			$this->m_tabMatchs[$indice]->setScoreVal($score);
+		}
+
+
 
 		public function getTabMatchs()
 		{

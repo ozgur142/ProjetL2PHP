@@ -11,7 +11,7 @@
 
 	session_start();
 	
-	if(!isset($_SESSION))
+	if(!isset($_SESSION['login']))
 		trigger_error("Vous n'êtes pas connecté.e !");
 	
 	$ut = getUtilisateurWithEmail($_SESSION['login']);

@@ -16,15 +16,18 @@
 		{
 			$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
 			header('Location: StatutTournoisAVenir.php');
-		}			
-	}
+		}
 
-	if($estGestionnaire || $estAdministrateur )
-	{
 		if($_POST && strval($_POST['tournoiEnCours'])!=null)
 		{
 			$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
 			header('Location: StatutTournoiEnCours.php');
+		}
+
+		if($_POST && strval($_POST['tournoiPasse'])!=null)
+		{
+			$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']);
+			header('Location: statutTournoiPasses.php');
 		}
 	}
 	else
@@ -32,8 +35,13 @@
 		if($_POST && strval($_POST['tournoiEnCours'])!=null)
 		{
 			$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']);
-			
 			header('Location: AffichageTournoi.php');
+		}
+	
+		if($_POST && strval($_POST['tournoiPasse'])!=null)
+		{
+			$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']);
+			header('Location: statutTournoiPasses.php');
 		}
 	}
 	
@@ -77,7 +85,7 @@
 				Attention si le gestionnaire est supprimé les tournois associés le sont aussi.
 				Une fois un tournoi terminé créer une gestionnaire reservoir ?
 				*/
-				echo '<form action="StatutTournoiPassés.php" method="get">
+				echo '<form action="Tournois.php" method="post">
 				<table>
 				<tr>
 				<th>Nom</th>
@@ -92,7 +100,7 @@
 					echo'<tr>';
 					if($tabTournois[$i]->termine())
 					{
-						echo '<td><button type=submit name="tournoi" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
+						echo '<td><button type=submit name="tournoiPasse" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$tabTournois[$i]->getLieu().'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb())).'</td>';
 						echo '<td>'.date("jS F, Y", strtotime($tabTournois[$i]->getDateDeb(). '+'.$tabTournois[$i]->getDuree().' days')).'</td>';

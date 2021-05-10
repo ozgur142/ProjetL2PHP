@@ -11,29 +11,13 @@
 
 	session_start();
 	
-	if(!isset($_SESSION['tournoiEnCours']))
+	if(!isset($_SESSION['tournoiPasse']))
 	{
 		trigger_error("ERREUR : Aucun tournoi n'a été sélectionné.");
 	}
 	
-	$tournoi = getTournoi($_SESSION['tournoiEnCours']);
+	$tournoi = getTournoi($_SESSION['tournoiPasse']);
 	$id = $tournoi->getIdTournoi();
-
-	$retour = "";
-	if(isset($_SESSION['login']))
-	{
-		$ut = getUtilisateurWithEmail($_SESSION['login']);
-		$estAdministrateur = ($ut->getRole() === "Administrateur");
-		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-
-		if($estGestionnaire || $estAdministrateur)
-		{
-			$retour = "<form action=\"StatutTournoiEnCours.php\" method=\"post\">
-			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
-			</form>";
-		}
-
-	}
 	
 
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($id);
@@ -85,7 +69,4 @@
 <form action="Tournois.php" method="post">
 	<button type="submit" id="btn1" name="" value="">Liste Tournois</button>
 </form>
-<?php
-	echo $retour ;
-?>
 </html>

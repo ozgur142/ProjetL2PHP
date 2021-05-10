@@ -22,29 +22,39 @@
 	$tournoi = getTournoi($id);
 
 
-	$tabEquipesTournoi = getAllEquipesWithMatchT($id);
-	$tabEquipes = array();
+	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($id);
+	$tabEquipesMatchsTemp = getAllEquipeMatchT($id);
+
+	$tabEquipesBonSens = array();
+
 	for($i=0;$i<sizeof($tabEquipesTournoi);++$i)
 	{
-		array_push($tabEquipes, getEquipe($tabEquipesTournoi[$i]->getIdEquipe() ));
+		$ide = $tabEquipesMatchsTemp[$i]->getIdEquipe();
+		$tabEquipesBonSens[$i] = getEquipe($ide);
+	}
+
+	$tabEquipes = array();
+	
+	for($i=0;$i<sizeof($tabEquipesBonSens);++$i)
+	{
+		array_push($tabEquipes, getEquipe($tabEquipesBonSens[$i]->getIdEquipe() ));
 	}
 
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
-	$tabMatchs = getAllEquipeMatchT($id);
-	$tasMax->UpdateTabMatchs($tabMatchs);
 
-	$tabMatchBis = $tasMax->getTabMatchs();
+	$tasMax->Update($id);
 
-	$z = sizeof($tabMatchBis)-1;
+	$tabMatchs = $tasMax->getTabMatchs();
 
-	while(($z != 0) && ($tabMatchBis[(($z / 2) - 1)] != null))
+	$z = sizeof($tabMatchs)-1;
+
+	while(($z != 0) && ($tabMatchs[(($z / 2) - 1)] != null))
 	{
 		$z = $z - 2;
 	}
 	$deb = $z;
 	$fin = $z / 2;
-
 
 	if(isset($_POST['setScore']))
 	{
@@ -65,7 +75,7 @@
 			if(!$tasMax->tourPassable())
 				trigger_error("Il y a un problème avec le tas max.");
 			
-			$tasMax->prochainTour();
+			$tasMax->prochainTour($id);
 		}
 	}
 ?>
@@ -88,6 +98,7 @@
 	?>
 	<div class="container-main1">
 		<?php
+		//$tasMax->afficher();
 			echo '<form action="StatutTournoiEnCours.php" method="post">
 			<div id="tab">
 			<table>
@@ -95,25 +106,30 @@
 			<th>Equipes A</th>
 			<th>Equipes B</th>
 			</tr>';
+			if($tabMatchs[1] && $tabMatchs[1]->getScore()!=-1)
+			{
+				$deb=0;
+				$fin=0;
+			}
 			for($i=$deb;$i>$fin;$i = $i - 2)
 			{
-				if($tabMatchBis[$i]->getScore()==-1)
+				if($tabMatchs[$i]->getScore()==-1)
 				{
-					echo'<tr><td>'.getEquipe($tabMatchBis[$i]->getIdEquipe())->getNomEquipe().' (score :<input type="number" name="'.$i.'")</td>';
+					echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.$i.'")</td>';
 
 				}
 				else
 				{
-					echo'<tr><td>'.getEquipe($tabMatchBis[$i]->getIdEquipe())->getNomEquipe().' (score :'.$tabMatchBis[$i]->getScore().')</td>';
+					echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i]->getScore().')</td>';
 				}
 
-				if($tabMatchBis[$i-1]->getScore()==-1)
+				if($tabMatchs[$i-1]->getScore()==-1)
 				{
-					echo'<td>'.getEquipe($tabMatchBis[$i-1]->getIdEquipe())->getNomEquipe().' (score :<input type="number" name="'.($i-1).'")</td></tr>';
+					echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.($i-1).'")</td></tr>';
 				}
 				else
 				{
-					echo'<td>'.getEquipe($tabMatchBis[$i-1]->getIdEquipe())->getNomEquipe().' (score :'.$tabMatchBis[$i-1]->getScore().')</td></tr>';
+					echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i-1]->getScore().')</td></tr>';
 				}
 			}
 			echo '

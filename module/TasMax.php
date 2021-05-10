@@ -154,20 +154,18 @@
 			}
 		}
 
-		public function prochainTour()
+		public function prochainTour(int $idTournoi)
 		{
+			$tabMatchT = getAllMatchTWithNoEquipeMatchT($idTournoi) ;
+			$res = pow(2,$this->nbTours()-$this->tourCourant()) ;
+
 			$i = $this->m_nbCases - 1;
 			
 			while(($i != 0) && ($this->m_tas[(($i / 2) - 1)] != null))
-			{
 				$i = $i - 2;
-			}
-			
+
 			$deb = $i;
 			$fin = $i / 2;
-			
-			if(($fin % 2) == 0)
-				$fin = $fin + 1;
 
 			for($i=$deb;$i>$fin;--$i)
 			{
@@ -185,24 +183,48 @@
 					}
 				}
 			}
-		}
+			$i = $fin - 1 ;
 
-		//Récupérer EquipeMatchT
-		public function UpdateTabMatchs($tabMatchs)
-		{
-			$i = $this->m_nbCases - 1;
-			while(($i != 0) && ($this->m_tas[(($i / 2) - 1)] != null))
+			while(($i>0) && ($this->m_tas[(($i / 2) - 1)] != null))
 			{
 				$i = $i - 2;
 			}
 			$deb = $i;
 			$fin = $i / 2;
 
-			for($i=$deb;$i>=$fin;--$i)
+			$index = 0 ;
+			for($i=$deb;$i>$fin;$i=$i-2)
 			{
-				$this->m_tabMatchs[$i] = $tabMatchs[($this->m_nbCases-1)-$i] ;
+				insertEquipeMatchT($tabMatchT[$index]->getIdMatchT(),$this->m_tas[$i]->getIdEquipe(),$this->m_tas[$i-1]->getIdEquipe());
+				++$index ;
 			}
 		}
+
+		//Récupérer EquipeMatchT
+		public function Update(int $idTournoi)
+		{
+			$tabEquipesMatchT = getAllEquipeMatchT($idTournoi) ;
+			$size = sizeof($tabEquipesMatchT);
+	 		$indice = $this->m_nbCases-1 ;
+
+			for($i=$indice;$i>$indice-$size;--$i)
+			{
+				$this->m_tabMatchs[$i] = $tabEquipesMatchT[$indice-$i] ;
+				$this->m_tas[$i] = getEquipe(($tabEquipesMatchT[$indice-$i]->getIdEquipe())) ;
+			}
+			if($this->m_tabMatchs[1] && $this->m_tabMatchs[1]->getScore()!=-1)
+			{
+				$id = getIdEquipeGagnante($this->m_tabMatchs[1]->getIdMatchT()) ;
+				//echo "ID_MATCH:".$this->m_tabMatchs[1]->getIdMatchT() ;
+				//echo '<br ./>';
+				$eq = getEquipe($id) ;
+				//echo "ID_EQUIPE:".$eq->getIdEquipe();
+				//echo '<br ./>';
+				//echo "NOM_EQUIPE:".$eq->getNomEquipe();
+				$this->m_tas[0] = $eq;
+			}
+		}
+
 
 
 		public function setScoreTabMatchs(int $score,int $indice)
@@ -210,6 +232,25 @@
 			$this->m_tabMatchs[$indice]->setScoreVal($score);
 		}
 
+		public function tourPassable(){
+			$i = $this->m_nbCases - 1;
+			while(($i != 0) && ($this->m_tas[(($i / 2) - 1)] != null))
+			{
+				$i = $i - 2;
+			}
+			$deb = $i;
+			$fin = $i / 2;
+			$test = true ;
+			if($fin==0)
+				++$fin;
+
+			for($i=$deb;$i>=$fin;--$i)
+			{
+					if($this->m_tabMatchs[$i] && $this->m_tabMatchs[$i]->getScore()==-1)
+						$test=false;
+			}
+			return $test;
+		}
 
 
 		public function getTabMatchs()
@@ -239,6 +280,14 @@
 			
 			return $i;
 		}
+
+		//8 equipes
+		//nbTours = 3
+		//TourCourant = 1
+		// 2 = 2^($nbTours-TourCourant+1)
+		//1 =
+
+
 		
 		public function tourCourant()
 		{
@@ -246,30 +295,12 @@
 			$tour = 1 ;
 			$fin = (($this->m_nbCases - 1) / 2);
 			
-			while($this->m_tas[($fin - 1)] != null)
+			while(($fin>0) && $this->m_tas[($fin - 1)] != null)
 			{
 				$tour = $tour + 1;
 				$fin = $fin/2 - 1;
 			}
 			return $tour;
-		}
-		
-		public function tourPassable()
-		{
-			$tc = $this->tourCourant();
-			$nb = ($this->m_nbCases - 1);
-			
-			while(($nb > 0) && ($this->m_tas[(($nb / 2) - 1)] !== null))
-				$nb -= 2;
-			
-			$deb = $nb;
-			$fin = ($deb / 2);
-			$res = true;
-			
-			for($i=$deb;$i>=$fin;--$i)
-				$res = (($res) && ($this->m_tabMatchs[$i] !== null) && ($this->m_tabMatchs[$i]->getScore() > -1));
-			
-			return $res;
 		}
 		
 		//ne pas mélanger les équipes vides

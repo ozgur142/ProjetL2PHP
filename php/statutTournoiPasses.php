@@ -9,6 +9,10 @@
 	ini_set('display_startup_errors',1);
 	error_reporting(E_ALL);
 
+	//echo $_SESSION['tournoiPasse'];
+	//echo $_SESSION['tournoiEnCours'];
+	//echo $_SESSION['tournoi'];
+
 	session_start();
 	
 	if(!isset($_SESSION['tournoiPasse']))
@@ -40,7 +44,7 @@
 
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
-	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiEnCours']);
+	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiPasse']);
 	$tasMax->Update($id);
 
 	$tabMatchs = $tasMax->getTabMatchs();
@@ -61,7 +65,14 @@
 	<link rel="stylesheet" type="text/css" href="../css/Arbre.css" />
 	<title> Statut </title>
 </head>
-<body style="background-color:white">
+<body>
+	<div class="bandeau-haut">
+		<?php 
+			echo'<h1>'.$tournoi->getNom().'</h1>';
+		?>
+	</div>
+	<hr>
+	<hr>
 	<?php
 		$tasMax->afficherArbre();	
 	?>

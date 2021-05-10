@@ -10,7 +10,7 @@
 		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
 	}
 
-	if($estGestionnaire || $estAdministrateur )
+	if($estGestionnaire || $estAdministrateur)
 	{
 		if($_POST && strval($_POST['tournoi'])!=null)
 		{

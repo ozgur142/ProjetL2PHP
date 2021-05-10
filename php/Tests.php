@@ -37,8 +37,8 @@
 	$e15 = new Equipe(14, "liverpool", 0, "Une adresse 3", "04-06-04-06-04", $tabE3);
 	$e16 = new Equipe(15, "monaco", 0, "Une adresse 4", "04-06-04-06-04", $tabE4);
 
-	$tableau = array($e1, $e2, $e3, $e4,$e5, $e6, $e7, $e8, $e9, $e10, $e11, $e12, $e13, $e14, $e15);
-	$tasTest = new TasMax(15);
+	$tableau = array($e1, $e2, $e3, $e4,$e5, $e6, $e7, $e8, $e9, $e10, $e11, $e12, $e13, $e14, $e15, $e16, $e1, $e2, $e3, $e4,$e5, $e6, $e7, $e8, $e9, $e10, $e11, $e12, $e13, $e14, $e15, $e16);
+	$tasTest = new TasMax(32);
 	
 	$tasTest->insererAuxFeuilles($tableau);
 

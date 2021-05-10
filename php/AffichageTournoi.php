@@ -77,7 +77,14 @@
 	<link rel="stylesheet" type="text/css" href="../css/Arbre.css" />
 	<title> Statut </title>
 </head>
-<body style="background-color:white">
+<body>
+	<div class="bandeau-haut">
+		<?php 
+			echo'<h1>'.$tournoi->getNom().'</h1>';
+		?>
+	</div>
+	<hr>
+	<hr>
 	<?php
 		$tasMax->afficherArbre();	
 	?>

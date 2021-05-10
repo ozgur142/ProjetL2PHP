@@ -74,8 +74,7 @@
 				}
 				else
 					echo '<p id="maj">'.$ut->getRole().'</p>';
-				if(!isset($_POST['modifier']))
-				{
+			
 					echo 
 					'<div id="section3">
 						<table>
@@ -86,41 +85,7 @@
 								<th style="text-align:left">Mot de passe</th><th>************</th>
 							</tr>
 						</table>
-						<form action="Profil.php" method="POST">
-							<button type="submit" class="envoi" name="modifier" value="Envoyer" style="margin-top:45px">Modifier informations</button>
-						</form>	
 					</div>';
-				}
-				else
-				{
-					echo 
-					'<div id="section3">
-						<form action="Profil.php" method="POST">
-
-							<label for="mail"><b>Adresse électronique</b></label>
-							
-							<input type="email" placeholder="@" name="mail" required>
-							</br>
-
-							<label for="psw"><b>Mot de passe</b></label>
-							
-							<input type="password" placeholder="********** ANcien mdp" name="psw" style="margin-left:77px" required>
-
-							</br>
-
-							<label for="psw_repeat"><b>Confirmation</b></label>
-							
-							<input type="password" placeholder="**********" name="psw_repeat" style="margin-left:77px" required>
-							</br>
-						
-							<button type="submit" class="envoi" name="envoiValeurs" value="Envoyer">Valider informations</button>
-							';
-							if(!isset($_POST['modifier']))
-								echo'<button type="submit" class="envoi" name="voir" value="Envoyer" style="margin-top:15px">Mes Tournois</button>
-
-						</form>
-					</div>';
-				}
 				echo '
 				</div>	
 				</div>';
@@ -130,10 +95,6 @@
 					echo '<div id="tab">
 					<table>
 						<tr>
-							<form action="Profil.php" method="post">
-								<tr><th colspan="9" style="text-align:left">
-								<input type="number" name="idT" id="idT" placeholder="Entrer un ID pour consulter un tournoi"><button type="submit" class="btn" name="envoiValeurs" value="Envoyer">Rechercher</button> 
-							</form>
 							</th></tr>
 							<th>ID</th>
 							<th>Nom</th>
@@ -180,10 +141,6 @@
 						echo '<div id="tab2">';
 						echo '<table>
 						<tr>
-						<form action="Profil.php" method="post">
-							<tr><th colspan="8" style="text-align:left">
-							<input type="number" name="idT" id="idT" placeholder="Entrer ID pour consulter un tournoi"><button type="submit" class="btn" name="envoiValeurs" value="Envoyer">Rechercher</button> 
-						</form>
 						</th></tr>
 						<th>ID</th>
 						<th>Nom</th>
@@ -228,54 +185,6 @@
 						echo'</div>';
 					}
 				}
-				/*if($estJoueur)
-				{
-					$joueur = getJoueur($id);
-					$equipe = getEquipe($joueur->getIdEquipe()) ;
-					$listeTournois = getAllTournoi();
-					$indiceTournoi = -1 ;
-					for($i=0;$i<sizeof($listeTournois);++$i)
-					{
-						if(estEquipeTournoi($equipe->getIdEquipe(),$listeTournois[$i]->getIdTournoi()))
-						{
-			
-							$indiceTournoi = $i ;
-						}
-					}
-		
-					echo '
-					<div id="tab2">
-					<table>
-					<tr>
-					<th>Nom</th>
-					<th>Lieu</th>
-					<th>Début</th>
-					<th>Fin</th>
-					<th>Durée</th>
-					<th>Statut</th>
-					</tr>
-					<tr>';
-					if($indiceTournoi!=-1)
-					{
-						echo '
-						<td>'.$listeTournois[$indiceTournoi]->getNom().'</td>
-						<td>'.$listeTournois[$indiceTournoi]->getLieu().'</td>
-						<td>'.date("d/m/Y", strtotime($listeTournois[$indiceTournoi]->getDateDeb())).'</td>
-						<td>'.date("d/m/Y", strtotime($listeTournois[$indiceTournoi]->getDateDeb(). '+'.$listeTournois[$indiceTournoi]->getDuree().' days')).'</td>
-						<td>'.$listeTournois[$indiceTournoi]->getDuree().'</td>';
-						if(getEquipeTournoi($equipe->getIdEquipe(),$listeTournois[$indiceTournoi]->getIdTournoi())->getEstInscrite())
-							echo'<td>Inscrite</td>';
-						else
-							echo'<td>Pré-inscrite</td>';
-					}
-					else
-						echo '<td colspan="6">Aucun Tournoi</td>';
-					echo'</tr></div>';
-				
-					
-
-
-				}*/
 				
 				?>
 						

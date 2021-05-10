@@ -92,7 +92,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM EquipeMatchT WHERE idMatchT IN (SELECT idMatchT FROM MatchT WHERE idTournoi=$idTournoi)";
+		$requete = "SELECT EquipeMatchT.idMatchT,idEquipe FROM EquipeMatchT,MatchT WHERE EquipeMatchT.idMatchT=MatchT.idMatchT AND idTournoi=$idTournoi";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -114,11 +114,12 @@
 		
 		while($obj = $res->fetch_object())
 		{
-			array_push($tabEquipesMatchT, new EquipeMatchT($obj->idEquipe,$obj->idMatchT,$obj->score));
+			array_push($tabEquipesMatchT, getSingleEquipeMatchT($obj->idEquipe,$obj->idMatchT));
 		}
 		
 		return $tabEquipesMatchT;
 	}
+
 
 
 	function UpdateScore(int $idEquipe, int $idMatchT, int $score)

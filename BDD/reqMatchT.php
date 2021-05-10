@@ -246,6 +246,45 @@
 	}
 
 
+	function getAllMatchTWithNoEquipeMatchT(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM MatchT WHERE idTournoi=$idTournoi AND idMatchT NOT IN (SELECT idMatchT FROM EquipeMatchT)";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbMatchT = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabMatchT = array();
+		
+		if($nbMatchT == 0)
+			return $tabMatchT;
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabMatchT, getMatchT($obj->idMatchT));
+		}
+		
+		return $tabMatchT;
+	}
+
+
 	function getAllEquipesNoMatchT(int $idTournoi)
 	{
 		include('DataBaseLogin.inc.php');
@@ -296,7 +335,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idEquipe FROM EquipeTournoi WHERE idTournoi=$idTournoi AND idEquipe IN (SELECT idEquipe FROM EquipeMatchT, MatchT WHERE EquipeMatchT.idMatchT=MatchT.idMatchT AND MatchT.idTournoi=$idTournoi)";
+		$requete = "SELECT idEquipe FROM EquipeMatchT,MatchT WHERE EquipeMatchT.idMatchT=MatchT.idMatchT AND idTournoi=$idTournoi";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -323,5 +362,6 @@
 		
 		return $tabEquipes;
 	}
+
 
 ?>

@@ -22,9 +22,12 @@ if(!isset($_SESSION['login']))
 $ut = getUtilisateurWithEmail($_SESSION['login']);
 $estAdministrateur = ($ut->getRole() === "Administrateur");
 $estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-$id = $ut->getIdUtilisateur();
+$idU = $ut->getIdUtilisateur();
 
-	if(!$estGestionnaire)
+$id = $_SESSION['tournoi'] ;
+$tournoi = getTournoi($id);
+
+	if(!$estGestionnaire || !($idU == $tournoi->getIdGestionnaire()))
 	{
 		if(!$estAdministrateur)
 		{
@@ -34,9 +37,6 @@ $id = $ut->getIdUtilisateur();
 		}
 	}
 
-
-	$id = $_SESSION['tournoi'] ;
-	$tournoi = getTournoi($id);
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	$nbEquipesInscrites = 0 ;
 	$tabEquipes = array();

@@ -11,21 +11,21 @@
 
 
 //vériff date ?
-session_start();
+	session_start();
 //$_SESSION['idT'] = $_GET['tournoi'];
-if(!isset($_SESSION['login']))
+	if(!isset($_SESSION['login']))
 	{
 		trigger_error("Vous ne pouvez pas accéder à cette page.");
 		header('Location: Tournois.php');
 		exit();
 	}
-$ut = getUtilisateurWithEmail($_SESSION['login']);
-$estAdministrateur = ($ut->getRole() === "Administrateur");
-$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-$idU = $ut->getIdUtilisateur();
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
+	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+	$idU = $ut->getIdUtilisateur();
 
-$id = $_SESSION['tournoi'] ;
-$tournoi = getTournoi($id);
+	$id = $_SESSION['tournoi'] ;
+	$tournoi = getTournoi($id);
 
 	if(!$estGestionnaire || !($idU == $tournoi->getIdGestionnaire()))
 	{

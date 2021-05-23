@@ -5,9 +5,6 @@
 	include_once('../BDD/reqEquipeMatchT.php');
 	include_once('../module/TasMax.php');
 
-	ini_set('display_errors',1);
-	ini_set('display_startup_errors',1);
-	error_reporting(E_ALL);
 
 	session_start();
 	
@@ -17,9 +14,23 @@
 	$ut = getUtilisateurWithEmail($_SESSION['login']);
 	$estAdministrateur = ($ut->getRole() === "Administrateur");
 	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	
+	$idU = $ut->getIdUtilisateur();
+
+
 	$id = $_SESSION['tournoiEnCours'] ;
 	$tournoi = getTournoi($id);
+
+
+	
+	if(!$estGestionnaire || !($idU == $tournoi->getIdGestionnaire()))
+	{
+		if(!$estAdministrateur)
+		{
+			trigger_error("Vous n'avez pas les droits !");
+			header('Location: Tournois.php');
+			exit();
+		}
+	}
 
 
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($id);

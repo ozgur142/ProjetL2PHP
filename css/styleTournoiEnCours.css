@@ -1,7 +1,7 @@
 * {box-sizing: border-box}
 
 body {
-  background-image:url(../img/blur3.jpg);
+  background-image:url(../img/blur2.jpg);
   background-size:cover;
   background-attachment:fixed;
   margin:0%;
@@ -16,7 +16,7 @@ h1 {
 
 .bandeau-haut{
   width:100%;
-  height:70px;
+  height:90px;
   background-color:#e6e6e6;
   margin-top:0;
 }
@@ -34,7 +34,9 @@ hr {
   margin-bottom:50px;
   position:relative;
   width:60%;
-  background-color:#333333;
+  background-color:;
+  margin-top: 100px;
+
 }
 
 #tab table{
@@ -56,6 +58,110 @@ hr {
 }
 
 
+.tabGeneral {
+  float:left;
+  width: 30%;
+  margin-top:25px;
+}
+
+
+.tabGeneralMiddle {
+  float:left;
+  width: 20%;
+  margin-top:25px;
+  margin-left:5%;
+}
+
+#tabMiddle {
+  border:2px solid black ; 
+  margin-left:1%;
+  margin-bottom:110px;
+  display: block;
+  width:100%;
+  background-color:white;
+}
+
+#tabMiddle table{
+  width:100%;
+}
+
+#tabMiddle tr, #tabMiddle th, #tabMiddle td, #tabMiddle table {
+    border-collapse: collapse;
+    border:2px solid #333333 ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:black;
+    text-align:center;
+    
+}
+
+#tabMiddle th, #tabMiddle td {
+  width:50%;
+}
+
+
+
+#tabPoule {
+  border:2px solid black ; 
+  margin-left:10%;
+  margin-bottom:110px;
+  display: block;
+  width:90%;
+}
+
+#tabPoule table, #tabPoule2 table{
+  width:100%;
+}
+
+#tabPoule tr, #tabPoule th, #tabPoule td, #tabPoule table {
+    border-collapse: collapse;
+    border:2px solid #333333 ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:black;
+    text-align:center;
+    
+}
+
+#tabPoule th, #tabPoule td {
+  width:50%;
+}
+
+.tabGeneral2 {
+  float:right;
+  width: 40%;
+}
+
+
+#tabPoule2 {
+  border:2px solid black ; 
+  margin-left:0%;
+  margin-bottom:50px;
+  display: block;
+  width:90%;
+  /*background-color: white;*/
+
+}
+
+
+
+#tabPoule2 tr, #tabPoule2 th, #tabPoule2 td, #tabPoule2 table {
+    border-collapse: collapse;
+    border:2px solid white ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:black;
+    text-align:center;
+    
+}
+
+#tabPoule2 th, #tabPoule2 td {
+  width:50%;
+}
+
+
+
+
 button {
   background-color: #0d0d0d;
   color: white;
@@ -75,8 +181,8 @@ button:hover {
 #btn1, #btn2 {
   border:1px solid white;
   width:100%;
-  margin:auto;
 }
+
 
 .bouton {
   position:relative;

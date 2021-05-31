@@ -3,7 +3,7 @@
 -Affichage foireux avec écran taille téléphone
 */
 body {
-    background-image:url('../img/blur3.jpg');
+    background-image:url('../img/blur2.jpg');
     background-attachment:fixed;
     background-size:cover;
 }

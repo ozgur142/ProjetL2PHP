@@ -1,9 +1,37 @@
 * {box-sizing: border-box}
 
+.bandeau-haut {
+  height: 90px;
+  width:100%;
+  background-color:rgb(255, 255, 255);
+  margin-top:0;
+
+}
+
+@font-face{
+  font-family:"tournois";
+  src:url(../font/OpenSansCondensed-Bold.ttf);
+}
+
+h3 {
+  font-family:tournois;
+  font-size:25px;
+  padding:15px 0 0 0;
+  float:left;
+  margin:10px 0 0 20px;
+  color:black;
+}
+
+.bandeau-haut h3:hover{
+  color:#0073e6;
+  border-bottom:2px solid black;
+}
+
 body {
-  background-image:url(../img/back.jpg);
+  background-image:url(../img/blur2.jpg);
   background-size:cover;
   background-attachment:fixed;
+  margin:0%;
 }
 
 .cadre {

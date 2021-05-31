@@ -5,6 +5,12 @@
 	include_once('../BDD/reqEquipeMatchT.php');
 	include_once('../module/TasMax.php');
 
+
+	include_once('../module/MatchPoule.php');
+	include_once('../module/EquipePoule.php');
+	include_once('../module/Poule.php');
+	include_once('../module/ClassementPoule.php');
+
 	ini_set('display_errors',1);
 	ini_set('display_startup_errors',1);
 	error_reporting(E_ALL);
@@ -29,33 +35,77 @@
 
 		if(($idU == $tournoi->getIdGestionnaire()) || $estAdministrateur)
 		{
-			$retour = "<form action=\"StatutTournoiEnCours.php\" method=\"post\">
+			$retour = "<form action=\"StatutTournoiEnCours_PhasesFinales.php\" method=\"post\">
 			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
 			</form>";
 		}
 
 	}
+
 	
 
-	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($id);
+	$tabPoules = getAllPouleTournoi($id);
+	$nbMatchT = 0;
+	$nbEqGagnantes = 0;
+	
+	for($i=0;$i<sizeof($tabPoules);++$i)
+	{
+		$nbEq = $tabPoules[$i]->getNbEquipes();
+		
+		$nbMatchT += ((($nbEq - 1) * $nbEq) / 2);
+		
+		$nbEqGagnantes += 2;
+	}
+	
+	while(!puissanceDe2($nbEqGagnantes))
+		++$nbEqGagnantes;
+	
+	$nbMatchsGagnants = $nbEqGagnantes - 1 ;
+	
+	$nbMatchT += $nbMatchsGagnants;
+
+
+	$tabEquipesFinales = array();
+
+	for($i=0;$i<sizeof($tabPoules);++$i)
+	{
+		array_push($tabEquipesFinales, getAllEquipePouleWithIdPoule($tabPoules[$i]->getIdPoule()));
+	}
+
+	$tabEquipesGagnantes = array() ;
+	
+
+	$max = $nbEqGagnantes ;
+
+	$index = 0 ;
+	for($i=0;$i<sizeof($tabEquipesFinales);++$i)
+	{
+		$tabTrie = new ClassementPoule($tabPoules[$i]->getIdPoule());
+		$tab = $tabTrie->getTabEq() ;
+		for($j=0;$j<sizeof($tabEquipesFinales[$i])/2;++$j)
+		{
+			$nbEqPoule = sizeof($tabEquipesFinales[$i]) ;
+			$tabEquipesGagnantes[$index] = $tab[$nbEqPoule-$j-1] ;
+			++$index ;
+		}
+	}
+
+
+	$tabMatchTPhasesFinales = getAllMatchTPhasesFinales($id) ;
+
+	$tabEquipes1 = array() ;
+
+	for($i=0;$i<sizeof($tab);++$i)
+	{
+		array_push($tabEquipes1, getEquipe($tab[$i]->getIdEquipe()));
+	}
+
 	$tabEquipesMatchsTemp = getAllEquipeMatchT($id);
 
 	$tabEquipesBonSens = array();
 
-	$bool = estPuissanceDe2($id);
-	$taille  = sizeof($tabEquipesTournoi) ;
-	$k = 0 ;
-	$surplus = 0 ;
-	if(!$bool)
-	{
-		while(pow(2,$k)<$taille)
-			++$k ;
-		--$k;
-		$surplus = $tournoi->getNombreTotalEquipes() - pow(2,$k) ;
-	}
 
-
-	for($i=0;$i<sizeof($tabEquipesTournoi)-$surplus;++$i)
+	for($i=0;$i<$nbEqGagnantes;++$i)
 	{
 		$ide = $tabEquipesMatchsTemp[$i]->getIdEquipe();
 		$tabEquipesBonSens[$i] = getEquipe($ide);
@@ -71,7 +121,7 @@
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
 	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiEnCours']);
-	$tasMax->Update($id);
+	$tasMax->UpdatePhasesFinales($id);
 
 	$tabMatchs = $tasMax->getTabMatchs();
 

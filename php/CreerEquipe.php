@@ -1,5 +1,26 @@
 <?php
+	include_once('../BDD/reqUtilisateur.php');
 	include_once('../BDD/reqEquipe.php');
+	include_once('../BDD/reqGestionnaire.php');
+
+	session_start();
+
+	if(!isset($_SESSION['login']))
+	{
+		trigger_error("Vous ne pouvez pas accéder à cette page.");
+		header('Location: ../index.php');
+		exit();
+	}
+
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
+
+	if(!$estAdministrateur)
+		{
+			trigger_error("Vous n'avez pas les droits !");
+			header('Location: ../index.php');
+			exit();
+		}
 	
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
@@ -16,10 +37,10 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		
 		<style>
-			body div img {
-				width:50px;
-				border:5px groove white;
-				padding:5px;
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
 				float:left;
 			}
 		</style>
@@ -29,9 +50,10 @@
 	</head>
 	
 	<body>
-		<div>
+		<div class="bandeau-haut">
 			<a href="../index.php">
-				<img src="../img/home.png">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
 			</a>
 		</div>
 		
@@ -51,17 +73,11 @@
 			<input type="text" placeholder="Entrez l'adresse de votre équipe" name="Adresse" id="Adresse" required>
 			
 			<label for="NumTel"><b>Numéro de téléphone</b></label>
-			<input type="tel" id="NumTel" name="NumTel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
-			<small>Motif du numéro de téléphone : 06-06-06-06-06</small>
-			
-			<br />
-			
-			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
+			<br/>
+			<input type="tel" placeholder="Motif 06-06-06-06-06" id="NumTel" name="NumTel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
+			<br/>			
+			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Créer</button>
 		</form>
 		
-		<div class="container signin">
-			<p>Vous avez un compte? <a href="Login.php">Sign in</a>.</p>
-		</div>
 	</body>
 </html>

@@ -30,7 +30,7 @@
 	
 	$champChoixGestionnaire = "<div>
 	<select id=\"Gestionnaire\" name=\"Gestionnaire\">
-		<option value=\"\">---Choisissez le gestionnaire à créer---</option>";
+		<option value=\"\">Choisir un gestionnaire</option>";
 	
 	for($i=0;$i<count($tabUtilisateurs);++$i)
 	{
@@ -62,27 +62,39 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
 		<title>Création d'un gestionnaire de tournoi</title>
+		<style>
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
+			}
+
+			#Gestionnaire {
+				background-color:white;
+				color:#333333;
+				font-family:Helvetica Neue,Helvetica,Arial,sans-serif;
+				width:70%;
+				height:40px;
+				text-align: center;
+				font-size:18px;
+				border-radius:5px;
+			}
+		</style>
 	</head>
 	
 	<body>
-		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
-			<?php
-				$propCreerGestionnaire = "<a href=\"CreerGestionnaire.php\">Créer un gestionnaire de tournoi</a>";
-				
-				if($estAdministrateur)
-					echo $propCreerGestionnaire;
-			?>
+		<div class="bandeau-haut">
+			<a href="../index.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
+			</a>
 		</div>
+
 		
 		<form action="CreerGestionnaire.php" method="POST" onreset="return vider();" class="container">
 			<h1>
-				<p style="text-align: center;">Création d'un gestionnaire de tournoi</p>
+				<p style="text-align: center;">Créer un gestionnaire</p>
 			</h1>
 			
 			<p style="text-align: center;">Sélectionner le gestionnaire de tournoi que vous voulez créer.</p>
@@ -95,8 +107,7 @@
 			
 			<br />
 			
-			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
+			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Créer</button>
 		</form>
 		
 		<?php

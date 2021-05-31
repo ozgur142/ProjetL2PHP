@@ -29,10 +29,11 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		
 		<style>
-			body div img {
-				width:50px;
-				border:5px groove white;
-				padding:5px;
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
 			}
 		</style>
 		
@@ -41,19 +42,20 @@
 	</head>
 	
 	<body>
-		<div>
+		<div class="bandeau-haut">
 			<a href="../index.php">
-			<img src="../img/home.png">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
 			</a>
 		</div>
-		
+
 		<div class="cadre">
 			<form action="Login.php" method="POST" onreset="return vider();" class="container">
 				<h1>
 					<p style="text-align: center;">Authentification</p>
 				</h1>
 				
-				<p style="text-align: center;">Entrez vos information pour acceder à votre compte</p>
+				<p style="text-align: center;">Entrez vos informations pour acceder à votre compte</p>
 				
 				<hr>
 
@@ -66,11 +68,11 @@
 				<hr>
 				
 				<button type="submit" class="loginbtn" name="envoiValeurs" value="Envoyer">S'authentifier</button>
-				<button type="reset" name="effacerValeurs" value="Effacer">gg</button>
+
 			</form>
 			
 			<div class="container">
-				<p>Pas encore de compte ? <a href="Register.php">Créer un compte</a>.</p>
+				<p>Pas encore de compte ? <a href="Register.php">Inscrivez-vous</a>.</p>
 			</div>
 		</div>
 	</body>

@@ -52,7 +52,7 @@
 	
 	$h2 = "<h2>Équipe : $nomEquipe</h2>";
 	
-	$res = "Pré-inscription de cette équipe au tournoi \"$nomTournoi\" bien effectuée.";
+	$res = "<h2>Tournoi : \"$nomTournoi\"</h2>";
 ?>
 
 <!DOCTYPE html>
@@ -62,24 +62,47 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
 		<title>Résultats pré-inscription</title>
+		<style>
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
+			}
+
+			.cadrebis{
+				background-color:white;
+				border:2px double black;
+				box-shadow: 10px 10px grey;
+				margin:auto;
+				height:100%;
+				width:500px;
+				margin-top:3%;
+			}
+			h1,h2,p {
+				font-family: tournois;
+				text-align:center;
+			}
+
+		</style>
 	</head>
 	
 	<body>
-		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+		<div class="bandeau-haut">
+			<a href="../index.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
+			</a>
 		</div>
-		
-		<h1>Résultat de la pré-inscription d'une équipe</h1>
-		
-		<?php
-			echo $h2;
-			
-			echo $res;
-		?>
+
+		<div class="cadrebis">
+			<h1>Pré-inscription réussie</h1>
+
+			<?php
+				echo $h2;
+				
+				echo $res;
+			?>
+		</div>
 	</body>
 </html>

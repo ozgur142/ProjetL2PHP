@@ -39,10 +39,10 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		
 		<style>
-			body div img {
-				width:50px;
-				border:5px groove white;
-				padding:5px;
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
 				float:left;
 			}
 			
@@ -57,9 +57,10 @@
 	</head>
 	
 	<body>
-		<div>
+		<div class="bandeau-haut">
 			<a href="../index.php">
-			<img src="../img/home.png">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
 			</a>
 		</div>
 		
@@ -74,11 +75,7 @@
 			
 			<button type="submit" class="loginbtn" name="envoiValeurs" value="Envoyer">Oui</button>
 			<button type="submit" class="loginbtn" name="retour" value="Envoyer">Non</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Effacer les champs</button>
 		</form>
-		
-		<div class="container-logout">
-			<p>Pas encore de compte ? <a href="Register.php">Créer un compte</a>.</p>
-		</div>
+
 	</body>
 </html>

@@ -34,7 +34,7 @@
 				float:left;
 			}
 
-			#Tournoi {
+			#choixRole {
 				background-color:white;
 				color:#333333;
 				font-family:Helvetica Neue,Helvetica,Arial,sans-serif;

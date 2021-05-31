@@ -9,10 +9,6 @@
 	ini_set('display_startup_errors',1);
 	error_reporting(E_ALL);
 
-	//echo $_SESSION['tournoiPasse'];
-	//echo $_SESSION['tournoiEnCours'];
-	//echo $_SESSION['tournoi'];
-
 	session_start();
 	
 	if(!isset($_SESSION['tournoiPasse']))
@@ -55,6 +51,7 @@
 	{
 		$z = $z - 2;
 	}
+
 	$deb = $z;
 	$fin = $z / 2;
 ?>
@@ -72,7 +69,7 @@
 		?>
 	</div>
 	<hr>
-	<hr>
+	<hr style="margin-bottom:30px">
 	<?php
 		$tasMax->afficherArbre();	
 	?>

@@ -57,7 +57,11 @@
             <input type="tel" placeholder="Motif 06-06-06-06-06" id="NumTel" name="NumTel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
             <br/>
 
-            <p style="text-align: center;">Entrez vos informations pour vous inscrire</p>
+            <h1>
+				<p style="text-align: center;">Création compte joueur</p>
+			</h1>
+			
+			<p style="text-align: center;">Entrez vos information pour créer votre équipe</p>
 			
 			<hr>
 			

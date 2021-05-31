@@ -47,7 +47,7 @@
 	
 	$champChoixEquipe = "<div>
 	<select id=\"Equipe\" name=\"Equipe\">
-		<option value=\"\">---Choisissez votre équipe---</option>";
+		<option value=\"\">Choisir équipe</option>";
 	
 	for($i=0;$i<count($tabEquipes);++$i)
 	{
@@ -76,6 +76,16 @@
 				padding:5px 0 0 5px;
 				margin:5px 0 0 5px;
 				float:left;
+			}
+
+			#Equipe {
+				background-color:white;
+				color:black;
+				font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+				font-size:20px;
+				height:30px;
+				border-radius:5px;
+				margin-top:5px;
 			}
 		</style>
 		
@@ -123,7 +133,7 @@
 			<div class ="container_role">
 			<?php
 			if($_SESSION['estJoueur']){
-				echo "<b>Choix D'équipe de Joueur</b>";
+				echo "<b>Choisir une équipe</b>";
 				echo $champChoixEquipe;
 			}
 			else{

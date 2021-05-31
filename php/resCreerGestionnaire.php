@@ -33,36 +33,44 @@
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/RegisterJS.js"></script>
-		<title>Résultat création d'un gestionnaire de tournoi</title>
+		<title>Résultat création gestionnaire</title>
+		<style>
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
+			}
+
+			.cadrebis{
+				background-color:white;
+				border:2px double black;
+				box-shadow: 10px 10px grey;
+				margin:auto;
+				height:100%;
+				width:500px;
+				margin-top:3%;
+			}
+
+			h1,h2,p {
+				font-family: tournois;
+				text-align:center;
+			}
+			
+		</style>
 	</head>
 	
 	<body>
-		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
-			<?php
-				$propCreerGestionnaire = "<a href=\"CreerGestionnaire.php\">Créer un gestionnaire de tournoi</a>";
-				
-				if($estAdministrateur)
-					echo $propCreerGestionnaire;
-			?>
+		<div class="bandeau-haut">
+			<a href="../index.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
+			</a>
 		</div>
-		
-		<h1>Résultat création d'un gestionnaire de tournoi</h1>
-		
-		<p style="">Le gestionnaire de tournoi a bel et bien été créé.</p>
-		
-		<?php
-			$propCreerCompte = "<div class=\"container signin\">
-				<p>Vous avez un compte? <a href=\"Login.php\">Sign in</a>.</p>
-			</div>";
-			
-			if(!$estConnecte)
-				echo $propCreerCompte;
-		?>
+
+		<div class="cadrebis">
+			<h1>Résultats création d'un gestionnaire</h1>
+			<p>Tout est bon.</p>
+		</div>
 	</body>
 </html>

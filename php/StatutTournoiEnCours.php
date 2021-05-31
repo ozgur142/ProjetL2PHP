@@ -5,6 +5,9 @@
 	include_once('../BDD/reqEquipeMatchT.php');
 	include_once('../module/TasMax.php');
 
+	ini_set('display_errors',1);
+	ini_set('display_startup_errors',1);
+	error_reporting(E_ALL);
 
 	session_start();
 	
@@ -15,21 +18,14 @@
 	$estAdministrateur = ($ut->getRole() === "Administrateur");
 	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
 	$idU = $ut->getIdUtilisateur();
-
-
+	
 	$id = $_SESSION['tournoiEnCours'] ;
 	$tournoi = getTournoi($id);
 
-
-	
-	if(!$estGestionnaire || !($idU == $tournoi->getIdGestionnaire()))
+	if(!($idU === $tournoi->getIdGestionnaire()) && !$estAdministrateur)
 	{
-		if(!$estAdministrateur)
-		{
-			trigger_error("Vous n'avez pas les droits !");
-			header('Location: Tournois.php');
-			exit();
-		}
+		header('Location: AffichageTournoi.php');
+		exit();
 	}
 
 
@@ -38,25 +34,40 @@
 
 	$tabEquipesBonSens = array();
 
-	for($i=0;$i<sizeof($tabEquipesTournoi);++$i)
+	$bool = estPuissanceDe2($id);
+	$taille  = sizeof($tabEquipesTournoi) ;
+	$k = 0 ;
+	$surplus = 0 ;
+	if(!$bool)
 	{
+		while(pow(2,$k)<$taille)
+			++$k ;
+		--$k;
+		$surplus = $tournoi->getNombreTotalEquipes() - pow(2,$k) ;
+	}
+
+	for($i=0;$i<(sizeof($tabEquipesTournoi));++$i)
+	{
+
 		$ide = $tabEquipesMatchsTemp[$i]->getIdEquipe();
 		$tabEquipesBonSens[$i] = getEquipe($ide);
 	}
 
 	$tabEquipes = array();
-	
-	for($i=0;$i<sizeof($tabEquipesBonSens);++$i)
+	for($i=sizeof($tabEquipesBonSens)-1;$i>=0;--$i)
 	{
 		array_push($tabEquipes, getEquipe($tabEquipesBonSens[$i]->getIdEquipe() ));
 	}
-
+	//echo sizeof($tabEquipes);
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
+
 
 	$tasMax->Update($id);
 
 	$tabMatchs = $tasMax->getTabMatchs();
+	$tas = $tasMax->getTas();
+
 
 	$z = sizeof($tabMatchs)-1;
 
@@ -73,22 +84,58 @@
 		{
 			if(isset($_POST[$i]) && $_POST[$i]!="")
 			{
-				$tasMax->setScoreTabMatchs($_POST[$i],$i);
+				$matchtTemp = $tabMatchs[$i] ;
+				$nomEquipe = getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe();
+
+
+				if($matchtTemp=="NULLA")
+				{
+					$tasMax->setScoreTabMatchs(-2,$i) ;
+		
+				}
+				else
+				{
+					$tasMax->setScoreTabMatchs($_POST[$i],$i) ;
+				}
+				header('Refresh:0; url=StatutTournoiEnCours.php');
 			}
 		}
 		unset($_POST);
 	}
-	
+
 	if($estAdministrateur || $estGestionnaire)
 	{
 		if(isset($_POST) && isset($_POST['TourSuivant']))
 		{
 			if(!$tasMax->tourPassable())
 				trigger_error("Il y a un problème avec le tas max.");
-			
-			$tasMax->prochainTour($id);
+			else
+			{
+
+				$tasMax->prochainTour($id);
+				header('Refresh:0; url=StatutTournoiEnCours.php');
+			}
 		}
 	}
+
+	if(isset($_POST['setScoreRandom'])){
+        $tasMax->Update($id);
+        $TabMatchRandom = $tasMax->getTabMatchs();
+        $t = sizeof($TabMatchRandom)-1;
+        while(($t != 0) && ($TabMatchRandom[(($t / 2) - 1)] != null))
+        {
+            $t = $t - 2;
+        }
+        $debb = $t;
+        $finn = $t / 2;
+        for($i=$debb;$i>=$finn;$i--){
+            $randomN = rand(0,10);
+            $tasMax->setScoreTabMatchs($randomN,$i);
+        }
+        if($tasMax->tourPassable())
+            $tasMax->prochainTour($id);
+        header('Refresh:0; url=StatutTournoiEnCours.php');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -109,7 +156,6 @@
 	?>
 	<div class="container-main1">
 		<?php
-		//$tasMax->afficher();
 			echo '<form action="StatutTournoiEnCours.php" method="post">
 			<div id="tab">
 			<table>
@@ -124,33 +170,44 @@
 			}
 			for($i=$deb;$i>$fin;$i = $i - 2)
 			{
-				if($tabMatchs[$i]->getScore()==-1)
-				{
-					echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.$i.'")</td>';
+				$matchtTemp1 = $tabMatchs[$i] ;
+				$nomEquipe1 = getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe();
 
-				}
-				else
-				{
-					echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i]->getScore().')</td>';
-				}
+				$matchtTemp2 = $tabMatchs[$i-1] ;
+				$nomEquipe2 = getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe();
 
-				if($tabMatchs[$i-1]->getScore()==-1)
+				if($nomEquipe1!="NULLA" && $nomEquipe2!="NULLA")
 				{
-					echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.($i-1).'")</td></tr>';
-				}
-				else
-				{
-					echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i-1]->getScore().')</td></tr>';
+					if($tabMatchs[$i]->getScore()==-1)
+					{
+						echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.$i.'"> )</td>';
+
+					}
+					else
+					{
+						echo'<tr><td>'.getEquipe($tabMatchs[$i]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i]->getScore().')</td>';
+					}
+
+					if($tabMatchs[$i-1]->getScore()==-1)
+					{
+						echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : <input type="number" name="'.($i-1).'">) </td></tr>';
+					}
+					else
+					{
+						echo'<td>'.getEquipe($tabMatchs[$i-1]->getIdEquipe())->getNomEquipe().' (Score : '.$tabMatchs[$i-1]->getScore().')</td></tr>';
+					}
 				}
 			}
 			echo '
 			<tr>
 			<td colspan=2><button type"submit" id="btn1" name="setScore" value="">Saisir score</button></td>
 			</tr>
+			<tr>
+            <td colspan=2><button type"submit" id="btn2" name="setScoreRandom" value="">Saisir score random</button></td>
+            </tr>
 			</table>
 			</div>
 			</form>';
-
 			echo'<form action="AffichageTournoi.php" method="post">
 			<button type"submit" id="btn1" name="VoirArbre" value="">Arbre Tournoi</button>
 			</form>
@@ -159,11 +216,7 @@
 			echo'<form action="Tournois.php" method="post">
 			<button type"submit" id="btn1" name="" value="">Liste Tournois</button>
 			</form>';
-			
-			echo "<br />";
-			echo "<br />";
-			echo "<br />";
-			
+					
 			if($tasMax->tourPassable())
 			{
 				echo'<form action="StatutTournoiEnCours.php" method="post">

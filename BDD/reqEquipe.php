@@ -23,10 +23,8 @@
 		
 		$connexion->close();
 		
-		unset($_POST);
 		
-		header('Location: ../php/Login.php');
-		exit();
+		return $idE;
 	}
 	
 	function estEquipe(string $id)

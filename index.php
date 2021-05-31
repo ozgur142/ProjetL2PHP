@@ -70,7 +70,7 @@
 		</div>
 		<?php
 			$lienIns = "<div class=\"inscription\">
-				<a href=\"php/Register.php\">INSCRIPTION</a>   
+				<a href=\"php/InscriptionChoixRole.php\">INSCRIPTION</a>   
 			</div>";
 			
 			if(!$estConnecte)

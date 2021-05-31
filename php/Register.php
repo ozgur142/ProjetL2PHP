@@ -1,25 +1,26 @@
 <?php
 	include('../BDD/reqEquipe.php');
+	session_start();
 	
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
 		$_POST['psw'] = strval(hash("sha256", strval($_POST['psw'])));
 		$_POST['psw_repeat'] = strval(hash("sha256", strval($_POST['psw_repeat'])));
 		
-		if($_POST["role"] == "Utilisateur")
+		if(!$_SESSION['estJoueur'])
 		{
 			insertUser(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval($_POST['role']));
 		}
-		else if($_POST["role"] == "Joueur")
+		else
 		{
 			if($_POST["Equipe"] === "")
 				trigger_error("ERREUR : Veuillez choisir une équipe valide !");
 			
 			$equipeChoisie = getEquipe($_POST["Equipe"]);
-			$estCapitaine = ((isset($_POST["EstCapitaine"])) && (!(empty($_POST["EstCapitaine"])))
-						  && ($equipeChoisie->getCapitaine() === null));
+			/*$estCapitaine = ((isset($_POST["EstCapitaine"])) && (!(empty($_POST["EstCapitaine"])))
+						  && ($equipeChoisie->getCapitaine() === null));*/
 			
-			insertJoueur(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval("Utilisateur"), strval($equipeChoisie->getIdEquipe()), $estCapitaine);
+			insertJoueur(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval("Utilisateur"), strval($equipeChoisie->getIdEquipe()), 0);
 		}
 	}
 	
@@ -33,7 +34,7 @@
 							</p>
 						</div>";
 	
-	$champCapitaine = "<div>
+	/*$champCapitaine = "<div>
 						<label for=\"ChoixEstCapitaine\">Êtes-vous le capitaine de l'équipe ?</label>
 						<div id=\"ChoixEstCapitaine\">
 							<label for=\"EstCapitaine\">Oui</label>
@@ -42,7 +43,7 @@
 							<label for=\"NEstPasCapitaine\">Non</label>
 							<input type=\"radio\" name=\"NEstPasCapitaine[]\" id=\"NEstPasCapitaine\" value=\"NEstPasCapitaine\" onclick=\"document.getElementById('EstCapitaine').checked = false\">
 						</div>
-					</div>";
+					</div>";*/
 	
 	$champChoixEquipe = "<div>
 	<select id=\"Equipe\" name=\"Equipe\">
@@ -59,7 +60,7 @@
 	$champChoixEquipe = $champChoixEquipe."</select>
 </div>";
 	
-	$champsJoueur = "<div id=\"OptJoueur\">".$champCapitaine.$champChoixEquipe."</div>";
+	$champsJoueur = "<div id=\"OptJoueur\">"./*$champCapitaine.*/$champChoixEquipe."</div>";
 	
 	$_POST = array();
 ?>
@@ -69,12 +70,11 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
-		
 		<style>
-			body div img {
-				width:50px;
-				border:5px groove white;
-				padding:5px;
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
 				float:left;
 			}
 		</style>
@@ -84,9 +84,10 @@
 	</head>
 	
 	<body>
-		<div>
-			<a href="../index.php">
-			<img src="../img/home.png">
+		<div class="bandeau-haut">
+			<a href="../php/InscriptionChoixRole.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
 			</a>
 		</div>
 		
@@ -95,7 +96,7 @@
 				<p style="text-align: center;">Inscription</p>
 			</h1>
 			
-			<p style="text-align: center;">Entrez vos information pour créer votre compte</p>
+			<p style="text-align: center;">Entrez vos informations pour vous inscrire</p>
 			
 			<hr>
 			
@@ -116,35 +117,28 @@
 			
 			<br>
 			
-			<b>Sélectionnez votre rôle dans le tournoi</b>
 			
 			</br>
 			
 			<div class ="container_role">
-				<label for="Joueur">Joueur</label>
-				<input type="radio" name="role" id="Joueur" value="Joueur" onclick="gestionOptionsJoueur()">
+			<?php
+			if($_SESSION['estJoueur']){
+				echo "<b>Choix D'équipe de Joueur</b>";
+				echo $champChoixEquipe;
+			}
+			else{
+				echo '<label for="Utilisateur">Utilisateur</label>';
+				echo '<input type="hidden" name="role" id="Utilisateur" value="Utilisateur" onclick="gestionOptionsJoueur()">';
+			}
+
+			?>
 				
-				<br>
 				
-				<?php
-					if(count($tabEquipes) == 0)
-					{
-						echo $msgErr;
-					}
-					else
-					{
-						echo $champsJoueur;
-					}
-				?>
-				
-				<label for="Utilisateur">Utilisateur</label>
-				<input type="radio" name="role" id="Utilisateur" value="Utilisateur" onclick="gestionOptionsJoueur()">
 			</div>
 			
 			<hr>
 			
-			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
+			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">S'inscrire</button>
 		</form>
 		
 		<div class="container-signin">

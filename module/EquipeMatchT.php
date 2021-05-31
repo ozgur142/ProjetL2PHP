@@ -1,6 +1,6 @@
 <?php
-	include_once('../module/MatchT.php');
-	include_once('../BDD/reqEquipeMatchT.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/MatchT.php');
+	include_once(realpath(dirname(__FILE__)).'/../BDD/reqEquipeMatchT.php');
 	
 	class EquipeMatchT extends Entite
 	{

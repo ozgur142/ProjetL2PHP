@@ -1,6 +1,6 @@
 <?php
-	include_once('../module/Equipe.php');
-	include_once('../module/EquipeMatchT.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Equipe.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/EquipeMatchT.php');
 
 	class TasMax
 	{
@@ -13,46 +13,23 @@
 			$this->m_tas = array();
 			$this->m_tabMatchs = array();
 			
-			$tour = 1 ;
-			while($nbEquipes > pow(2, $tour))
+			$this->m_nbCases = 2 * $nbEquipes- 1 ;
+			for($i=0;$i<$this->m_nbCases;++$i)
 			{
-				$tour = $tour + 1;
-			}
-			$a = pow(2,$tour)-$nbEquipes ;
-			$this->m_nbCases = 2 * ($nbEquipes+$a) - 1 ;
-			
-			if(($nbEquipes - $a) != 0)
-			{
-				for($i=0;$i<($this->m_nbCases + $a);++$i)
-				{
-					array_push($this->m_tas, null);
-					array_push($this->m_tabMatchs, null);
-				}
+				array_push($this->m_tas, null);
+				array_push($this->m_tabMatchs, null);
 			}
 		}
 		
 		public function insererAuxFeuilles(/*Equipe*/ $eq) //prend en param un tableau d'équipes
 		{
 			$indice = 0;
-			$tour = $this->nbTours();
-			$surplus = pow(2,$tour) - sizeof($eq);
-			
+		
 			for($i=($this->m_nbCases - 1);$i>($this->m_nbCases - 1 - sizeof($eq));--$i)
 			{
 				$this->m_tas[$i] = $eq[$indice];
 				
 				++$indice;
-			}
-			
-			if($surplus != 0)
-			{
-				$tabVide=array();
-				$equipeVide = new Equipe(-1,"vide",0,"","", $tabVide);
-				
-				for($i=($this->m_nbCases - $indice - 1);$i>=(($this->m_nbCases - 1) / 2);--$i)
-				{
-					$this->m_tas[$i] = $equipeVide ;
-				}
 			}
 		}
 
@@ -80,8 +57,6 @@
 			
 			echo "<br />";
 		}
-
-
 
 		public function getEquipesTour(){
 			$i = $this->m_nbCases - 1;
@@ -200,7 +175,6 @@
 			}
 		}
 
-		//Récupérer EquipeMatchT
 		public function Update(int $idTournoi)
 		{
 			$tabEquipesMatchT = getAllEquipeMatchT($idTournoi) ;
@@ -225,6 +199,34 @@
 			}
 		}
 
+
+		public function UpdatePhasesFinales(int $idTournoi)
+		{
+			$tabEquipesMatchT = getAllEquipeMatchTSupA($idTournoi) ;
+			$size = sizeof($tabEquipesMatchT);
+	 		$indice = $this->m_nbCases-1 ;
+
+			for($i=$indice;$i>$indice-$size;--$i)
+			{
+				$this->m_tabMatchs[$i] = $tabEquipesMatchT[$indice-$i] ;
+				$this->m_tas[$i] = getEquipe(($tabEquipesMatchT[$indice-$i]->getIdEquipe())) ;
+			}
+			if($this->m_tabMatchs[1] && $this->m_tabMatchs[1]->getScore()!=-1)
+			{
+				$id = getIdEquipeGagnante($this->m_tabMatchs[1]->getIdMatchT()) ;
+				//echo "ID_MATCH:".$this->m_tabMatchs[1]->getIdMatchT() ;
+				//echo '<br ./>';
+				$eq = getEquipe($id) ;
+				//echo "ID_EQUIPE:".$eq->getIdEquipe();
+				//echo '<br ./>';
+				//echo "NOM_EQUIPE:".$eq->getNomEquipe();
+				$this->m_tas[0] = $eq;
+			}
+		}
+
+		public function setScoresEquipesVide(int $indice){
+			$this->m_tabMatchs[$indice]->setScoreVal(-1);
+		}
 
 
 		public function setScoreTabMatchs(int $score,int $indice)
@@ -374,28 +376,56 @@
 						
 						if($this->m_tabMatchs[$j] != null)
 						{
+							if ($this->m_tabMatchs[$j]->getScore() != -1)
+							{
+								if(($j % 2) == 0)
+								{
+									if($this->m_tabMatchs[$j]->getScore() <= $this->m_tabMatchs[($j - 1)]->getScore())
+									{
+										echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+									else
+									{
+										echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+								}
+								else
+								{
+									if($this->m_tabMatchs[$j]->getScore() < $this->m_tabMatchs[($j + 1)]->getScore())
+									{
+										echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+									else
+									{
+										echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+								}
+							}
+							else 
+							{
 							if(($j % 2) == 0)
 							{
 								if($this->m_tabMatchs[$j]->getScore() <= $this->m_tabMatchs[($j - 1)]->getScore())
 								{
-									echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 								else
 								{
-									echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 							}
 							else
 							{
 								if($this->m_tabMatchs[$j]->getScore() < $this->m_tabMatchs[($j + 1)]->getScore())
 								{
-									echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 								else
 								{
-									echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 							}
+						}
 						}
 
 						else
@@ -422,16 +452,13 @@
 					
 					echo'
 					<style>
-
 					#ligne1'.$i.' div:first-child {
 					margin-top:'.$l1marge.'px;}
-
 					#ligne1'.$i.' {
 					width: 70px; 
 					height:95%; 
 					float: left;
 					}
-
 					#ligne1'.$i.' div {
 					border: 1px solid white; 
 					border-left: none; 
@@ -452,23 +479,19 @@
 					
 					echo '
 					<style>
-
 					#ligne2'.$i.' div:first-child {
 					margin-top:'.$l2marge.'px;}
-
 					#ligne2'.$i.' {
 					width: 70px; 
 					height:95%; 
 					float: left;
 					}
-
 					#ligne2'.$i.' div {
 					border-top: 1px solid white; 
 					width:100%;
 					height:'.$espace.'px;
 					margin-bottom:'.$espace.'px;
 					}
-
 					</style>';
 					
 					echo '</div>';
@@ -539,7 +562,6 @@
 				text-align:center;
 				padding:10px 0 0 0;
 				float:left;
-
 				}
 				</style>
 				';

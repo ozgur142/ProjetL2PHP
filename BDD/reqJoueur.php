@@ -1,7 +1,7 @@
 <?php
 	include_once('reqUtilisateur.php');
-	include_once('../module/Utilisateur.php');
-	include_once('../module/Joueur.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Utilisateur.php');
+    include_once(realpath(dirname(__FILE__)).'/../module/Joueur.php');
 	
 	function insertJoueur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role, string $idEquipe, bool $estCapitaine)
 	{
@@ -61,14 +61,17 @@
 		}
 		
 		$objTemp = $res->fetch_object();
-		$idJoueur = strval($objTemp->idJoueur);
-		
-		$connexion->close();
-		
-		if(empty($idJoueur))
+		if(empty($objTemp))
+		{
+			$connexion->close();
 			return false;
-		
-		return true;
+		}
+		else
+		{
+			$idJoueur = strval($objTemp->idJoueur);
+			$connexion->close();
+			return true;
+		}
 	}
 	
 	function getJoueur(string $id)

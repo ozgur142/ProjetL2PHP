@@ -1,7 +1,7 @@
 <?php
-	include_once('reqUtilisateur.php');
-	include_once('../module/Utilisateur.php');
-	include_once('../module/Gestionnaire.php');
+	include_once(realpath(dirname(__FILE__)).'/../BDD/reqUtilisateur.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Utilisateur.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Gestionnaire.php');
 	
 	function insertGestionnaireForExistingUtilisateur(int $idG)
 	{

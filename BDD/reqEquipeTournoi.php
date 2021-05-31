@@ -33,9 +33,8 @@
 		$connexion->close();
 		
 		unset($_POST);
-		
-		header('Location: ../php/resPreInscription.php');
-		exit();
+
+		return true;
 	}
 	
 	function modifierEquipeTournoi(int $idE, int $idT, bool $estInscrite)
@@ -99,6 +98,8 @@
 		
 		return true;
 	}
+
+
 	
 	function estEquipeTournoi(string $idE, string $idT)
 	{
@@ -286,6 +287,95 @@
 		else
 			return null;
 	}
+
+
+
+	function melangerParNiveaux(int $idTournoi)
+	{
+
+		$tabEquipesTournoi = getAllEquipesByNiveau($idTournoi);
+		if(sizeof($tabEquipesTournoi)>0)
+		{
+			$nbEquipes = getNbEquipesTournoiWithId($idTournoi);
+			$tab = array($nbEquipes) ;
+
+			$debTab = 0 ;
+			$finTab = $nbEquipes -1 ;
+
+			$deb1 = 0 ;
+			$fin1 = $nbEquipes -1 ;
+
+			$nbPlaces = 0 ;
 	
+			while($debTab<$finTab)
+			{
+				$tab[$debTab] = $tabEquipesTournoi[$deb1]->getIdEquipe() ;
+				$tab[$finTab] = $tabEquipesTournoi[$deb1+1]->getIdEquipe() ;
+
+				++$debTab;
+				--$finTab;
+				$nbPlaces+=2;
+
+				if($debTab<$finTab)
+				{
+					$tab[$debTab] = $tabEquipesTournoi[$fin1]->getIdEquipe() ;
+					$tab[$finTab] = $tabEquipesTournoi[$fin1-1]->getIdEquipe() ;
+					$nbPlaces+=2;
+
+					++$debTab;
+					--$finTab;
+
+					$deb1+=2 ;
+					$fin1-=2 ;
+				}
+			}
+
+			if($debTab==$finTab && $nbPlaces<$nbEquipes)
+				$tab[$debTab] = $tabEquipesTournoi[$deb1]->getIdEquipe() ;
+			
+			return $tab ;
+		}
+		else
+			return null;
+	}
+
+	function insertNull(int $idT, int $nbEquipes)
+	{
+		include('DataBaseLogin.inc.php');
+			
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+
+		$requete1 = "INSERT INTO EquipeTournoi(`idEquipe`, `idTournoi`, `estInscrite`) VALUES(1, $idT, 1);";
+		$requete2 = "INSERT INTO EquipeTournoi(`idEquipe`, `idTournoi`, `estInscrite`) VALUES(2, $idT, 1);";
+		
+		if($nbEquipes==1)
+		{
+			$res1 = $connexion->query($requete1);
+			if(!$res1)
+				die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+		}
+
+		if($nbEquipes>1)
+		{
+			$res1 = $connexion->query($requete1);
+			if(!$res1)
+				die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+
+			$res2 = $connexion->query($requete2);
+			if(!$res2)
+				die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+		}
+
+		$connexion->close();
+
+		//return true;
+		
+	}
+
 
 ?>

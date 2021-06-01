@@ -123,7 +123,7 @@
 
 	$tasMax = new TasMax(sizeof($tabEquipes));
 	$tasMax->insererAuxFeuilles($tabEquipes);
-	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiEnCours']);
+	$tabMatchs = getAllEquipeMatchT($_SESSION['tournoiPasse']);
 	$tasMax->UpdatePhasesFinales($id);
 
 	$tabMatchs = $tasMax->getTabMatchs();

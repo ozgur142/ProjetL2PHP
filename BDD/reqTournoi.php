@@ -112,6 +112,8 @@
 			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
 		
 		$connexion->close();
+
+		return $idT ;
 		
 		//unset($_POST);
 		

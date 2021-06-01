@@ -223,7 +223,7 @@
 		}
 
 
-		$requete = "SELECT E.idEquipe FROM Equipe E INNER JOIN EquipeTournoi ET ON ET.idEquipe = E.idEquipe WHERE ET.idTournoi = $idTournoi ORDER BY E.niveau DESC;";
+		$requete = "SELECT E.idEquipe FROM Equipe E INNER JOIN EquipeTournoi ET ON ET.idEquipe = E.idEquipe WHERE ET.idTournoi = $idTournoi ORDER BY E.niveau ASC;";
 		
 		$res = $connexion->query($requete);
 		if(!$res)

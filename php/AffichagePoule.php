@@ -28,24 +28,26 @@
 	$id = $tournoi->getIdTournoi();
 
 	$retour = "";
-	if(isset($_SESSION['login']))
+	
+	if(!isset($_SESSION['login']))
 	{
-		$ut = getUtilisateurWithEmail($_SESSION['login']);
-		$estAdministrateur = ($ut->getRole() === "Administrateur");
-		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-		$idU = $ut->getIdUtilisateur();
+		trigger_error("ERREUR : Vous n'êtes pas connecté !");
+	}
+	
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
+	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+	$idU = $ut->getIdUtilisateur();
+	
+	if(($estGestionnaire && ($idU == $tournoi->getIdGestionnaire())) || $estAdministrateur)
+	{
+		$retour = "<form action=\"StatutTournoisEnCours_Poule.php\" method=\"post\">
+		<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
+		</form>";
 
-		if(($idU == $tournoi->getIdGestionnaire()) || $estAdministrateur)
-		{
-			$retour = "<form action=\"StatutTournoisEnCours_Poule.php\" method=\"post\">
-			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
-			</form>";
-
-			$GoPhasesFinales = "<form action=\"StatutTournoiEnCours_PhasesFinales.php\" method=\"post\">
-			<button type=\"submit\" id=\"btn1\" name=\"\" >Phases Finales</button>
-			</form>";
-		}
-
+		$GoPhasesFinales = "<form action=\"StatutTournoiEnCours_PhasesFinales.php\" method=\"post\">
+		<button type=\"submit\" id=\"btn1\" name=\"\" >Phases Finales</button>
+		</form>";
 	}
 
 	$tabIdPoules = getAllPouleTournoi($id) ; //4 cases
@@ -192,6 +194,8 @@
 </form>
 <?php
 	echo $retour ;
-	echo $GoPhasesFinales ;
+	
+	if(($estGestionnaire && ($idU == $tournoi->getIdGestionnaire())) || $estAdministrateur)
+		echo $GoPhasesFinales ;
 ?>
 </html>

@@ -6,6 +6,7 @@ body {
     background-image:url('../img/blur2.jpg');
     background-attachment:fixed;
     background-size:cover;
+    margin: 0;
 }
 #container {
     float:left;

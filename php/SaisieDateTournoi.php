@@ -27,8 +27,9 @@
 	}
 
     $ut = getUtilisateurWithEmail($_SESSION['login']);
+    $estGestionnaireDuTournoi = getTournoi($_SESSION['tournoi'])->getIdGestionnaire() == $ut->getIdUtilisateur() ;
     
-	$TournoiEnGestion = getTournoi($_SESSION['tournoi']);
+	$TournoiEnGestion = getTournoi($_SESSION['tournoi']) ;
 
 	$tabMatchs = getAllMatchT($TournoiEnGestion->getIdTournoi()) ;
 	$nbe = $TournoiEnGestion->getNombreTotalEquipes() ;
@@ -120,7 +121,7 @@
 				echo '<td style="width:150px">'.date("d/m/Y", $dateDeb).'</td>';
 				echo '<td style="width:150px">'.date("d/m/Y", $dateFin).'</td>';
 				
-				if(estGestionnaire($ut->getIdUtilisateur()) && !IsAlreadyProgrammed($_SESSION['tournoi']));
+				if($estGestionnaireDuTournoi && !IsAlreadyProgrammed($_SESSION['tournoi']));
 				{
 					for($j=0;$j<$machDansCeTour;$j++)
 					{

@@ -4,35 +4,37 @@
 	include_once('../BDD/reqEquipeTournoi.php');
 	include_once('../BDD/reqEquipeMatchT.php');
 	include_once('../module/TasMax.php');
-	
-	//Si le nombre d'inscription n'atteint pas le bon nombre le gestionnaire pourra modifier le nbr d'équipes total dans la base de données
-	
-	//Tester cas pour les non puissance de 2
-	
-	//vériff date ?
+
 	session_start();
-	//$_SESSION['idT'] = $_GET['tournoi'];
+
+	$visiteur = false ;
+	$estAdministrateur = false ;
+	$estGestionnaire = false ;
+	$estGestionnaireDuTournoi = false ;
+
+	$id = $_SESSION['tournoi'] ;
+	$tournoi = getTournoi($id);
+
+
 	if(!isset($_SESSION['login']))
 	{
-		trigger_error("Vous ne pouvez pas accéder à cette page.");
-		header('Location: Tournois.php');
-		exit();
+		$visiteur=true;
 	}
-	
-	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	$estAdministrateur = ($ut->getRole() === "Administrateur");
-	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	
-	$idU = $ut->getIdUtilisateur();
-	$id = $_SESSION['tournoi'];
-	$tournoi = getTournoi($id);
-	
-	if(!$estGestionnaire)
+	if(!$visiteur)
+	{
+		$ut = getUtilisateurWithEmail($_SESSION['login']);
+		$estAdministrateur = ($ut->getRole() === "Administrateur");
+		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+		$idU = $ut->getIdUtilisateur();
+		$estGestionnaireDuTournoi = $tournoi->getIdGestionnaire() == $ut->getIdUtilisateur() ;	
+
+	}
+
+	if(!$estGestionnaireDuTournoi)
 	{
 		if(!$estAdministrateur)
 		{
-			trigger_error("Vous n'avez pas les droits !");
-			header('Location: Tournois.php');
+			header('Location: SaisieMatchsChampionnat.php');
 			exit();
 		}
 	}

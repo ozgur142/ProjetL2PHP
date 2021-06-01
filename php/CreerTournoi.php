@@ -1,3 +1,4 @@
+
 <?php
 	include_once('../BDD/reqTournoi.php');
 	include_once('../BDD/reqGestionnaire.php');
@@ -75,10 +76,10 @@
 			
 			$nbEquipes = $_POST['nombreTotalEquipes'] ;
 			
-			creerTournoi(strval($_POST['nom']),$_POST['dateDeb'], $_POST['duree'],$_POST['Gestionnaire'], strval($_POST['ChoixVille']),$_POST['nombreTotalEquipes']);
+			$idT = creerTournoi(strval($_POST['nom']),$_POST['dateDeb'], $_POST['duree'],$_POST['Gestionnaire'], strval($_POST['ChoixVille']),$_POST['nombreTotalEquipes']);
 
 			
-			$idT = getIdTournoiByName($_POST['nom']) ;
+			//$idT = getIdTournoiByName($_POST['nom']) ;
 			insertType($idT,$_POST['type']);
 		}
 		else

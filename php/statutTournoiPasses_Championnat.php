@@ -129,7 +129,32 @@
 			<th>D</th>
 			<th>N</th>
 			</tr>';
-		for($i=0;$i<sizeof($tabEquipesTournoi);++$i)
+		
+		for ($i=sizeof($tabEquipesTournoi); $i >= 1; $i--) { 
+			for ($j=0; $j < ($i-1); $j++) { 
+				$points1 = $tabClassement[$j][0]*4 + $tabClassement[$j][1] + $tabClassement[$j][2]*2 ;
+				$points2 = $tabClassement[$j+1][0]*4 + $tabClassement[$j+1][1] + $tabClassement[$j+1][2]*2 ;
+				if ($points2 < $points1) {
+					$eqT = $tabEquipesTournoi[$j];
+					$tabEquipesTournoi[$j] = $tabEquipesTournoi[$j+1];
+					$tabEquipesTournoi[$j+1] = $eqT;
+
+					$s1 = $tabClassement[$j][0];
+					$tabClassement[$j][0] = $tabClassement[$j+1][0];
+					$tabClassement[$j+1][0] = $s1;
+
+					$s2 = $tabClassement[$j][1];
+					$tabClassement[$j][1] = $tabClassement[$j+1][1];
+					$tabClassement[$j+1][1] = $s2;
+
+					$s3 = $tabClassement[$j][2];
+					$tabClassement[$j][2] = $tabClassement[$j+1][2];
+					$tabClassement[$j+1][2] = $s3;
+				}
+			}
+		}
+
+		for($i=sizeof($tabEquipesTournoi)-1;$i>=0;--$i)
 		{
 			$equipe = getEquipe($tabEquipesTournoi[$i]->getIdEquipe());
 			$points = $tabClassement[$i][0]*4 + $tabClassement[$i][1] + $tabClassement[$i][2]*2 ;

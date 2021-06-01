@@ -12,30 +12,27 @@
 
 
 	session_start();
-	if(!isset($_SESSION['login']))
-		{
-			trigger_error("Vous ne pouvez pas accéder à cette page.");
-			header('Location: Tournois.php');
-			exit();
-		}
-	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	$estAdministrateur = ($ut->getRole() === "Administrateur");
-	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	$id = $ut->getIdUtilisateur();
-
-	if(!$estGestionnaire)
-	{
-		if(!$estAdministrateur)
-		{
-			trigger_error("Vous n'avez pas les droits !");
-			header('Location: Tournois.php');
-			exit();
-		}
-	}
-
-
+	$visiteur = false ;
+	$estAdministrateur = false ;
+	$estGestionnaire = false ;
+	$estGestionnaireDuTournoi = false ;
 	$id = $_SESSION['tournoi'] ;
 	$tournoi = getTournoi($id);
+
+	if(!isset($_SESSION['login']))
+	{
+		$visiteur=true;
+	}
+	if(!$visiteur)
+	{
+		$ut = getUtilisateurWithEmail($_SESSION['login']);
+		$estAdministrateur = ($ut->getRole() === "Administrateur");
+		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+		$idU = $ut->getIdUtilisateur();
+		$estGestionnaireDuTournoi = $tournoi->getIdGestionnaire() == $ut->getIdUtilisateur() ;	
+
+	}
+
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	$nbEquipesInscrites = 0 ;
 	$tabEquipes = array();
@@ -49,6 +46,40 @@
 	$nbEquipesTotal = $tournoi->getNombreTotalEquipes() ;
 	
 	$tabMatchs = getAllMatchT($tournoi->getIdTournoi()) ;
+
+
+
+	if(sizeof($tabMatchs)!=($nbEquipesInscrites*($nbEquipesInscrites-1)/2) && !$estGestionnaireDuTournoi)
+	{
+		if(!$estAdministrateur)
+		{
+			trigger_error("Les Matchs n'ont pas encore été saisis !");
+			header('Location: Tournois.php');
+			exit();
+		}
+	}
+
+	$retour = "" ;
+	if($estAdministrateur || $estGestionnaireDuTournoi)
+	{
+		$retour = "
+		<form action=\"StatutTournoisAVenir_Championnat.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn2\" value=\"\">Retour</button>
+		</form>";
+	}
+	else
+	{
+		$retour = "
+		<form action=\"Tournois.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn2\" value=\"\">Retour</button>
+		</form>";
+	}
+
+
+
+
+
+
 
 	$tabEquipesMatchT = getAllEquipeMatchT($tournoi->getIdTournoi()) ;
 	
@@ -138,10 +169,8 @@
 					<button type="submit" id="btn2" name="Saisir" value="" style="margin:auto">Saisir</button>
 				</form>';
 			}
+			echo $retour;
 		?>
-	<form action="StatutTournoisAVenir_Championnat.php" method="post">
-		<button type="submit" id="btn2" value="">Retour</button>
-	</form>
 	</div>
 
 </body>

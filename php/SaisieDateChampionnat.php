@@ -27,6 +27,7 @@
 	}
 
     $ut = getUtilisateurWithEmail($_SESSION['login']);
+    $estGestionnaireDuTournoi = getTournoi($_SESSION['tournoi'])->getIdGestionnaire() == $ut->getIdUtilisateur() ;
     
 	$TournoiEnGestion = getTournoi($_SESSION['tournoi']);
 
@@ -131,7 +132,7 @@
 				echo '<tr>';
 				echo '<td style="font-weight: bold">Match '.($i+1).'</td>';
 				
-				if(estGestionnaire($ut->getIdUtilisateur()) && !IsAlreadyProgrammed($_SESSION['tournoi']));
+				if($estGestionnaireDuTournoi && !IsAlreadyProgrammed($_SESSION['tournoi']));
 				{
 		
 						echo '<td><input id="datetimepicker'.$nombreDetabe.'" name="datetimepicker'.$nombreDetabe.'" type="text" required></td> ';

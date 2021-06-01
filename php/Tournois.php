@@ -76,6 +76,25 @@
 	}
 	else
 	{
+		if(isset($_POST['tournoi']))
+		{
+			if(getTypeTournoi(strval($_POST['tournoi']))=="Championnat")
+			{
+				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
+				header('Location: StatutTournoisAVenir_Championnat.php');
+			}
+			elseif(getTypeTournoi(strval($_POST['tournoi']))=="Tournoi")
+			{
+				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
+				header('Location: StatutTournoisAVenir_Poule.php');
+			}
+			else
+			{
+				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
+				header('Location: StatutTournoisAVenir.php');
+			}
+		}
+
 		if($_POST && isset($_POST['tournoiEnCours']))
 		{
 			if(getTypeTournoi(strval($_POST['tournoiEnCours']))=="Championnat")
@@ -97,8 +116,21 @@
 
 		if($_POST && isset($_POST['tournoiPasse']) && strval($_POST['tournoiPasse'])!=null)
 		{
-			$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']);
-			header('Location: statutTournoiPasses.php');
+			if(getTypeTournoi(strval($_POST['tournoiPasse']))=="Championnat")
+			{
+				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;
+				header('Location: statutTournoiPasses_Championnat.php');
+			}
+			elseif (getTypeTournoi(strval($_POST['tournoiPasse']))=="Tournoi") 
+			{
+				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;
+				header('Location: statutTournoiPasse_Poule.php');
+			}
+			else
+			{
+				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;
+				header('Location: statutTournoiPasses.php');
+			}
 		}
 	}
 	
@@ -147,6 +179,7 @@
 				{
 					$ville = explode("(",$tabTournois[$i]->getLieu())[0];
 					$tabMatchT = getAllMatchT($tabTournois[$i]->getIdTournoi());
+					
 					$tournoiFinis = true;
 					if(sizeof($tabMatchT)==0)
 						$tournoiFinis = false;

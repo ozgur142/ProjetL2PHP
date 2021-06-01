@@ -66,8 +66,12 @@
 
 		if(estMatchNull($tabEquipeMatchT[$i]->getIdMatchT()))
 		{
-			++$n1 ;
-			++$n2 ;
+			if($tabEquipeMatchT[$i]->getScore()!=-1)
+			{
+				++$n1 ;
+				++$n2 ;
+			}
+			
 		}
 		elseif(getIdEquipeGagnante($tabEquipeMatchT[$i]->getIdMatchT()) == $id1)
 		{
@@ -140,6 +144,33 @@
 			<th>D</th>
 			<th>N</th>
 			</tr>';
+
+
+		for ($i=sizeof($tabEquipesTournoi); $i >= 1; $i--) { 
+			for ($j=0; $j < ($i-1); $j++) { 
+				$points1 = $tabClassement[$j][0]*4 + $tabClassement[$j][1] + $tabClassement[$j][2]*2 ;
+				$points2 = $tabClassement[$j+1][0]*4 + $tabClassement[$j+1][1] + $tabClassement[$j+1][2]*2 ;
+				if ($points2 > $points1) {
+					$eqT = $tabEquipesTournoi[$j];
+					$tabEquipesTournoi[$j] = $tabEquipesTournoi[$j+1];
+					$tabEquipesTournoi[$j+1] = $eqT;
+
+					$s1 = $tabClassement[$j][0];
+					$tabClassement[$j][0] = $tabClassement[$j+1][0];
+					$tabClassement[$j+1][0] = $s1;
+
+					$s2 = $tabClassement[$j][1];
+					$tabClassement[$j][1] = $tabClassement[$j+1][1];
+					$tabClassement[$j+1][1] = $s2;
+
+					$s3 = $tabClassement[$j][2];
+					$tabClassement[$j][2] = $tabClassement[$j+1][2];
+					$tabClassement[$j+1][2] = $s3;
+				}
+			}
+		}
+
+
 		for($i=0;$i<sizeof($tabEquipesTournoi);++$i)
 		{
 			$equipe = getEquipe($tabEquipesTournoi[$i]->getIdEquipe());

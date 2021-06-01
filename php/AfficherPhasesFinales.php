@@ -39,6 +39,20 @@
 			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
 			</form>";
 		}
+		else
+		{
+			$retour = "<form action=\"AffichagePoule.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
+			</form>";
+
+		}
+
+	}
+	else
+	{
+		$retour = "<form action=\"AffichagePoule.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
+			</form>";
 
 	}
 

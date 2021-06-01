@@ -125,9 +125,6 @@
 
 	$tabMatchT = $tasMax->getTabMatchs();
 
-	$tasMax->afficher() ;
-	echo $tabMatchT[8]->getIdMatchT() ;
-
 	$z = sizeof($tabMatchT)-1;
 
 	while(($z != 0) && ($tabMatchT[(($z / 2) - 1)] != null))
@@ -259,15 +256,12 @@
 				
 			}
 			echo '
-			<tr>
-			<td colspan=2><button type"submit" id="btn1" name="setScore" value="">Saisir score</button></td>
-			</tr>
-			<tr>
-            <td colspan=2><button type"submit" id="btn2" name="setScoreRandom" value="">Saisir score random</button></td>
-            </tr>
 			</table>
 			</div>
-			</form>';
+			<button type"submit" id="btn1" name="setScore" value="">Saisir score</button>
+			<button type"submit" id="btn2" name="setScoreRandom" value="">Saisir score random</button>
+			</form>
+			';
 			echo'<form action="AfficherPhasesFinales.php" method="post">
 			<button type"submit" id="btn1" name="VoirArbre" value="">Arbre Tournoi</button>
 			</form>
@@ -284,6 +278,10 @@
 				</form>
 				';
 			}
+
+			echo'<form action="StatutTournoisEnCours_Poule.php" method="post">
+			<button type"submit" id="btn1" name="" value="">Retour</button>
+			</form>';
 
 		?>
 	</div>

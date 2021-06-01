@@ -221,7 +221,7 @@
 
 </body>
 <form action="statutTournoiPasse_Poule_Arbre.php" method="post">
-	<button type="submit" id="btn1" name="" value="">Arbre Phases Finales</button>
+	<button type="submit" id="btn1" name="" value="" style="width:100%">Arbre Phases Finales</button>
 </form>
 <form action="Tournois.php" method="post">
 	<button type="submit" id="btn1" name="" value="">Liste Tournois</button>

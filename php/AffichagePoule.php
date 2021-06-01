@@ -28,26 +28,25 @@
 	$id = $tournoi->getIdTournoi();
 
 	$retour = "";
-	
-	if(!isset($_SESSION['login']))
+	$GoPhasesFinales = "";
+	if(isset($_SESSION['login']))
 	{
-		trigger_error("ERREUR : Vous n'êtes pas connecté !");
-	}
-	
-	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	$estAdministrateur = ($ut->getRole() === "Administrateur");
-	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	$idU = $ut->getIdUtilisateur();
-	
-	if(($estGestionnaire && ($idU == $tournoi->getIdGestionnaire())) || $estAdministrateur)
-	{
-		$retour = "<form action=\"StatutTournoisEnCours_Poule.php\" method=\"post\">
-		<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
-		</form>";
+		$ut = getUtilisateurWithEmail($_SESSION['login']);
+		$estAdministrateur = ($ut->getRole() === "Administrateur");
+		$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
+		$idU = $ut->getIdUtilisateur();
 
-		$GoPhasesFinales = "<form action=\"StatutTournoiEnCours_PhasesFinales.php\" method=\"post\">
-		<button type=\"submit\" id=\"btn1\" name=\"\" >Phases Finales</button>
-		</form>";
+		if(($idU == $tournoi->getIdGestionnaire()) || $estAdministrateur)
+		{
+			$retour = "<form action=\"StatutTournoisEnCours_Poule.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn1\" name=\"\" >Retour</button>
+			</form>";
+
+			$GoPhasesFinales = "<form action=\"StatutTournoiEnCours_PhasesFinales.php\" method=\"post\">
+			<button type=\"submit\" id=\"btn1\" name=\"\" >Phases Finales</button>
+			</form>";
+		}
+
 	}
 
 	$tabIdPoules = getAllPouleTournoi($id) ; //4 cases
@@ -134,8 +133,19 @@
 
 			echo'
 			<tr>
-			<td style="background-color:'.$COLOR[$key2].'">'.$equipe->getNomEquipe().'</td><td style="background-color:'.$COLOR[$key2].'">'.$points.'</td><td style="background-color:'.$COLOR[$key2].'">'.(sizeof($tabTrie->getTabEq())-$j).'</td>
-			</tr>';
+			<td style="background-color:'.$COLOR[$key2].'">'.$equipe->getNomEquipe().'</td><td style="background-color:'.$COLOR[$key2].'">'.$points.'</td>';
+			if($points==0)
+			{
+				echo'<td style="background-color:'.$COLOR[$key2].'"> - </td>';
+
+			}
+			else
+			{
+				echo'<td style="background-color:'.$COLOR[$key2].'">'.(sizeof($tabTrie->getTabEq())-$j).'</td>';
+
+			}
+			
+			echo'</tr>';
 			if($j%2==0)
 				++$key2;
 		}
@@ -190,12 +200,14 @@
 	</div>
 </body>
 <form action="Tournois.php" method="post">
-	<button type="submit" id="btn1" name="" value="">Liste Tournois</button>
+	<button type="submit" id="btn1" name="" value="" style="width:100%">Liste Tournois</button>
 </form>
 <?php
 	echo $retour ;
-	
-	if(($estGestionnaire && ($idU == $tournoi->getIdGestionnaire())) || $estAdministrateur)
-		echo $GoPhasesFinales ;
+	echo $GoPhasesFinales ;
+	echo'<form action="AfficherPhasesFinales.php" method="post">
+			<button type"submit" id="btn1" name="VoirArbre" value="">Arbre Tournoi</button>
+			</form>
+			';
 ?>
 </html>

@@ -28,6 +28,8 @@
 
     $ut = getUtilisateurWithEmail($_SESSION['login']);
     $estGestionnaireDuTournoi = getTournoi($_SESSION['tournoi'])->getIdGestionnaire() == $ut->getIdUtilisateur() ;
+    $estAdministrateur = false ;
+    $estAdministrateur = ($ut->getRole() === "Administrateur") ;
     
 	$TournoiEnGestion = getTournoi($_SESSION['tournoi']) ;
 
@@ -121,7 +123,7 @@
 				echo '<td style="width:150px">'.date("d/m/Y", $dateDeb).'</td>';
 				echo '<td style="width:150px">'.date("d/m/Y", $dateFin).'</td>';
 				
-				if($estGestionnaireDuTournoi && !IsAlreadyProgrammed($_SESSION['tournoi']));
+				if(($estGestionnaireDuTournoi || $estAdministrateur) && !IsAlreadyProgrammed($_SESSION['tournoi']));
 				{
 					for($j=0;$j<$machDansCeTour;$j++)
 					{

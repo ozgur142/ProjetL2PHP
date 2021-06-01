@@ -173,6 +173,7 @@
 	?>
 	</div>
 </body>
+<!--<hr id="hr2">-->
 <form action="Tournois.php" method="post">
 	<button type="submit" id="btn1" name="" value="">Liste Tournois</button>
 </form>

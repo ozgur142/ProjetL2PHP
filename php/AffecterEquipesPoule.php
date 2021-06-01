@@ -10,15 +10,29 @@
 	session_start();
 	
 	if(!isset($_SESSION['login']))
+	{
 		trigger_error("Vous n'êtes pas connecté.e !");
-	
-	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	$estAdministrateur = ($ut->getRole() === "Administrateur");
-	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	$idU = $ut->getIdUtilisateur();
-	
+		header('Location: Tournois.php');
+	}
+
+	$estAdministrateur = false ;
+	$estGestionnaireDuTournoi = false ;
 	$id = $_SESSION['tournoi'] ;
 	$tournoi = getTournoi($id);
+	
+	$ut = getUtilisateurWithEmail($_SESSION['login']);
+	$idU = $ut->getIdUtilisateur();
+	$estAdministrateur = ($ut->getRole() === "Administrateur");
+	$estGestionnaireDuTournoi = $tournoi->getIdGestionnaire() == $idU ;	
+
+	if(! ($estGestionnaireDuTournoi || $estAdministrateur))
+	{
+		trigger_error("Vous n'avez pas les droits !");
+		header('Location: Tournois.php');
+	}
+
+	
+	
 
 	if(!($idU === $tournoi->getIdGestionnaire()) && !$estAdministrateur)
 	{
@@ -55,7 +69,14 @@
 	}
 	
 	$nbEquipesAAffecter = ($poule->getNbEquipes() - count($tabEquipePoule));
-	
+
+
+
+
+	$dejaChoisi = array() ;	
+	$message_error = "";
+	$message_error2 = "";
+
 	if(isset($_POST) && isset($_POST['EnvoyerValeurs']))
 	{
 		$verif = true;
@@ -69,22 +90,46 @@
 				$verif = false;
 				
 				trigger_error("ERREUR : Veuillez saisir une équipe valide !");
+				$message_error2 = "<p style=\" font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:red;text-align:center\">
+				ATTENTION ! Il faut entrer toutes les équipes de la poule</p>";
+			}
+			else
+			{
+				array_push($dejaChoisi, $_POST[$clefCourantePost]) ;
 			}
 		}
 		
 		if($verif)
 		{
-			$idP = $poule->getIdPoule();
-			
+			$bool = true ;
 			for($i=0;$i<$nbEquipesAAffecter;++$i)
 			{
-				$clefCourantePost = "eq".strval($i);
-				
-				$temp = insertEquipePoule($_POST[$clefCourantePost], $idP);
+				for($j=$i+1;$j<$nbEquipesAAffecter;++$j)
+				{
+					if($dejaChoisi[$i]==$dejaChoisi[$j])
+						$bool = false ;
+				}	
 			}
-			
-			header('Location: Tournois.php');
-			exit();
+
+			if(!$bool)
+			{
+				$message_error = "<p style=\" font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:red;text-align:center\">
+				ATTENTION ! Il faut entrer des équipes différentes</p>";
+			}
+			else
+			{
+				$idP = $poule->getIdPoule();
+				
+				for($i=0;$i<$nbEquipesAAffecter;++$i)
+				{
+					$clefCourantePost = "eq".strval($i);
+					
+					$temp = insertEquipePoule($_POST[$clefCourantePost], $idP);
+				}
+				
+				header('Location: StatutTournoisAVenir_Poule.php');
+				exit();
+			}
 		}
 	}
 	
@@ -133,17 +178,19 @@
 	
 	<body>
 		<div class="bandeau-haut">
-			<a href="../index.php">
+			<a href="StatutTournoisAVenir_Poule.php">
 				<img src="../img/prev.png">
 				<h3>RETOUR</h3>
 			</a>
 		</div>
 		<h1>
 			<p>Affectation d'équipes à une poule</p>
-			</h1>
+		</h1>
 		<hr>
 		<form action="AffecterEquipesPoule.php" method="post">
 			<?php
+				echo $message_error;
+				echo $message_error2;
 				for($i=0;$i<$nbEquipesAAffecter;++$i)
 				{
 					$drapeau = "eq".strval($i);

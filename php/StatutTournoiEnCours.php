@@ -10,20 +10,37 @@
 	error_reporting(E_ALL);
 
 	session_start();
-	
-	if(!isset($_SESSION['login']))
-		trigger_error("Vous n'êtes pas connecté.e !");
-	
-	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	$estAdministrateur = ($ut->getRole() === "Administrateur");
-	$estGestionnaire = estGestionnaire($ut->getIdUtilisateur());
-	$idU = $ut->getIdUtilisateur();
-	
+
+	if(!isset($_SESSION['tournoiEnCours']))
+	{
+		trigger_error("ERREUR : Aucun tournoi n'a été sélectionné.");
+		header('Location: Tournois.php');
+	}
+
+
+	$visiteur = false ;
+	$estAdministrateur = false ;
+	$estGestionnaireDuTournoi = false ;
+
 	$id = $_SESSION['tournoiEnCours'] ;
 	$tournoi = getTournoi($id);
 
-	if(!($idU === $tournoi->getIdGestionnaire()) && !$estAdministrateur)
+	if(!isset($_SESSION['login']))
 	{
+		$visiteur=true;
+	}
+	if(!$visiteur)
+	{
+		$ut = getUtilisateurWithEmail($_SESSION['login']);
+		$estAdministrateur = ($ut->getRole() === "Administrateur");
+		$idU = $ut->getIdUtilisateur();
+		$estGestionnaireDuTournoi = $tournoi->getIdGestionnaire() == $ut->getIdUtilisateur() ;	
+
+	}
+
+	if(!$estGestionnaireDuTournoi && !$estAdministrateur)
+	{
+		trigger_error("Vous n'êtes pas un gestionnaire !");
 		header('Location: AffichageTournoi.php');
 		exit();
 	}

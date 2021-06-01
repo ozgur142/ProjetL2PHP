@@ -6,6 +6,7 @@
         $_POST['psw'] = strval(hash("sha256", strval($_POST['psw'])));
         $_POST['psw_repeat'] = strval(hash("sha256", strval($_POST['psw_repeat'])));
 		$idE = insertEquipe(strval($_POST['NomEquipe']), strval($_POST['Adresse']), strval($_POST['NumTel']));
+		UpdateNiveauEquipe($idE,$_POST['Niveau']);
         insertJoueur(strval($_POST['Nom']), strval($_POST['Prenom']), strval($_POST['Mail']), strval($_POST['psw']), strval($_POST['psw_repeat']), strval("Utilisateur"),strval($idE) , 1);
 	} 
 ?>
@@ -51,11 +52,17 @@
 			
 			<label for="Adresse"><b>Adresse</b></label>
 			<input type="text" placeholder="Entrez l'adresse de votre équipe" name="Adresse" id="Adresse" required>
-			
+						
 			<label for="NumTel"><b>Numéro de téléphone</b></label>
 			<br/>
             <input type="tel" placeholder="Motif 06-06-06-06-06" id="NumTel" name="NumTel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
             <br/>
+
+
+			<label for="Niveau"><b>Niveau</b></label>
+			<br>
+			<br>
+			<input type="number" placeholder="Entrez le niveau de votre equipe" name="Niveau" id="Niveau" required>
 
             <h1>
 				<p style="text-align: center;">Création compte joueur</p>

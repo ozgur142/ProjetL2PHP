@@ -18,6 +18,13 @@
 	$estGestionnaireDuTournoi = false ;
 	$id = $_SESSION['tournoi'] ;
 	$tournoi = getTournoi($id);
+	
+	$visiteur = false;
+	$ut = null;
+	$estAdministrateur = false;
+	$estGestionnaire = false;
+	$idU = -1;
+	$estGestionnaireDuTournoi = false;
 
 	if(!isset($_SESSION['login']))
 	{

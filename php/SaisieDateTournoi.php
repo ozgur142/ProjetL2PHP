@@ -124,7 +124,7 @@
 				{
 					for($j=0;$j<$machDansCeTour;$j++)
 					{
-						echo '<td>(Match'.($j+1).')<input id="datetimepicker'.$nombreDetabe.$j.'" name="datetimepicker'.$nombreDetabe.$j.'" type="text" ></td> ';
+						echo '<td>(Match'.($j+1).')<input id="datetimepicker'.$nombreDetabe.$j.'" name="datetimepicker'.$nombreDetabe.$j.'" type="text" required></td> ';
 						echo "<script>
 						jQuery('#datetimepicker".$nombreDetabe.$j."').datetimepicker({
 							format:'Y-m-d H:i', 
